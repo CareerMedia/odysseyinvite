@@ -1,0 +1,318 @@
+.chrome {
+  position: absolute;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.chrome * {
+  pointer-events: auto;
+}
+
+.chrome-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.1rem 1.3rem;
+}
+
+.brand-lockup {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 245, 220, 0.4);
+}
+
+.icon-cluster {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.icon-btn {
+  width: 2.3rem;
+  height: 2.3rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(80, 55, 20, 0.28);
+  background: rgba(232, 213, 176, 0.42);
+  color: var(--ink);
+  backdrop-filter: blur(10px);
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  background: rgba(232, 213, 176, 0.7);
+}
+
+.sound-dock {
+  position: absolute;
+  top: calc(1.1rem + env(safe-area-inset-top, 0px));
+  right: calc(1.3rem + env(safe-area-inset-right, 0px));
+  z-index: 32;
+}
+
+.sound-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: auto;
+  padding: 0 0.7rem;
+  height: 2.3rem;
+}
+
+.sound-label {
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .sound-label { display: none; }
+  .sound-btn { width: 2.3rem; padding: 0; }
+}
+
+.sound-btn.is-cinematic,
+.sound-dock.is-cinematic .icon-btn {
+  background: rgba(10, 22, 40, 0.45);
+  color: var(--gold-bright);
+  border-color: rgba(201, 168, 76, 0.35);
+}
+
+.sound-popover {
+  margin-top: 0.45rem;
+  padding: 0.7rem 0.75rem;
+  min-width: 10.5rem;
+  background: rgba(10, 22, 40, 0.72);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  backdrop-filter: blur(12px);
+  color: var(--parchment);
+}
+
+.sound-popover label {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sound-popover input {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.voyage-progress {
+  position: absolute;
+  left: 50%;
+  bottom: 1.15rem;
+  transform: translateX(-50%);
+  z-index: 30;
+  min-width: min(92vw, 36rem);
+  padding: 0.7rem 1.1rem 0.8rem;
+  background: rgba(16, 22, 28, 0.48);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  backdrop-filter: blur(14px);
+  text-align: center;
+}
+
+.voyage-progress p {
+  margin: 0 0 0.35rem;
+  font-family: var(--display);
+  letter-spacing: 0.28em;
+  font-size: 0.62rem;
+  color: var(--gold);
+}
+
+.progress-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  color: var(--parchment);
+  font-size: 1rem;
+}
+
+.progress-seg {
+  display: flex;
+  align-items: center;
+}
+
+.progress-line {
+  width: clamp(0.7rem, 2.6vw, 1.6rem);
+  height: 1px;
+  background: rgba(201, 168, 76, 0.45);
+}
+
+.progress-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: transparent;
+}
+
+.progress-dot.is-done,
+.progress-dot.is-now {
+  background: var(--gold-bright);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.7);
+}
+
+.xp-display {
+  position: absolute;
+  left: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 30;
+  padding: 0.45rem 0.7rem;
+  font-family: var(--display);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-bright);
+  background: rgba(16, 22, 28, 0.5);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.toast-stack {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 5.5rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.toast {
+  min-width: 16rem;
+  padding: 0.9rem 1rem 1rem;
+  background:
+    linear-gradient(180deg, rgba(232, 213, 176, 0.92), rgba(196, 168, 106, 0.92));
+  color: var(--ink);
+  border: 1px solid rgba(80, 50, 16, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  animation: toast-in 0.7s ease;
+}
+
+.toast-kicker {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.toast h3 {
+  margin: 0.2rem 0 0.15rem;
+  font-family: var(--display);
+  font-size: 1.05rem;
+}
+
+.toast p {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+.panel-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 36;
+  background: rgba(6, 10, 16, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+}
+
+.panel {
+  width: min(34rem, 100%);
+  max-height: min(86dvh, 40rem);
+  overflow: auto;
+  padding: 1.6rem 1.5rem 1.4rem;
+  background:
+    linear-gradient(180deg, rgba(236, 220, 180, 0.96), rgba(210, 180, 120, 0.96));
+  color: var(--ink);
+  border: 1px solid rgba(90, 60, 20, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(201, 168, 76, 0.25),
+    0 30px 70px rgba(0, 0, 0, 0.4);
+}
+
+.panel-chapter {
+  margin: 0;
+  font-family: var(--display);
+  letter-spacing: 0.32em;
+  font-size: 0.7rem;
+  color: var(--csun);
+}
+
+.panel h2 {
+  margin: 0.45rem 0 0.2rem;
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.panel .actual {
+  margin: 0 0 1rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+}
+
+.panel .cta-primary {
+  color: #f6e7b4;
+  background: linear-gradient(180deg, #2a2114, #1a140c);
+}
+
+.panel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.2rem;
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.panel-teaser {
+  margin: 0 0 1.3rem;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.panel-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.replay-opening {
+  position: absolute;
+  left: 1.2rem;
+  top: 3.1rem;
+  z-index: 30;
+  border: 0;
+  background: none;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(42, 33, 20, 0.7);
+}
+
+@media (max-width: 768px) {
+  .voyage-progress { bottom: 0.7rem; padding: 0.55rem 0.7rem; }
+  .xp-display { left: 0.7rem; bottom: 5.3rem; }
+  .toast-stack { right: 0.7rem; left: 0.7rem; bottom: 6.4rem; }
+  .brand-lockup { letter-spacing: 0.12em; max-width: 12rem; }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}

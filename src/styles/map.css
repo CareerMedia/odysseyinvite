@@ -1,0 +1,135 @@
+.map-world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(232, 213, 176, 0.18), transparent 40%),
+    radial-gradient(ellipse at 80% 90%, rgba(140, 96, 40, 0.2), transparent 42%),
+    linear-gradient(160deg, #e6d2a8 0%, #c9b17c 48%, #b08d52 100%);
+}
+
+.map-camera {
+  position: absolute;
+  inset: -4%;
+  transform-origin: 50% 50%;
+}
+
+.map-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.map-parchment {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+.map-stain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(90, 50, 20, 0.12), transparent 24%),
+    radial-gradient(circle at 88% 78%, rgba(80, 40, 16, 0.16), transparent 26%),
+    radial-gradient(circle at 70% 18%, rgba(180, 120, 40, 0.1), transparent 22%);
+}
+
+.fog-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fog-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(28px);
+  background: rgba(236, 232, 220, 0.22);
+  animation: fog-float 22s ease-in-out infinite;
+}
+
+.map-ship {
+  overflow: visible;
+  filter: drop-shadow(0 3px 3px rgba(60, 40, 10, 0.35));
+}
+
+.destination {
+  cursor: pointer;
+}
+
+.destination-hit {
+  fill: transparent;
+}
+
+.destination-label {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.45s ease;
+  pointer-events: none;
+}
+
+.destination.is-revealed:hover .destination-label,
+.destination.is-revealed:focus-visible .destination-label,
+.destination.is-available .destination-label,
+.destination.is-current .destination-label,
+.destination.is-completed .destination-label,
+.destination.is-open .destination-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.destination.is-revealed .marker-core {
+  filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.55));
+}
+
+.destination.is-current .marker-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+.compass-needle {
+  transform-origin: 0px 0px;
+  transition: transform 0.9s ease;
+}
+
+.map-world.is-rising,
+.map-world.is-revealing {
+  animation: map-tremor 1.1s ease;
+}
+
+@keyframes map-tremor {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+}
+
+.kraken {
+  cursor: pointer;
+  outline: none;
+}
+
+.kraken-arm {
+  transform-origin: 80% 10%;
+}
+
+@keyframes fog-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
+
+@keyframes pulse-ring {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.9); }
+}
+
+@media (max-width: 768px) {
+  .destination-label { opacity: 0.95; transform: none; }
+  .fog-cloud { filter: blur(22px); }
+}

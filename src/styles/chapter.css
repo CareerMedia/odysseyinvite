@@ -1,0 +1,349 @@
+.chapter,
+.finale {
+  position: absolute;
+  inset: 0;
+  z-index: 34;
+  display: grid;
+  align-items: end;
+  padding: 1.2rem 1.2rem 1.4rem;
+}
+
+.chapter-world {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.chapter-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.48;
+  mix-blend-mode: multiply;
+}
+
+.chapter-harbor .chapter-glow {
+  background: radial-gradient(ellipse at 30% 70%, rgba(232, 165, 75, 0.28), transparent 42%), linear-gradient(#1a2744, #0a1628);
+}
+.chapter-fortress .chapter-glow {
+  background: radial-gradient(ellipse at 70% 20%, rgba(232, 213, 176, 0.16), transparent 40%), linear-gradient(#0a1628, #061018);
+}
+.chapter-city .chapter-glow {
+  background: radial-gradient(ellipse at 50% 80%, rgba(201, 168, 76, 0.22), transparent 45%), linear-gradient(#243656, #102038);
+}
+.chapter-temple .chapter-glow {
+  background: radial-gradient(ellipse at 50% 30%, rgba(232, 212, 139, 0.3), transparent 40%), linear-gradient(#1a2744, #0a1628);
+}
+.chapter-cove .chapter-glow,
+.chapter-cove2 .chapter-glow {
+  background: linear-gradient(#102038, #0a2438);
+}
+.chapter-deck .chapter-glow {
+  background: radial-gradient(circle at 20% 80%, rgba(232, 165, 75, 0.2), transparent 40%), linear-gradient(#2a2114, #0a1628);
+}
+.chapter-feast .chapter-glow {
+  background: radial-gradient(ellipse at 50% 30%, rgba(232, 165, 75, 0.35), transparent 50%), linear-gradient(#3d4a2a, #1a2744);
+}
+.chapter-trials .chapter-glow {
+  background: linear-gradient(#1a2a22, #061018);
+}
+.chapter-oracle .chapter-glow {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(126, 200, 184, 0.28), transparent 36%),
+    linear-gradient(#102038, #061018);
+}
+.chapter-port .chapter-glow {
+  background: radial-gradient(ellipse at 80% 20%, rgba(232, 213, 176, 0.25), transparent 45%), linear-gradient(#1a3a44, #0a1628);
+}
+.chapter-ithaca .chapter-glow,
+.finale {
+  background: radial-gradient(ellipse at 50% 70%, rgba(201, 168, 76, 0.35), transparent 50%), linear-gradient(#2a2114, #0a1628);
+}
+.chapter-forbidden .chapter-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(210, 32, 48, 0.18), transparent 40%), linear-gradient(#1a0c14, #061018);
+}
+
+.chapter-art {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: min(70vw, 420px);
+  transform: translateX(-50%);
+  overflow: visible;
+}
+
+.chapter-copy,
+.finale {
+  position: relative;
+  z-index: 2;
+  width: min(42rem, 100%);
+  max-height: min(78dvh, 40rem);
+  overflow: auto;
+  padding: 1.2rem 1.2rem 1.1rem;
+  background: linear-gradient(180deg, rgba(236, 220, 180, 0.95), rgba(210, 180, 120, 0.94));
+  color: var(--ink);
+  border: 1px solid rgba(90, 60, 20, 0.28);
+}
+
+.finale {
+  place-items: center;
+  text-align: center;
+  align-content: center;
+  max-height: none;
+  width: 100%;
+  background: radial-gradient(ellipse at 50% 70%, rgba(201, 168, 76, 0.35), transparent 50%), linear-gradient(#2a2114, #0a1628);
+  color: var(--parchment);
+}
+
+.finale .chapter-copy,
+.finale h2,
+.finale p {
+  color: inherit;
+}
+
+.chapter-kicker {
+  margin: 0;
+  font-family: var(--display);
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: var(--csun);
+}
+
+.finale .chapter-kicker { color: var(--gold); }
+
+.chapter-copy h2,
+.finale h2 {
+  margin: 0.3rem 0 0.2rem;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.chapter-sub {
+  margin: 0 0 0.6rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+}
+
+.chapter-actual,
+.chapter-meta,
+.chapter-story {
+  margin: 0 0 0.7rem;
+}
+
+.chapter-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chapter-story {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.chapter-moments {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.chapter-moments li {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.chapter-moments strong { font-size: 0.72rem; letter-spacing: 0.08em; }
+.chapter-moments em { font-family: var(--serif); }
+.chapter-moments small { opacity: 0.75; }
+
+.collect,
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+}
+
+.collect-item,
+.choice-card {
+  appearance: none;
+  min-height: 2.8rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(90, 60, 20, 0.28);
+  background: rgba(255, 248, 230, 0.55);
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.choice-card {
+  flex: 1 1 12rem;
+  text-align: left;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.choice-card span {
+  font-family: var(--sans);
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+.collect-item.is-on,
+.choice-card.is-on {
+  background: rgba(201, 168, 76, 0.45);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.5);
+}
+
+.collect-item:disabled {
+  opacity: 0.4;
+}
+
+.collect-beacon.is-count-1 ~ .chapter-art,
+.chapter-fortress.is-lit-1 .chapter-glow {
+  box-shadow: inset 0 0 80px rgba(232, 213, 176, 0.12);
+}
+
+.chapter.is-still .chapter-world,
+.chapter.is-still .transition-glitch .chapter-world {
+  animation: none;
+}
+
+.chapter-complete {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.8rem;
+  background: rgba(42, 33, 20, 0.08);
+}
+
+.chapter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.signal-box {
+  min-height: 3.2rem;
+  margin: 0 0 1rem;
+  padding: 0.8rem;
+  font-family: var(--display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.signal-box.phase-2 {
+  color: #2a8a8a;
+}
+
+.transition-glitch .chapter-world {
+  animation: chapter-glitch 2.8s steps(2, end);
+}
+
+.transition-sun .chapter-glow {
+  filter: saturate(1.15);
+}
+
+.locked-hint {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  z-index: 36;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.55rem 0.9rem;
+  background: rgba(42, 33, 20, 0.86);
+  color: var(--parchment);
+  font-family: var(--display);
+  letter-spacing: 0.14em;
+}
+
+.voyage-complete-banner {
+  position: absolute;
+  left: 1.2rem;
+  bottom: 5.4rem;
+  z-index: 12;
+  padding: 0.55rem 0.75rem;
+  background: rgba(16, 22, 28, 0.55);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  color: var(--gold-bright);
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.voyage-complete-banner p { margin: 0 0 0.2rem; }
+.voyage-complete-banner span { display: block; font-family: var(--sans); letter-spacing: 0.04em; opacity: 0.85; }
+
+.agenda-list {
+  margin: 0 0 1.1rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.agenda-list li {
+  display: grid;
+  gap: 0.15rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(90, 60, 20, 0.12);
+}
+
+.agenda-list em { font-family: var(--serif); }
+.agenda-list span { font-size: 0.78rem; letter-spacing: 0.04em; }
+.agenda-list .is-done strong { color: #2a6a48; }
+
+.agenda-link { top: 4.5rem; }
+
+.dev-nav {
+  position: absolute;
+  left: 0.4rem;
+  top: 38%;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-height: 48dvh;
+  overflow: auto;
+  padding: 0.4rem;
+  background: rgba(6, 16, 24, 0.82);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+}
+
+.dev-nav button,
+.dev-nav p,
+.dev-nav small {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--gold-bright);
+  font-size: 0.58rem;
+  text-align: left;
+  letter-spacing: 0.04em;
+}
+
+.map-egg { cursor: pointer; }
+
+.destination.is-locked { opacity: 0.45; pointer-events: none; }
+.destination.is-completed .marker-core { box-shadow: 0 0 8px rgba(42, 138, 138, 0.6); }
+
+@media (max-width: 768px) {
+  .chapter { align-items: stretch; padding: 0.7rem; }
+  .chapter-copy { max-height: 72dvh; }
+  .chapter-art { top: 8%; width: min(88vw, 280px); }
+  .collect-item, .choice-card { min-height: 3rem; }
+}
+
+@keyframes chapter-glitch {
+  0%, 100% { filter: none; transform: none; }
+  30% { filter: hue-rotate(20deg); transform: translateX(1px); }
+  45% { filter: contrast(1.2); }
+}

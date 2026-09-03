@@ -1,0 +1,48 @@
+import { Maximize2, Minimize2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { EVENT } from '../data/destinations'
+import { useExperience } from '../hooks/ExperienceContext'
+
+export function ExpeditionChrome() {
+  const { replayOpening, toggleDetails } = useExperience()
+  const [full, setFull] = useState(false)
+
+  useEffect(() => {
+    const onChange = () => setFull(Boolean(document.fullscreenElement))
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
+
+  const toggleFull = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen()
+      else await document.documentElement.requestFullscreen()
+    } catch {
+      // Fullscreen can be blocked by the browser.
+    }
+  }
+
+  return (
+    <div className="chrome chrome-top">
+      <div>
+        <p className="brand-lockup">{EVENT.title}</p>
+        <button className="replay-opening" type="button" onClick={replayOpening}>
+          Replay opening
+        </button>
+        <button className="replay-opening agenda-link" type="button" onClick={() => toggleDetails(true)}>
+          View full voyage
+        </button>
+      </div>
+      <div className="icon-cluster">
+        <button
+          className="icon-btn"
+          type="button"
+          aria-label={full ? 'Exit fullscreen' : 'Enter fullscreen'}
+          onClick={() => void toggleFull()}
+        >
+          {full ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+        </button>
+      </div>
+    </div>
+  )
+}
