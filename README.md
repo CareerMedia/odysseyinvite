@@ -38,10 +38,13 @@ The repository name is `odysseyinvite`, so Vite builds assets for:
 
 ### Enable Pages
 
-1. Push `main` to GitHub.
-2. In the repository, open **Settings → Pages**.
-3. Set **Source** to **GitHub Actions**.
-4. The workflow in `.github/workflows/deploy.yml` will build and deploy on every push to `main`.
+The site is deployed by GitHub Actions (not by serving a branch). The first deploy 404s until Pages exists on the repository.
+
+1. Open **Settings → Pages**: https://github.com/CareerMedia/odysseyinvite/settings/pages
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+3. Re-run the **Deploy to GitHub Pages** workflow, or push to `main`.
+
+The workflow also tries to enable Pages automatically via `actions/configure-pages`. If the CareerMedia organization blocks that, the Settings step above is still required.
 
 ### If the repository is renamed
 

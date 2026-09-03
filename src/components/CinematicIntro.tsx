@@ -64,7 +64,6 @@ export function CinematicIntro() {
         onComplete: () => {
           completeIntro()
           setTitleReady(true)
-          setPhase('title')
         },
       })
 

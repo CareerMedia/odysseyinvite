@@ -21,6 +21,7 @@ export const DestStatus = {
   Locked: 'locked',
   Available: 'available',
   Current: 'current',
+  Visited: 'visited',
   Completed: 'completed',
   Discovered: 'discovered',
 } as const
@@ -240,4 +241,5 @@ export type ProgressState = {
   soundEnabled: boolean
   soundMutedExplicitly: boolean
   soundChoiceMade: boolean
+  mapGuidanceSeen: boolean
 }

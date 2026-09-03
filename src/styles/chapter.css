@@ -5,13 +5,80 @@
   z-index: 34;
   display: grid;
   align-items: end;
+  justify-items: start;
   padding: 1.2rem 1.2rem 1.4rem;
+}
+
+.chapter-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .chapter-world {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.chapter-tex-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.chapter-tex {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+.chapter-tex-land {
+  background-image: var(--tex-ground);
+  background-size: 420px 420px;
+  mix-blend-mode: overlay;
+  opacity: 0.32;
+  mask-image: linear-gradient(180deg, transparent 22%, #000 48%, #000 100%);
+}
+
+.chapter-tex-arch {
+  background-image: var(--tex-arch);
+  background-size: 260px 260px;
+  mix-blend-mode: multiply;
+  opacity: 0.24;
+  mask-image: radial-gradient(ellipse at 50% 62%, #000 16%, transparent 58%);
+}
+
+.chapter-tex-grain {
+  background-image: var(--tex-grain);
+  background-size: 640px 640px;
+  mix-blend-mode: soft-light;
+  opacity: 0.2;
+}
+
+.chapter-deck .chapter-tex-land {
+  mask-image: none;
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+  background-size: 320px 320px;
+}
+
+.chapter-oracle .chapter-tex-arch {
+  mix-blend-mode: overlay;
+  opacity: 0.2;
+  mask-image: radial-gradient(circle at 50% 46%, #000 12%, transparent 52%);
+}
+
+.chapter-temple .chapter-tex-land {
+  opacity: 0.36;
+}
+
+.chapter-forbidden .chapter-tex-grain {
+  opacity: 0.28;
 }
 
 .chapter-glow {
@@ -71,17 +138,25 @@
   overflow: visible;
 }
 
+.chapter-panel,
 .chapter-copy,
 .finale {
   position: relative;
   z-index: 2;
-  width: min(42rem, 100%);
+  width: min(32rem, 100%);
   max-height: min(78dvh, 40rem);
   overflow: auto;
-  padding: 1.2rem 1.2rem 1.1rem;
-  background: linear-gradient(180deg, rgba(236, 220, 180, 0.95), rgba(210, 180, 120, 0.94));
-  color: var(--ink);
-  border: 1px solid rgba(90, 60, 20, 0.28);
+  padding: 1.05rem 1.1rem 1rem;
+  background: rgba(10, 22, 40, 0.62);
+  color: var(--parchment);
+  border: 1px solid rgba(201, 168, 76, 0.38);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28), inset 0 0 0 1px rgba(210, 32, 48, 0.12);
+  backdrop-filter: blur(14px);
+}
+
+.chapter-panel h2,
+.chapter-copy h2 {
+  color: var(--gold-bright);
 }
 
 .finale {
@@ -106,11 +181,12 @@
   letter-spacing: 0.28em;
   font-size: 0.68rem;
   text-transform: uppercase;
-  color: var(--csun);
+  color: #e8a54b;
 }
 
 .finale .chapter-kicker { color: var(--gold); }
 
+.chapter-panel h2,
 .chapter-copy h2,
 .finale h2 {
   margin: 0.3rem 0 0.2rem;
@@ -197,10 +273,41 @@
   font-size: 0.8rem;
 }
 
+.collect-item,
+.choice-card {
+  color: var(--parchment);
+  background: rgba(16, 32, 48, 0.55);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+}
+
+.collect-item.is-pulse {
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
 .collect-item.is-on,
 .choice-card.is-on {
-  background: rgba(201, 168, 76, 0.45);
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.5);
+  background: rgba(201, 168, 76, 0.28);
+  box-shadow: 0 0 16px rgba(201, 168, 76, 0.35);
+}
+
+.chapter-guide {
+  margin: 0.2rem 0 0.15rem;
+  font-family: var(--display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--gold-bright);
+}
+
+.chapter-guide-note {
+  margin: 0 0 0.8rem;
+  font-size: 0.78rem;
+  opacity: 0.78;
+}
+
+@keyframes cue-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.15); }
+  50% { box-shadow: 0 0 0 6px rgba(201, 168, 76, 0.12); }
 }
 
 .collect-item:disabled {
@@ -332,12 +439,13 @@
 
 .map-egg { cursor: pointer; }
 
-.destination.is-locked { opacity: 0.45; pointer-events: none; }
+.destination.is-locked { opacity: 0.55; }
+.destination.is-visited .marker-core { fill: #c9a84c; }
 .destination.is-completed .marker-core { box-shadow: 0 0 8px rgba(42, 138, 138, 0.6); }
 
 @media (max-width: 768px) {
   .chapter { align-items: stretch; padding: 0.7rem; }
-  .chapter-copy { max-height: 72dvh; }
+  .chapter-copy, .chapter-panel { max-height: 58dvh; width: 100%; }
   .chapter-art { top: 8%; width: min(88vw, 280px); }
   .collect-item, .choice-card { min-height: 3rem; }
 }

@@ -18,7 +18,7 @@ import { delay, deriveWorld } from '../utils/worldDerive'
 import { preloadNextDestination, preloadStage } from '../utils/preload'
 import { getSoundEngine } from '../utils/sound'
 import { loadProgress, resetProgress, saveProgress } from '../utils/storage'
-import { canEnterDestination, getDestinationStatus, nextAvailableId } from '../utils/voyageState'
+import { canEnterDestination, getDestinationStatus, unlockOnVisit } from '../utils/voyageState'
 import { useIsMobile } from './useIsMobile'
 import { useReducedMotion } from './useReducedMotion'
 
@@ -63,6 +63,8 @@ type ExperienceContextValue = {
   jumpTo: (target: SceneId | string) => void
   clearLockedHint: () => void
   endForbiddenReveal: () => void
+  markMapGuidanceSeen: () => void
+  openingKey: number
   statusOf: (id: string) => ReturnType<typeof getDestinationStatus>
 }
 
@@ -106,6 +108,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
   const [uiHidden, setUiHidden] = useState(false)
   const [pageHidden, setPageHidden] = useState(false)
   const [forbiddenReveal, setForbiddenReveal] = useState(false)
+  const [openingKey, setOpeningKey] = useState(0)
   const quality = useMemo(() => detectQuality(isMobile, reducedMotion), [isMobile, reducedMotion])
   const persistTimer = useRef<number | null>(null)
   const transitionLock = useRef(false)
@@ -240,6 +243,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       const dest = getDestination(id)
       const type = DESTINATION_ENV[id]?.transitionIn ?? 'fogWipe'
       sound.play('click')
+      updateProgress((current) => unlockOnVisit(current, id), true)
       void runTransition(type, () => {
         setActiveChapterId(id)
         setScene(Scene.Chapter)
@@ -248,16 +252,17 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
         preloadNextDestination(id)
       })
     },
-    [runTransition, sound],
+    [runTransition, sound, updateProgress],
   )
 
   const requestDestination = useCallback(
     (id: string) => {
       if (!canEnterDestination(id, progress)) {
-        setLockedHint('The route is not yet charted.')
-        window.setTimeout(() => setLockedHint(null), 2200)
+        setLockedHint(id)
+        window.setTimeout(() => setLockedHint((current) => (current === id ? null : current)), 1800)
         return false
       }
+      setLockedHint(null)
       return true
     },
     [progress],
@@ -281,27 +286,16 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
         award = dest && !already && !current.earnedChapterXp.includes(id) ? dest.xp : 0
         const completedIds = already ? current.completedIds : [...current.completedIds, id]
         const earnedChapterXp = award ? [...current.earnedChapterXp, id] : current.earnedChapterXp
-        const nextId = nextAvailableId({ ...current, completedIds })
-        const revealedIds = Array.from(
-          new Set([...current.revealedIds, id, ...(nextId ? [nextId] : [])]),
-        )
+        const visited = unlockOnVisit(current, id)
         return {
-          ...current,
+          ...visited,
           completedIds,
           earnedChapterXp,
-          revealedIds,
-          currentDestinationId: id,
-          visitedIds: current.visitedIds.includes(id) ? current.visitedIds : [...current.visitedIds, id],
           xp: current.xp + award,
-          voyageComplete: completedIds.includes('ithaca'),
         }
       }, true)
       sound.play('discover')
       if (dest && award > 0) pushToast(dest.completeTitle, dest.completeLine, award, dest.completeTitle)
-      if (id === 'ithaca') {
-        setActiveChapterId(null)
-        setScene(Scene.Complete)
-      }
     },
     [pushToast, sound, updateProgress],
   )
@@ -370,6 +364,9 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
 
   const replayOpening = useCallback(() => {
     setActiveChapterId(null)
+    setWipe(null)
+    setUiHidden(false)
+    setOpeningKey((value) => value + 1)
     setScene(Scene.Cinematic)
   }, [])
 
@@ -410,15 +407,13 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     if (getDestination(target)) {
       const index = JOURNEY_ORDER.indexOf(target)
       const prior = index > 0 ? JOURNEY_ORDER.slice(0, index) : []
-      updateProgress((current) => ({
+      updateProgress((current) => unlockOnVisit({
         ...current,
         voyageStarted: true,
         introCompleted: true,
-        currentDestinationId: target,
-        visitedIds: Array.from(new Set([...current.visitedIds, ...prior, target])),
+        visitedIds: Array.from(new Set([...current.visitedIds, ...prior])),
         revealedIds: Array.from(new Set([...current.revealedIds, ...prior, target])),
-        completedIds: Array.from(new Set([...current.completedIds, ...prior])),
-      }), true)
+      }, target), true)
       setActiveChapterId(target)
       setScene(Scene.Chapter)
     }
@@ -469,6 +464,8 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       jumpTo,
       clearLockedHint: () => setLockedHint(null),
       endForbiddenReveal: () => setForbiddenReveal(false),
+      markMapGuidanceSeen: () => updateProgress((current) => ({ ...current, mapGuidanceSeen: true }), true),
+      openingKey,
       statusOf,
     }),
     [
@@ -486,6 +483,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       isMobile,
       jumpTo,
       lockedHint,
+      openingKey,
       mapFocus,
       pageHidden,
       progress,

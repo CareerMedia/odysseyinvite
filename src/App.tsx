@@ -10,6 +10,7 @@ import { OceanScene } from './components/OceanScene'
 import { OdysseyComplete } from './components/OdysseyComplete'
 import { SoundController } from './components/SoundController'
 import { VoyageMap } from './components/VoyageMap'
+import { MapGuidance } from './components/MapGuidance'
 import { VoyageProgress } from './components/VoyageProgress'
 import { XPDisplay } from './components/XPDisplay'
 import { SceneTransition } from './components/world/SceneTransition'
@@ -25,7 +26,7 @@ import './styles/chapter.css'
 import './styles/world.css'
 
 function World() {
-  const { scene, setScene, reducedMotion, lockedHint, world, quality, uiHidden, wipe } = useExperience()
+  const { scene, setScene, reducedMotion, world, quality, uiHidden, wipe, openingKey } = useExperience()
   const showOcean = scene === Scene.Cinematic || scene === Scene.Departing
   const showMap = scene === Scene.Map || scene === Scene.Departing || scene === Scene.Chapter
   const [paused, setPaused] = useState(false)
@@ -56,12 +57,13 @@ function World() {
       <h1 className="sr-only">
         {EVENT.title} — {EVENT.subtitle}. {EVENT.date}. {EVENT.time}. {EVENT.location}.
       </h1>
-      {showOcean ? <OceanScene /> : null}
+      {showOcean ? <OceanScene key={`ocean-${openingKey}`} /> : null}
       {showMap ? <VoyageMap fromOcean={scene === Scene.Departing} /> : null}
-      {scene === Scene.Cinematic || scene === Scene.Departing ? <CinematicIntro /> : null}
+      {scene === Scene.Cinematic || scene === Scene.Departing ? <CinematicIntro key={`intro-${openingKey}`} /> : null}
       {scene === Scene.Map ? <ExpeditionChrome /> : null}
       {scene === Scene.Map ? <VoyageProgress /> : null}
       {scene === Scene.Map ? <XPDisplay /> : null}
+      {scene === Scene.Map ? <MapGuidance /> : null}
       {scene === Scene.Chapter ? <ChapterScene /> : null}
       {scene === Scene.Complete ? <OdysseyComplete /> : null}
       <SceneTransition wipe={wipe} />
@@ -69,11 +71,6 @@ function World() {
       <EventDetailsPanel />
       <AchievementToast />
       <DevNavigator />
-      {lockedHint ? (
-        <p className="locked-hint" role="status">
-          {lockedHint}
-        </p>
-      ) : null}
       <div className="grain" />
       <div className="vignette" />
     </div>

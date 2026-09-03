@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import { mapTextureVars, textures } from '../assets/textures'
 import { destinations, getDestination, VOYAGE_PATH } from '../data/destinations'
 import { useExperience } from '../hooks/ExperienceContext'
 import { DestinationKind, DestStatus } from '../types'
@@ -25,6 +26,7 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
     world,
     forbiddenReveal,
     endForbiddenReveal,
+    lockedHint,
   } = useExperience()
   const root = useRef<HTMLDivElement>(null)
   const camera = useRef<HTMLDivElement>(null)
@@ -32,6 +34,7 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
   const pathRef = useRef<SVGPathElement>(null)
   const sailing = useRef(false)
   const [hovered, setHovered] = useState<string | null>(null)
+  const [mapReady, setMapReady] = useState(false)
 
   const current = useMemo(
     () => destinations.find((item) => item.id === progress.currentDestinationId) ?? destinations[0],
@@ -39,58 +42,25 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
   )
   const completion = storyCompletion(progress)
 
-  useEffect(() => {
-    if (!root.current) return
-    if (fromOcean) {
-      window.setTimeout(() => sound.play('paper'), reducedMotion ? 80 : 4800)
-    }
-    if (fromOcean && pathRef.current && !reducedMotion) {
-      const length = pathRef.current.getTotalLength()
-      gsap.fromTo(
-        pathRef.current,
-        { strokeDasharray: length, strokeDashoffset: length },
-        {
-          strokeDashoffset: 0,
-          duration: 2.6,
-          delay: 5.1,
-          ease: 'power2.out',
-          onComplete: () => {
-            if (pathRef.current) gsap.set(pathRef.current, { strokeDasharray: '3 10', strokeDashoffset: 0 })
-          },
-        },
-      )
-    }
-    gsap.fromTo(
-      root.current,
-      {
-        opacity: 0,
-        scale: fromOcean && !reducedMotion ? 1.16 : 1,
-        filter: fromOcean && !reducedMotion ? 'blur(12px)' : 'blur(0px)',
-      },
-      {
-        opacity: 1,
-        scale: 1,
-        filter: 'blur(0px)',
-        delay: fromOcean && !reducedMotion ? 4.8 : 0,
-        duration: reducedMotion ? 0.4 : fromOcean ? 2.3 : 0.55,
-        ease: 'power2.out',
-      },
-    )
-  }, [fromOcean, reducedMotion, sound])
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!mapShip.current || !pathRef.current) return
     gsap.set(mapShip.current, {
       motionPath: {
         path: pathRef.current,
         align: pathRef.current,
-        alignOrigin: [0.5, 0.7],
+        alignOrigin: [0.5, 0.55],
         autoRotate: 90,
         start: current.routePosition,
         end: current.routePosition,
       },
     })
+    setMapReady(true)
   }, [current.routePosition])
+
+  useEffect(() => {
+    if (!fromOcean) return
+    window.setTimeout(() => sound.play('paper'), reducedMotion ? 80 : 4800)
+  }, [fromOcean, reducedMotion, sound])
 
   useEffect(() => {
     if (!camera.current || !mapFocus) return
@@ -163,7 +133,8 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
 
   return (
     <div
-      className={`map-world time-${world.timeOfDay} ${world.timeOfDay === 'twilight' ? 'is-twilight' : ''} ${progress.revealedIds.includes('forbidden') && !progress.completedIds.includes('forbidden') ? 'is-rising' : ''} ${forbiddenReveal ? 'is-revealing' : ''}`}
+      className={`map-world ${mapReady ? 'is-ready' : ''} time-${world.timeOfDay} ${world.timeOfDay === 'twilight' ? 'is-twilight' : ''} ${progress.revealedIds.includes('forbidden') && !progress.completedIds.includes('forbidden') ? 'is-rising' : ''} ${forbiddenReveal ? 'is-revealing' : ''}`}
+      style={mapTextureVars()}
       ref={root}
     >
       <div className="map-camera" ref={camera}>
@@ -178,6 +149,18 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
               <stop offset="0" stopColor="#e8d48b" stopOpacity="0.45" />
               <stop offset="1" stopColor="#e8d48b" stopOpacity="0" />
             </radialGradient>
+            <pattern id="mapParchment" patternUnits="userSpaceOnUse" width="280" height="280">
+              <image href={textures.paper} width="280" height="280" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="mapLeather" patternUnits="userSpaceOnUse" width="240" height="240">
+              <image href={textures.leather} width="240" height="240" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="mapTerrain" patternUnits="userSpaceOnUse" width="260" height="260">
+              <image href={textures.terrain} width="260" height="260" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+            <pattern id="mapWood" patternUnits="userSpaceOnUse" width="180" height="180">
+              <image href={textures.wood} width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
             <mask id="fogMask">
               <rect width="1700" height="980" fill="white" />
               {(progress.voyageComplete
@@ -188,19 +171,31 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
               ).map((id) => {
                 const dest = destinations.find((item) => item.id === id)
                 if (!dest) return null
-                return <circle key={id} cx={dest.position.x} cy={dest.position.y} r={progress.voyageComplete ? 220 : id === 'prologue' ? 210 : 150} fill="black" />
+                const r = progress.voyageComplete ? 240 : id === 'prologue' ? 200 : 140
+                return (
+                  <path
+                    key={id}
+                    fill="black"
+                    d={`M ${dest.position.x - r} ${dest.position.y} C ${dest.position.x - r * 0.6} ${dest.position.y - r} ${dest.position.x + r * 0.5} ${dest.position.y - r * 0.85} ${dest.position.x + r} ${dest.position.y} C ${dest.position.x + r * 0.55} ${dest.position.y + r * 0.9} ${dest.position.x - r * 0.4} ${dest.position.y + r} ${dest.position.x - r} ${dest.position.y} Z`}
+                  />
+                )
               })}
             </mask>
           </defs>
 
-          <rect width="1700" height="980" fill="#d7bf88" />
+          <rect width="1700" height="980" fill="url(#mapParchment)" />
+          <rect width="1700" height="980" fill="#c4a56a" opacity="0.55" style={{ mixBlendMode: 'color' }} />
+          <rect width="1700" height="980" fill="url(#mapLeather)" opacity="0.18" style={{ mixBlendMode: 'multiply' }} />
+          <path d="M 80 40 H 1620 M 80 120 H 1620 M 80 200 H 1620 M 80 280 H 1620 M 80 360 H 1620 M 80 440 H 1620 M 80 520 H 1620 M 80 600 H 1620 M 80 680 H 1620 M 80 760 H 1620 M 80 840 H 1620 M 80 920 H 1620" stroke="#5a3d16" strokeWidth="0.4" opacity="0.12" />
           <path d="M 40 80 C 280 40 520 220 820 160 C 1120 100 1380 260 1660 140 L 1700 0 L 0 0 Z" fill="#c9b17a" opacity="0.45" />
           <path d="M 80 200 C 260 280 220 520 420 620 C 700 780 980 720 1280 820 C 1480 880 1600 760 1680 860 L 1700 980 L 0 980 L 0 240 Z" fill="url(#seaPaint)" opacity="0.72" />
           <path d="M 120 260 C 300 340 280 540 460 640 C 740 790 1020 740 1300 840" fill="none" stroke="#1a4450" strokeWidth="18" opacity="0.12" />
           <path d="M 200 300 C 360 360 340 500 500 560 C 640 610 720 540 780 500" fill="none" stroke="#7ec8b8" strokeWidth="1.2" opacity="0.22" />
           <path d="M 860 420 C 980 380 1080 430 1220 400 C 1360 370 1480 300 1600 250" fill="none" stroke="#e8d48b" strokeWidth="1" opacity="0.18" />
           <path d="M 60 700 C 200 640 260 760 420 820 C 200 900 80 820 60 700 Z" fill="#c4b07a" />
+          <path d="M 60 700 C 200 640 260 760 420 820 C 200 900 80 820 60 700 Z" fill="url(#mapTerrain)" opacity="0.4" style={{ mixBlendMode: 'multiply' }} />
           <path d="M 1480 40 C 1580 20 1660 80 1680 40 L 1700 0 L 1460 0 Z" fill="#b9975c" />
+          <path d="M 1480 40 C 1580 20 1660 80 1680 40 L 1700 0 L 1460 0 Z" fill="url(#mapTerrain)" opacity="0.35" style={{ mixBlendMode: 'multiply' }} />
           <circle cx="240" cy="400" r="2" fill="#c9a84c" opacity="0.55" />
           <circle cx="710" cy="690" r="2" fill="#c9a84c" opacity="0.4" />
           <circle cx="1180" cy="510" r="2" fill="#c9a84c" opacity="0.45" />
@@ -214,10 +209,10 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
             ref={pathRef}
             d={VOYAGE_PATH}
             fill="none"
-            stroke="#5a3d16"
+            stroke={progress.voyageComplete ? '#c9a84c' : '#5a3d16'}
             strokeWidth="2.2"
             strokeDasharray="3 10"
-            opacity="0.7"
+            opacity="0.75"
           />
 
           {destinations.map((dest) => {
@@ -260,32 +255,42 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
                 ) : null}
                 <circle className="destination-hit" cx={dest.position.x} cy={dest.position.y} r={isMobile ? 36 : 28} />
                 <g className="destination-label" transform={`translate(${dest.position.x}, ${dest.position.y - 42})`}>
-                  <rect x="-78" y="-16" width="156" height={dest.chapter ? 38 : 26} rx="3" fill="rgba(232,213,176,0.88)" />
+                  <rect x="-78" y="-16" width="156" height={dest.chapter ? 38 : 26} rx="3" fill="rgba(16, 22, 32, 0.72)" />
                   {dest.chapter ? (
-                    <text textAnchor="middle" fill="#8b1e24" fontFamily="Cinzel, serif" fontSize="10" letterSpacing="1.4">
+                    <text textAnchor="middle" fill="#e8d48b" fontFamily="Cinzel, serif" fontSize="10" letterSpacing="1.4">
                       {dest.chapter}
                     </text>
                   ) : null}
-                  <text y={dest.chapter ? 16 : 4} textAnchor="middle" fill="#2a2114" fontFamily="Cinzel, serif" fontSize={dest.kind === DestinationKind.Minor ? 11 : 13}>
+                  <text y={dest.chapter ? 16 : 4} textAnchor="middle" fill="#e8d5b0" fontFamily="Cinzel, serif" fontSize={dest.kind === DestinationKind.Minor ? 11 : 13}>
                     {dest.mythicTitle}
                   </text>
+                  {lockedHint === dest.id ? (
+                    <text y={dest.chapter ? 32 : 20} textAnchor="middle" fill="#d22030" fontFamily="Manrope, sans-serif" fontSize="9">
+                      Locked · Chart the previous destination
+                    </text>
+                  ) : null}
                 </g>
               </g>
             )
           })}
 
           <g ref={mapShip} className="map-ship">
-            <ellipse cx="0" cy="10" rx="16" ry="4" fill="rgba(60,40,10,0.28)" />
-            <path d="M-16 4 C -4 -2 8 -2 18 4 C 10 10 -6 10 -16 4 Z" fill="#6a4022" />
-            <path d="M2 -16 L 2 4 M2 -14 L 14 -8 L 2 -4" fill="#efe4c8" stroke="#5a3820" strokeWidth="1" />
-            <path d="M12 -18 L 20 -14 L 12 -11" fill="#d22030" />
+            <g className="map-ship-body">
+              <ellipse cx="0" cy="11" rx="16" ry="4" fill="rgba(60,40,10,0.28)" />
+              <path d="M-16 4 C -4 -2 8 -2 18 4 C 10 10 -6 10 -16 4 Z" fill="#6a4022" />
+              <path d="M-16 4 C -4 -2 8 -2 18 4 C 10 10 -6 10 -16 4 Z" fill="url(#mapWood)" opacity="0.45" style={{ mixBlendMode: 'multiply' }} />
+              <path d="M2 -16 L 2 4" stroke="#3a2416" strokeWidth="1.6" />
+              <path d="M2 -14 L 14 -8 L 2 -4 Z" fill="#efe4c8" />
+              <g transform="translate(12 -18)">
+                <path d="M0 0 L 0 10" stroke="#3a2416" strokeWidth="1" />
+                <path d="M0 1 L 9 5 L 0 8 Z" fill="#d22030" />
+              </g>
+            </g>
           </g>
 
           <g mask="url(#fogMask)" pointerEvents="none">
-            <rect width="1700" height="980" fill="rgba(236,232,220,0.55)" />
-            <ellipse cx="900" cy="200" rx="320" ry="90" fill="rgba(250,248,240,0.5)" />
-            <ellipse cx="500" cy="420" rx="260" ry="80" fill="rgba(250,248,240,0.38)" />
-            <ellipse cx="1300" cy="560" rx="300" ry="100" fill="rgba(250,248,240,0.42)" />
+            <path d="M 40 40 C 220 10 380 90 560 40 C 780 -10 980 80 1200 30 C 1420 -10 1600 70 1680 20 L 1700 0 L 0 0 Z" fill="rgba(236,232,220,0.42)" />
+            <path d="M 80 360 C 260 300 420 400 640 340 C 860 280 1100 400 1400 320 C 1580 270 1680 360 1700 300 L 1700 980 L 0 980 L 0 420 Z" fill="rgba(220,214,196,0.38)" />
           </g>
 
           <MapEasterEggs />
@@ -312,7 +317,8 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
 function MapCartouche() {
   return (
     <g transform="translate(90 70)" opacity="0.82">
-      <rect x="0" y="0" width="280" height="78" fill="#e8d5b0" stroke="#5a3d16" strokeWidth="1.2" />
+      <rect x="0" y="0" width="280" height="78" fill="url(#mapParchment)" stroke="#5a3d16" strokeWidth="1.2" />
+      <rect x="0" y="0" width="280" height="78" fill="#e8d5b0" opacity="0.55" style={{ mixBlendMode: 'color' }} />
       <rect x="6" y="6" width="268" height="66" fill="none" stroke="#c9a84c" strokeWidth="0.8" />
       <text x="140" y="32" textAnchor="middle" fill="#8b1e24" fontFamily="Cinzel, serif" fontSize="11" letterSpacing="2">
         EXPEDITION CHART

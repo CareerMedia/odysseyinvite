@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
+import { chapterGuidance } from '../../data/chapterCopy'
 import { getDestination } from '../../data/destinations'
 import { useExperience } from '../../hooks/ExperienceContext'
-import { DestStatus } from '../../types'
-import { DestinationArt } from '../DestinationArt'
+import { Scene } from '../../types'
+import { textureVarsFor } from '../../assets/textures'
 import { ChapterAtmosphere } from '../world/ChapterAtmosphere'
+import { ChapterTextures } from '../world/ChapterTextures'
+import { ChapterWorld } from './ChapterWorld'
 
 export function ChapterScene() {
   const {
@@ -14,15 +17,17 @@ export function ChapterScene() {
     setStrengthsPath,
     reducedMotion,
     sound,
-    statusOf,
     unlockAchievement,
     world,
     quality,
     pageHidden,
+    setScene,
+    toggleDetails,
   } = useExperience()
   const dest = activeChapterId ? getDestination(activeChapterId) : undefined
   const already = Boolean(dest && progress.completedIds.includes(dest.id))
   const [done, setDone] = useState(already)
+  const firstInteractive = progress.visitedIds.filter((id) => id !== dest?.id).length <= 1
 
   useEffect(() => {
     setDone(Boolean(dest && progress.completedIds.includes(dest.id)))
@@ -38,23 +43,22 @@ export function ChapterScene() {
 
   if (!dest) return null
 
-  const finish = () => {
+  const finishInteraction = () => {
     setDone(true)
     if (dest.id === 'forbidden') unlockAchievement('forbidden-island')
     completeChapter(dest.id)
   }
 
-  const status = statusOf(dest.id)
-  const viewing = status === DestStatus.Completed && done
+  const guide = chapterGuidance(dest, firstInteractive)
 
   return (
     <div
-      className={`chapter chapter-${dest.visualType} transition-${dest.transition} ${reducedMotion ? 'is-still' : ''}`}
+      className={`chapter chapter-${dest.visualType} transition-${dest.transition} ${reducedMotion ? 'is-still' : ''} ${dest.id === 'ithaca' ? 'is-quiet' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="chapter-heading"
     >
-      <div className="chapter-world" aria-hidden="true">
+      <div className="chapter-world" style={textureVarsFor(dest.visualType)} aria-hidden="true">
         <ChapterAtmosphere
           world={world}
           quality={quality}
@@ -63,13 +67,12 @@ export function ChapterScene() {
           hidden={pageHidden}
           chapterComplete={done || already}
         />
-        <div className="chapter-glow" />
-        <svg className="chapter-art" viewBox="-80 -50 160 90">
-          <DestinationArt type={dest.visualType} x={0} y={10} />
-        </svg>
+        <ChapterWorld type={dest.visualType} />
+        <ChapterTextures type={dest.visualType} />
       </div>
-      <div className="chapter-copy">
-        <p className="chapter-kicker">{dest.chapter || 'Waystation'}</p>
+
+      <aside className="chapter-panel">
+        <p className="chapter-kicker">{dest.chapter ? `Chapter ${dest.chapter}` : 'Waystation'}</p>
         <h2 id="chapter-heading">{dest.headline}</h2>
         {dest.subheading ? <p className="chapter-sub">{dest.subheading}</p> : null}
         <p className="chapter-actual">{dest.actualTitle}</p>
@@ -78,29 +81,20 @@ export function ChapterScene() {
           {dest.presenter ? <span>{dest.presenter}</span> : null}
         </div>
         <p className="chapter-story">{dest.narrative}</p>
-        {dest.moments ? (
-          <ol className="chapter-moments">
-            {dest.moments.map((moment) => (
-              <li key={moment.title}>
-                <strong>{moment.time}</strong>
-                <span>{moment.title}</span>
-                <em>{moment.detail}</em>
-                {moment.presenters ? <small>{moment.presenters}</small> : null}
-              </li>
-            ))}
-          </ol>
-        ) : null}
 
-        {viewing ? (
+        <p className="chapter-guide">{guide.lead}</p>
+        <p className="chapter-guide-note">{guide.detail}</p>
+
+        {already && done ? (
           <div className="chapter-complete">
             <p className="chapter-kicker">Already charted</p>
             <p>{dest.completeLine}</p>
           </div>
         ) : (
-          <ChapterInteraction destId={dest.id} done={done} onComplete={finish} />
+          <ChapterInteraction destId={dest.id} done={done} onComplete={finishInteraction} />
         )}
 
-        {done && !viewing ? (
+        {done && !already ? (
           <div className="chapter-complete" aria-live="polite">
             <p className="chapter-kicker">{dest.completeTitle}</p>
             <p>{dest.completeLine}</p>
@@ -119,9 +113,7 @@ export function ChapterScene() {
             >
               Replay chapter
             </button>
-          ) : (
-            <span />
-          )}
+          ) : null}
           {dest.interaction === 'strengths' && progress.strengthsPath ? (
             <button
               className="cta-secondary"
@@ -131,28 +123,34 @@ export function ChapterScene() {
               Change Strengths path
             </button>
           ) : null}
+          <button className="cta-secondary" type="button" onClick={() => toggleDetails(true)}>
+            View full agenda
+          </button>
+          {dest.id === 'ithaca' ? (
+            <button
+              className="cta-primary"
+              type="button"
+              onClick={() => {
+                setScene(Scene.Complete)
+              }}
+            >
+              Finish the Odyssey
+            </button>
+          ) : null}
           <button
             className="cta-primary"
             type="button"
             onClick={() => {
-              const quick =
-                dest.interaction === 'rest' ||
-                dest.interaction === 'feast' ||
-                dest.interaction === 'signal' ||
-                dest.interaction === 'forbidden'
-              if (!done && quick) finish()
-              if (dest.id === 'ithaca' && done && !already) return
+              sound.play('click')
               closeChapter()
             }}
           >
             {dest.interaction === 'rest' || dest.interaction === 'signal' || dest.interaction === 'feast'
               ? 'Continue the Voyage'
-              : dest.id === 'ithaca' && done && !already
-                ? 'Finish the Odyssey'
-                : 'Return to the map'}
+              : 'Return to the map'}
           </button>
         </div>
-      </div>
+      </aside>
     </div>
   )
 }
@@ -189,7 +187,7 @@ function ChapterInteraction({
   if (!dest || done) return null
 
   if (dest.interaction === 'rest') {
-    return <p className="chapter-story">The Restless Matador keeps a quiet table. Rest, then return to the chart.</p>
+    return <p className="chapter-story">The Restless Matador keeps a quiet table.</p>
   }
 
   if (dest.interaction === 'signal') {
@@ -218,6 +216,7 @@ function ChapterInteraction({
             key={item.id}
             className={`choice-card ${picked.includes(item.id) || progress.strengthsPath === item.id ? 'is-on' : ''}`}
             type="button"
+            aria-label={item.label}
             onClick={() => {
               setStrengthsPath(item.id === 'mastery' ? 'mastery' : 'discovery')
               setPicked([item.id])
@@ -246,7 +245,6 @@ function ChapterInteraction({
         >
           A curious olive
         </button>
-        <p className="chapter-story">No major trial here. Eat, then continue.</p>
       </div>
     )
   }
@@ -258,8 +256,9 @@ function ChapterInteraction({
       {dest.items.map((item, index) => (
         <button
           key={item.id}
-          className={`collect-item ${picked.includes(item.id) ? 'is-on' : ''}`}
+          className={`collect-item ${picked.includes(item.id) ? 'is-on' : ''} ${picked.length === 0 ? 'is-pulse' : ''}`}
           type="button"
+          aria-label={item.label}
           disabled={dest.interaction === 'trials' && picked.length !== index}
           onClick={() => {
             if (picked.includes(item.id)) return

@@ -12,7 +12,7 @@ export const defaultProgress = (): ProgressState => ({
   voyageStarted: false,
   voyageComplete: false,
   currentDestinationId: 'prologue',
-  visitedIds: ['prologue'],
+  visitedIds: [],
   revealedIds: ['prologue'],
   completedIds: [],
   earnedChapterXp: [],
@@ -22,6 +22,7 @@ export const defaultProgress = (): ProgressState => ({
   soundEnabled: false,
   soundMutedExplicitly: false,
   soundChoiceMade: false,
+  mapGuidanceSeen: false,
 })
 
 export function loadProgress(): ProgressState {
@@ -35,6 +36,9 @@ export function loadProgress(): ProgressState {
     }
     if (!merged.completedIds) merged.completedIds = []
     if (!merged.earnedChapterXp) merged.earnedChapterXp = []
+    if (!merged.visitedIds) merged.visitedIds = []
+    merged.visitedIds = Array.from(new Set([...merged.visitedIds, ...merged.completedIds]))
+    if (merged.mapGuidanceSeen === undefined) merged.mapGuidanceSeen = Boolean(merged.voyageStarted)
     if (!merged.revealedIds.includes('prologue')) merged.revealedIds = ['prologue', ...merged.revealedIds]
     return merged
   } catch {

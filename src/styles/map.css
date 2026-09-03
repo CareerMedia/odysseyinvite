@@ -3,10 +3,17 @@
   inset: 0;
   overflow: hidden;
   opacity: 0;
+  visibility: hidden;
   background:
     radial-gradient(ellipse at 20% 10%, rgba(232, 213, 176, 0.18), transparent 40%),
     radial-gradient(ellipse at 80% 90%, rgba(140, 96, 40, 0.2), transparent 42%),
     linear-gradient(160deg, #e6d2a8 0%, #c9b17c 48%, #b08d52 100%);
+}
+
+.map-world.is-ready {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease;
 }
 
 .map-camera {
@@ -27,9 +34,11 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.28;
+  opacity: 0.42;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-image: var(--tex-paper), var(--tex-leather);
+  background-size: 720px 720px, 480px 480px;
+  background-blend-mode: multiply;
 }
 
 .map-stain {
@@ -79,8 +88,10 @@
 .destination.is-revealed:hover .destination-label,
 .destination.is-revealed:focus-visible .destination-label,
 .destination.is-available .destination-label,
+.destination.is-visited .destination-label,
 .destination.is-current .destination-label,
 .destination.is-completed .destination-label,
+.destination.is-locked.is-open .destination-label,
 .destination.is-open .destination-label {
   opacity: 1;
   transform: translateY(0);

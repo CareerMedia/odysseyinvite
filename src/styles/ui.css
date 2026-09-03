@@ -18,6 +18,62 @@
   padding: 1.1rem 1.3rem;
 }
 
+.chrome-brand {
+  top: 1rem;
+  left: 1.1rem;
+  z-index: 31;
+}
+
+.brand-sub {
+  margin: 0.15rem 0 0;
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.chrome-rail {
+  top: 1rem;
+  right: 6.5rem;
+  z-index: 31;
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.rail-btn {
+  height: 2.3rem;
+  padding: 0 0.7rem;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  background: rgba(10, 22, 40, 0.55);
+  color: var(--gold-bright);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.map-guide {
+  position: absolute;
+  left: 1.2rem;
+  bottom: 5.8rem;
+  z-index: 33;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1rem 1.1rem;
+  background: rgba(10, 22, 40, 0.72);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  color: var(--parchment);
+  backdrop-filter: blur(12px);
+}
+
+.map-guide h2 {
+  margin: 0.25rem 0 0.5rem;
+  font-family: var(--display);
+  font-size: 1.15rem;
+}
+
+.map-guide p { margin: 0 0 0.4rem; font-size: 0.88rem; }
+
 .brand-lockup {
   margin: 0;
   font-family: var(--display);

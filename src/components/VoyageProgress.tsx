@@ -24,8 +24,8 @@ export function VoyageProgress() {
         <span>⚓</span>
         {majorDestinations.map((dest, index) => {
           const status = statusOf(dest.id)
-          const done = status === DestStatus.Completed
-          const now = status === DestStatus.Current
+          const done = status === DestStatus.Completed || status === DestStatus.Visited
+          const now = status === DestStatus.Current || status === DestStatus.Available
           return (
             <span className="progress-seg" key={dest.id}>
               <span className="progress-line" />

@@ -6,24 +6,28 @@ export function journeyIndex(id: string) {
 }
 
 export function nextAvailableId(progress: ProgressState) {
-  return JOURNEY_ORDER.find((id) => !progress.completedIds.includes(id)) ?? null
+  return JOURNEY_ORDER.find((id) => !progress.visitedIds.includes(id)) ?? null
 }
 
 export function getDestinationStatus(id: string, progress: ProgressState): DestStatusId {
   if (id === 'forbidden') {
     if (progress.completedIds.includes('forbidden')) return DestStatus.Completed
+    if (progress.visitedIds.includes('forbidden')) return DestStatus.Visited
     if (progress.revealedIds.includes('forbidden')) {
       return progress.currentDestinationId === 'forbidden' ? DestStatus.Current : DestStatus.Available
     }
     return DestStatus.Locked
   }
 
+  if (progress.currentDestinationId === id && !progress.visitedIds.includes(id)) return DestStatus.Current
   if (progress.completedIds.includes(id)) return DestStatus.Completed
-  if (progress.currentDestinationId === id) return DestStatus.Current
+  if (progress.visitedIds.includes(id)) {
+    return progress.currentDestinationId === id ? DestStatus.Current : DestStatus.Visited
+  }
 
   const next = nextAvailableId(progress)
   if (next === id) return DestStatus.Available
-  if (progress.revealedIds.includes(id) || progress.visitedIds.includes(id)) return DestStatus.Discovered
+  if (progress.revealedIds.includes(id)) return DestStatus.Discovered
   return DestStatus.Locked
 }
 
@@ -32,13 +36,14 @@ export function canEnterDestination(id: string, progress: ProgressState) {
   return (
     status === DestStatus.Available ||
     status === DestStatus.Current ||
+    status === DestStatus.Visited ||
     status === DestStatus.Completed
   )
 }
 
 export function storyCompletion(progress: ProgressState) {
-  const done = STORY_IDS.filter((id) => progress.completedIds.includes(id)).length
-  return { done, total: STORY_IDS.length, ratio: done / STORY_IDS.length }
+  const done = STORY_IDS.filter((id) => progress.visitedIds.includes(id)).length
+  return { done, total: STORY_IDS.length, ratio: done / Math.max(1, STORY_IDS.length) }
 }
 
 export function currentStoryChapter(progress: ProgressState) {
@@ -49,4 +54,16 @@ export function currentStoryChapter(progress: ProgressState) {
     return fallback ?? dest ?? destinations[0]
   }
   return dest
+}
+
+export function unlockOnVisit(progress: ProgressState, id: string): ProgressState {
+  const visitedIds = progress.visitedIds.includes(id) ? progress.visitedIds : [...progress.visitedIds, id]
+  const next = JOURNEY_ORDER.find((item) => !visitedIds.includes(item)) ?? null
+  return {
+    ...progress,
+    currentDestinationId: id,
+    visitedIds,
+    revealedIds: Array.from(new Set([...progress.revealedIds, id, ...(next ? [next] : [])])),
+    voyageComplete: visitedIds.includes('ithaca') ? true : progress.voyageComplete,
+  }
 }

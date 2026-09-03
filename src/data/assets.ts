@@ -1,0 +1,138 @@
+export type AssetRecord = {
+  name: string
+  sourceName: string
+  sourceURL: string
+  localPath: string
+  license: string
+  scene: string
+  purpose: string
+}
+
+export const assetManifest: AssetRecord[] = [
+  {
+    name: 'Rock Wall Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/rock_wall_10',
+    localPath: 'src/assets/textures/rock/rock_wall_10.jpg',
+    license: 'CC0',
+    scene: 'Trials of the Crew, Forbidden Island, mountain overlays',
+    purpose: 'cliff and mountain texture overlay',
+  },
+  {
+    name: 'Rock Face Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/rock_face_03',
+    localPath: 'src/assets/textures/rock/rock_face_03.jpg',
+    license: 'CC0',
+    scene: 'Isle of Readiness, foreground cliffs',
+    purpose: 'broken stone and foreground rock grain',
+  },
+  {
+    name: 'Cliff Side Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/cliff_side',
+    localPath: 'src/assets/textures/rock/cliff_side.jpg',
+    license: 'CC0',
+    scene: 'Isle of Readiness, Temple of Strengths, Trials',
+    purpose: 'cliff face overlay',
+  },
+  {
+    name: 'Wood Planks Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/wood_planks',
+    localPath: 'src/assets/textures/wood/wood_planks.jpg',
+    license: 'CC0',
+    scene: 'Gathering of the Crew, Quartermaster Deck, Hero’s Feast',
+    purpose: 'dock, deck, and table wood grain',
+  },
+  {
+    name: 'Worn Wood Table Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/wood_table_001',
+    localPath: 'src/assets/textures/wood/wood_table_001.jpg',
+    license: 'CC0',
+    scene: 'Quartermaster’s Deck, Hero’s Feast',
+    purpose: 'crate and interior timber overlay',
+  },
+  {
+    name: 'Medieval Stone Blocks',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/medieval_blocks_05',
+    localPath: 'src/assets/textures/stone/medieval_blocks_05.jpg',
+    license: 'CC0',
+    scene: 'Kingdom of Culture, Sea of Opportunity, Ithaca',
+    purpose: 'city and harbor masonry overlay',
+  },
+  {
+    name: 'Marble Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/marble_01',
+    localPath: 'src/assets/textures/stone/marble_01.jpg',
+    license: 'CC0',
+    scene: 'Temple of Strengths, Oracle of AI',
+    purpose: 'column and temple surface overlay',
+  },
+  {
+    name: 'Marble Cliff Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/marble_cliff_01',
+    localPath: 'src/assets/textures/stone/marble_cliff_01.jpg',
+    license: 'CC0',
+    scene: 'Temple of Strengths, Oracle of AI',
+    purpose: 'mountain-temple stone overlay',
+  },
+  {
+    name: 'Coast Sand Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/coast_sand_01',
+    localPath: 'src/assets/textures/environments/coast_sand_01.jpg',
+    license: 'CC0',
+    scene: 'Gathering of the Crew, Ithaca, Sea of Opportunity',
+    purpose: 'shore and terrace ground overlay',
+  },
+  {
+    name: 'Aerial Rocks Terrain',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/aerial_rocks_02',
+    localPath: 'src/assets/textures/environments/aerial_rocks_02.jpg',
+    license: 'CC0',
+    scene: 'Voyage map, Trials of the Crew',
+    purpose: 'island and terrain surface overlay',
+  },
+  {
+    name: 'Brown Leather Texture',
+    sourceName: 'Poly Haven',
+    sourceURL: 'https://polyhaven.com/a/brown_leather',
+    localPath: 'src/assets/textures/parchment/brown_leather.jpg',
+    license: 'CC0',
+    scene: 'Voyage map, Quartermaster’s Deck',
+    purpose: 'chart hide and worn-case overlay',
+  },
+  {
+    name: 'Paper 001',
+    sourceName: 'ambientCG',
+    sourceURL: 'https://ambientcg.com/a/Paper001',
+    localPath: 'src/assets/textures/parchment/paper_001.jpg',
+    license: 'CC0',
+    scene: 'Voyage map, chapter grain',
+    purpose: 'parchment and paper fiber overlay',
+  },
+  {
+    name: 'Chapter world illustration',
+    sourceName: 'Original illustration for Career Center Odyssey',
+    sourceURL: '',
+    localPath: 'src/components/chapters/ChapterWorld.tsx',
+    license: 'All rights reserved — project original',
+    scene: 'all chapter environments',
+    purpose: 'layered destination artwork',
+  },
+  {
+    name: 'Voyage map illustration',
+    sourceName: 'Original illustrated chart',
+    sourceURL: '',
+    localPath: 'src/components/VoyageMap.tsx',
+    license: 'All rights reserved — project original',
+    scene: 'voyage map',
+    purpose: 'expedition chart drawing',
+  },
+]

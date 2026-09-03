@@ -18,22 +18,23 @@ export function ExpeditionChrome() {
       if (document.fullscreenElement) await document.exitFullscreen()
       else await document.documentElement.requestFullscreen()
     } catch {
-      // Fullscreen can be blocked by the browser.
+      /* blocked */
     }
   }
 
   return (
-    <div className="chrome chrome-top">
-      <div>
+    <>
+      <div className="chrome chrome-brand">
         <p className="brand-lockup">{EVENT.title}</p>
-        <button className="replay-opening" type="button" onClick={replayOpening}>
+        <p className="brand-sub">Expedition Chart</p>
+      </div>
+      <div className="chrome chrome-rail">
+        <button className="rail-btn" type="button" onClick={() => toggleDetails(true)}>
+          Full voyage
+        </button>
+        <button className="rail-btn" type="button" onClick={replayOpening}>
           Replay opening
         </button>
-        <button className="replay-opening agenda-link" type="button" onClick={() => toggleDetails(true)}>
-          View full voyage
-        </button>
-      </div>
-      <div className="icon-cluster">
         <button
           className="icon-btn"
           type="button"
@@ -43,6 +44,6 @@ export function ExpeditionChrome() {
           {full ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
         </button>
       </div>
-    </div>
+    </>
   )
 }

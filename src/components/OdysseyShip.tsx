@@ -29,7 +29,7 @@ export function OdysseyShip({ reduced, departing = false, intensity = 'normal' }
       gsap.to('.ship-roll', { rotation: departing ? 1.6 : motion.roll, duration: motion.duration + 1.8, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '50% 80%' })
       gsap.to('.ship-drift', { x: departing ? 6 : 3, duration: 6.2, yoyo: true, repeat: -1, ease: 'sine.inOut' })
       gsap.to('.sail-sway', { rotation: departing ? 3.4 : 2.2, duration: 2.9, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '220px 70px' })
-      gsap.to('.flag-wave', { rotation: departing ? 18 : 12, duration: 1.55, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '332px 36px' })
+      gsap.to('.flag-cloth', { rotation: departing ? 14 : 8, duration: 1.55, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '0px 2px' })
       gsap.to('.rope-sway', { rotation: 1.4, duration: 3.7, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.18, transformOrigin: '220px 60px' })
       gsap.to('.lantern-swing', { rotation: 6, duration: 2.3, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.25, transformOrigin: '50% 0%' })
       gsap.to('.lantern-flicker', { opacity: 0.5, duration: 0.48, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.16 })
@@ -85,9 +85,11 @@ export function OdysseyShip({ reduced, departing = false, intensity = 'normal' }
                     </text>
                   </g>
 
-                  <g className="flag-wave">
-                    <line x1="332" y1="34" x2="332" y2="88" stroke="#3a2416" strokeWidth="2" />
-                    <path d="M332 36 L 368 46 L 332 56 Z" fill="#d22030" />
+                  <g className="mast-assembly" transform="translate(332 34)">
+                    <line x1="0" y1="0" x2="0" y2="54" stroke="#3a2416" strokeWidth="2" />
+                    <g className="flag-cloth">
+                      <path d="M0 2 L 36 12 L 0 22 Z" fill="#d22030" />
+                    </g>
                   </g>
 
                   <g className="lantern-swing" style={{ transformBox: 'fill-box', transformOrigin: '150px 128px' }}>
