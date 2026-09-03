@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useExperience } from '../hooks/ExperienceContext'
 import { usePointer } from '../hooks/usePointer'
@@ -14,8 +14,20 @@ export function OceanScene() {
   const mist = useRef<HTMLDivElement>(null)
   const flatten = useRef<HTMLDivElement>(null)
   const departing = scene === Scene.Departing
-  const revealed = skipToTitle || progress.introCompleted || departing
+  const [revealed, setRevealed] = useState(
+    () => skipToTitle || departing || (progress.introCompleted && scene !== Scene.Cinematic),
+  )
   const pointer = usePointer(!isMobile && !reducedMotion && scene !== Scene.Map)
+
+  useEffect(() => {
+    if (departing || skipToTitle) setRevealed(true)
+  }, [departing, skipToTitle])
+
+  useEffect(() => {
+    const reveal = () => setRevealed(true)
+    window.addEventListener('odyssey-intro-reveal', reveal)
+    return () => window.removeEventListener('odyssey-intro-reveal', reveal)
+  }, [])
 
   useEffect(() => {
     if (!camera.current || reducedMotion || departing) return

@@ -278,6 +278,14 @@
   color: var(--parchment);
   background: rgba(16, 32, 48, 0.55);
   border: 1px solid rgba(201, 168, 76, 0.4);
+  cursor: pointer;
+}
+
+.collect-item:hover,
+.collect-item:focus-visible,
+.choice-card:hover,
+.choice-card:focus-visible {
+  box-shadow: 0 0 14px rgba(201, 168, 76, 0.4);
 }
 
 .collect-item.is-pulse {
@@ -388,6 +396,12 @@
 
 .voyage-complete-banner p { margin: 0 0 0.2rem; }
 .voyage-complete-banner span { display: block; font-family: var(--sans); letter-spacing: 0.04em; opacity: 0.85; }
+.voyage-complete-banner .cta-primary {
+  margin-top: 0.55rem;
+  height: 2.1rem;
+  padding: 0 0.8rem;
+  font-size: 0.62rem;
+}
 
 .agenda-list {
   margin: 0 0 1.1rem;

@@ -9,6 +9,16 @@ export function nextAvailableId(progress: ProgressState) {
   return JOURNEY_ORDER.find((id) => !progress.visitedIds.includes(id)) ?? null
 }
 
+export function nextMajorId(progress: ProgressState) {
+  return (
+    destinations.find(
+      (item) =>
+        (item.kind === 'major' || item.kind === 'finale') && !progress.visitedIds.includes(item.id),
+    )?.id ?? null
+  )
+}
+
+/** Map statuses: locked / available / visited / completed (interaction complete). */
 export function getDestinationStatus(id: string, progress: ProgressState): DestStatusId {
   if (id === 'forbidden') {
     if (progress.completedIds.includes('forbidden')) return DestStatus.Completed
@@ -27,18 +37,27 @@ export function getDestinationStatus(id: string, progress: ProgressState): DestS
 
   const next = nextAvailableId(progress)
   if (next === id) return DestStatus.Available
-  if (progress.revealedIds.includes(id)) return DestStatus.Discovered
+  if (progress.revealedIds.includes(id) || JOURNEY_ORDER.includes(id)) return DestStatus.Discovered
   return DestStatus.Locked
 }
 
 export function canEnterDestination(id: string, progress: ProgressState) {
-  const status = getDestinationStatus(id, progress)
-  return (
-    status === DestStatus.Available ||
-    status === DestStatus.Current ||
-    status === DestStatus.Visited ||
-    status === DestStatus.Completed
-  )
+  if (id === 'forbidden') {
+    return (
+      progress.revealedIds.includes('forbidden') ||
+      progress.visitedIds.includes('forbidden') ||
+      progress.completedIds.includes('forbidden')
+    )
+  }
+  return JOURNEY_ORDER.includes(id)
+}
+
+export function chartedDestinationIds(progress: ProgressState) {
+  const ids = new Set(JOURNEY_ORDER)
+  if (progress.revealedIds.includes('forbidden') || progress.visitedIds.includes('forbidden')) {
+    ids.add('forbidden')
+  }
+  return Array.from(ids)
 }
 
 export function storyCompletion(progress: ProgressState) {
@@ -63,7 +82,7 @@ export function unlockOnVisit(progress: ProgressState, id: string): ProgressStat
     ...progress,
     currentDestinationId: id,
     visitedIds,
-    revealedIds: Array.from(new Set([...progress.revealedIds, id, ...(next ? [next] : [])])),
+    revealedIds: Array.from(new Set([...progress.revealedIds, ...JOURNEY_ORDER, id, ...(next ? [next] : [])])),
     voyageComplete: visitedIds.includes('ithaca') ? true : progress.voyageComplete,
   }
 }

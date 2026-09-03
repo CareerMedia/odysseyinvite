@@ -1,3 +1,4 @@
+import { JOURNEY_ORDER } from '../data/destinations'
 import type { ProgressState } from '../types'
 
 export const STORAGE_KEYS = {
@@ -13,7 +14,7 @@ export const defaultProgress = (): ProgressState => ({
   voyageComplete: false,
   currentDestinationId: 'prologue',
   visitedIds: [],
-  revealedIds: ['prologue'],
+  revealedIds: [...JOURNEY_ORDER],
   completedIds: [],
   earnedChapterXp: [],
   xp: 0,
@@ -39,7 +40,10 @@ export function loadProgress(): ProgressState {
     if (!merged.visitedIds) merged.visitedIds = []
     merged.visitedIds = Array.from(new Set([...merged.visitedIds, ...merged.completedIds]))
     if (merged.mapGuidanceSeen === undefined) merged.mapGuidanceSeen = Boolean(merged.voyageStarted)
-    if (!merged.revealedIds.includes('prologue')) merged.revealedIds = ['prologue', ...merged.revealedIds]
+    const revealed = new Set(merged.revealedIds)
+    JOURNEY_ORDER.forEach((id) => revealed.add(id))
+    merged.visitedIds.forEach((id) => revealed.add(id))
+    merged.revealedIds = Array.from(revealed)
     return merged
   } catch {
     return defaultProgress()

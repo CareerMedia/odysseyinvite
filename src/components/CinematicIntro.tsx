@@ -29,6 +29,27 @@ export function CinematicIntro() {
   const [titleReady, setTitleReady] = useState(skipToTitle || reducedMotion)
   const [canSkip, setCanSkip] = useState(skipToTitle || reducedMotion)
 
+  const openingScope = () => root.current?.closest('.opening-stage') ?? root.current ?? undefined
+
+  const revealWorldImmediate = () => {
+    const scope = openingScope()
+    gsap.context(() => {
+      gsap.set('.intro-veil', { opacity: 0 })
+      gsap.set('.prologue-layer', { autoAlpha: 0 })
+      gsap.set('.moonline', { opacity: 0 })
+      gsap.set('.reveal-layer', { opacity: 1 })
+      gsap.set('.ship-silhouette', { opacity: 0 })
+      gsap.set('.ship-detail', { opacity: 1 })
+      gsap.set('.title-card', { autoAlpha: 1, visibility: 'visible' })
+      gsap.set('.title-eyebrow, .title-the, .title-center, .title-odyssey, .title-meta, .title-motto, .title-cta', {
+        autoAlpha: 1,
+        y: 0,
+        filter: 'none',
+      })
+    }, scope)
+    window.dispatchEvent(new Event('odyssey-intro-reveal'))
+  }
+
   useEffect(() => {
     if (!skipToTitle && !reducedMotion) return
     revealWorldImmediate()
@@ -50,6 +71,7 @@ export function CinematicIntro() {
   useEffect(() => {
     if (phase !== 'prologue' || !root.current || played.current) return
     played.current = true
+    const scope = openingScope()
     const ctx = gsap.context(() => {
       if (skipToTitle || reducedMotion) {
         revealWorldImmediate()
@@ -64,6 +86,7 @@ export function CinematicIntro() {
         onComplete: () => {
           completeIntro()
           setTitleReady(true)
+          window.dispatchEvent(new Event('odyssey-intro-reveal'))
         },
       })
 
@@ -71,6 +94,7 @@ export function CinematicIntro() {
       gsap.set('.reveal-layer', { opacity: 0 })
       gsap.set('.ship-silhouette', { opacity: 1 })
       gsap.set('.ship-detail', { opacity: 0 })
+      gsap.set('.intro-veil', { opacity: 1 })
 
       tl.to('.mark', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.8 }, 1.1)
         .fromTo('.prologue-line.first', { opacity: 0, y: 10, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.8 }, 2.2)
@@ -105,7 +129,7 @@ export function CinematicIntro() {
         .to('.title-card', { autoAlpha: 1, duration: 0.01 }, 20.3)
 
       window.setTimeout(() => setCanSkip(true), 1800)
-    }, root)
+    }, scope)
     return () => ctx.revert()
   }, [completeIntro, isMobile, phase, reducedMotion, skipToTitle, sound])
 
@@ -121,19 +145,9 @@ export function CinematicIntro() {
     })
   }, [reducedMotion, scene])
 
-  const revealWorldImmediate = () => {
-    gsap.set('.intro-veil', { opacity: 0 })
-    gsap.set('.prologue-layer', { autoAlpha: 0 })
-    gsap.set('.moonline', { opacity: 0 })
-    gsap.set('.reveal-layer', { opacity: 1 })
-    gsap.set('.ship-silhouette', { opacity: 0 })
-    gsap.set('.ship-detail', { opacity: 1 })
-    gsap.set('.title-card', { autoAlpha: 1 })
-    gsap.set('.title-eyebrow, .title-the, .title-center, .title-odyssey, .title-meta, .title-motto, .title-cta', { autoAlpha: 1, y: 0, filter: 'none' })
-  }
-
   const skip = () => {
-    gsap.killTweensOf(root.current?.querySelectorAll('*') ?? [])
+    const scope = openingScope()
+    if (scope) gsap.killTweensOf(scope.querySelectorAll('*'))
     revealWorldImmediate()
     setTitleReady(true)
     setPhase('title')

@@ -28,7 +28,7 @@ import './styles/world.css'
 function World() {
   const { scene, setScene, reducedMotion, world, quality, uiHidden, wipe, openingKey } = useExperience()
   const showOcean = scene === Scene.Cinematic || scene === Scene.Departing
-  const showMap = scene === Scene.Map || scene === Scene.Departing || scene === Scene.Chapter
+  const showMap = scene === Scene.Map || scene === Scene.Chapter
   const [paused, setPaused] = useState(false)
 
   useEffect(() => {
@@ -57,9 +57,11 @@ function World() {
       <h1 className="sr-only">
         {EVENT.title} — {EVENT.subtitle}. {EVENT.date}. {EVENT.time}. {EVENT.location}.
       </h1>
-      {showOcean ? <OceanScene key={`ocean-${openingKey}`} /> : null}
-      {showMap ? <VoyageMap fromOcean={scene === Scene.Departing} /> : null}
-      {scene === Scene.Cinematic || scene === Scene.Departing ? <CinematicIntro key={`intro-${openingKey}`} /> : null}
+      <div className="opening-stage">
+        {showOcean ? <OceanScene key={`ocean-${openingKey}`} /> : null}
+        {scene === Scene.Cinematic || scene === Scene.Departing ? <CinematicIntro key={`intro-${openingKey}`} /> : null}
+      </div>
+      {scene === Scene.Map || scene === Scene.Chapter ? <VoyageMap /> : null}
       {scene === Scene.Map ? <ExpeditionChrome /> : null}
       {scene === Scene.Map ? <VoyageProgress /> : null}
       {scene === Scene.Map ? <XPDisplay /> : null}

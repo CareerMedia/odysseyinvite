@@ -1,0 +1,693 @@
+.chapter-city {
+  align-items: end;
+  justify-items: start;
+  padding: 1.1rem 1.1rem 1.25rem;
+}
+
+.chapter-city .chapter-world {
+  background: #06111d;
+}
+
+.culture {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.culture-camera {
+  position: absolute;
+  inset: -2%;
+  transform: scale(1.015);
+  transform-origin: 52% 48%;
+  animation: culture-push 13s ease-out forwards;
+}
+
+.culture-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 52%;
+  display: block;
+}
+
+.culture-sun {
+  position: absolute;
+  left: 11%;
+  top: 38%;
+  width: 22vw;
+  height: 22vw;
+  max-width: 18rem;
+  max-height: 18rem;
+  transform: translate(calc(-50% + var(--gx, 0px)), calc(-50% + var(--gy, 0px)));
+  background: radial-gradient(circle, rgba(255, 214, 130, 0.28) 0%, rgba(255, 168, 70, 0.1) 40%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: culture-sun 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.culture-ray {
+  position: absolute;
+  left: 10%;
+  top: 36%;
+  width: 42%;
+  height: 28%;
+  transform-origin: 0 50%;
+  background: linear-gradient(98deg, rgba(255, 220, 150, 0.12), transparent 72%);
+  mask-image: linear-gradient(90deg, #000, transparent 88%), linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  mask-composite: intersect;
+  mix-blend-mode: screen;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.ray-a {
+  transform: rotate(8deg);
+  animation: culture-ray 12s ease-in-out infinite;
+}
+
+.ray-b {
+  width: 34%;
+  transform: rotate(18deg);
+  opacity: 0.14;
+  animation: culture-ray 14s ease-in-out infinite 1.6s;
+}
+
+.culture-cloud {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(26px);
+  opacity: 0.1;
+  mix-blend-mode: screen;
+}
+
+.culture-cloud-a {
+  left: -8%;
+  top: 4%;
+  width: 42%;
+  height: 24%;
+  background: radial-gradient(ellipse, rgba(255, 228, 196, 0.45), transparent 70%);
+  animation: culture-cloud 40s linear infinite;
+}
+
+.culture-cloud-b {
+  right: -6%;
+  top: 2%;
+  width: 36%;
+  height: 22%;
+  background: radial-gradient(ellipse, rgba(240, 214, 190, 0.35), transparent 68%);
+  animation: culture-cloud 48s linear infinite reverse;
+}
+
+.culture-shimmer {
+  position: absolute;
+  left: 0;
+  width: 48%;
+  top: 44%;
+  height: 28%;
+  background: linear-gradient(102deg, transparent 18%, rgba(255, 232, 176, 0.14) 46%, transparent 72%);
+  background-size: 180% 100%;
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0.1;
+  animation: culture-shimmer 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.culture-reflect {
+  position: absolute;
+  height: 10%;
+  mix-blend-mode: screen;
+  opacity: 0.12;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.reflect-a {
+  left: 14%;
+  top: 54%;
+  width: 18%;
+  background: linear-gradient(90deg, transparent, rgba(255, 220, 150, 0.35), transparent);
+  animation: culture-reflect 9s ease-in-out infinite;
+}
+
+.reflect-b {
+  left: 28%;
+  top: 58%;
+  width: 12%;
+  background: linear-gradient(90deg, transparent, rgba(255, 200, 120, 0.28), transparent);
+  animation: culture-reflect 11s ease-in-out infinite 1.4s;
+}
+
+.culture-banner {
+  position: absolute;
+  background: linear-gradient(180deg, rgba(160, 40, 48, 0.18), transparent 80%);
+  transform-origin: 50% 0;
+  pointer-events: none;
+  opacity: 0.28;
+}
+
+.banner-civic {
+  left: 71%;
+  top: 34%;
+  width: 1.1%;
+  height: 11%;
+  background: linear-gradient(180deg, rgba(170, 36, 48, 0.22), transparent 85%);
+  animation: culture-banner 7.2s ease-in-out infinite;
+}
+
+.banner-market {
+  left: 43%;
+  top: 56%;
+  width: 4.2%;
+  height: 3.4%;
+  background: linear-gradient(180deg, rgba(210, 90, 40, 0.16), transparent 80%);
+  transform-origin: 0 0;
+  animation: culture-awning 8.4s ease-in-out infinite;
+}
+
+.banner-far {
+  left: 77%;
+  top: 38%;
+  width: 0.9%;
+  height: 9%;
+  background: linear-gradient(180deg, rgba(48, 64, 140, 0.2), transparent 85%);
+  animation: culture-banner 9.1s ease-in-out infinite 0.8s;
+}
+
+.culture-frond {
+  position: absolute;
+  width: 4.5%;
+  height: 10%;
+  background: radial-gradient(ellipse at 40% 80%, rgba(28, 48, 28, 0.18), transparent 70%);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+.frond-a {
+  right: 11%;
+  bottom: 14%;
+  animation: culture-frond 7.6s ease-in-out infinite;
+}
+
+.frond-b {
+  left: 61%;
+  top: 36%;
+  width: 3%;
+  height: 12%;
+  animation: culture-frond 8.8s ease-in-out infinite 1.2s;
+}
+
+.culture-lamp {
+  position: absolute;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.32), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.lamp-a { left: 41%; top: 61%; animation: culture-flicker 4.7s ease-in-out infinite; }
+.lamp-b { left: 47%; top: 59%; width: 2rem; height: 2rem; animation: culture-flicker 5.8s ease-in-out infinite 0.4s; }
+.lamp-c { left: 58%; top: 47%; animation: culture-flicker 6.5s ease-in-out infinite 0.8s; }
+.lamp-d { left: 64%; top: 41%; width: 2.1rem; height: 2.1rem; animation: culture-flicker 7.3s ease-in-out infinite 0.2s; }
+.lamp-e { left: 72%; top: 36%; animation: culture-flicker 8.1s ease-in-out infinite 1s; }
+.lamp-f { left: 76%; top: 45%; width: 2.8rem; height: 2.8rem; animation: culture-flicker 5.4s ease-in-out infinite 0.6s; }
+.lamp-g { left: 38%; top: 64%; width: 1.8rem; height: 1.8rem; animation: culture-flicker 6.8s ease-in-out infinite 1.3s; }
+.lamp-h { left: 82%; top: 70%; width: 2.2rem; height: 2.2rem; animation: culture-flicker 7.6s ease-in-out infinite 0.3s; }
+
+.culture-npc {
+  position: absolute;
+  width: 5px;
+  height: 11px;
+  border-radius: 40% 40% 20% 20%;
+  background: rgba(22, 16, 14, 0.28);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.npc-quay {
+  left: 36%;
+  top: 62%;
+  animation: culture-walk-quay 28s linear infinite;
+}
+
+.npc-plaza {
+  left: 55%;
+  top: 51%;
+  width: 4px;
+  height: 9px;
+  animation: culture-walk-plaza 34s linear infinite 4s;
+}
+
+.npc-stairs {
+  left: 72%;
+  top: 56%;
+  width: 4px;
+  height: 8px;
+  animation: culture-walk-stairs 32s ease-in-out infinite 8s;
+}
+
+.npc-pair {
+  left: 60%;
+  top: 53%;
+  width: 9px;
+  height: 8px;
+  background:
+    radial-gradient(circle at 20% 40%, rgba(22, 16, 14, 0.28) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 40%, rgba(22, 16, 14, 0.24) 0 2px, transparent 3px);
+  animation: culture-walk-plaza 40s linear infinite 12s reverse;
+}
+
+.culture-mote {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 226, 170, 0.4);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.mote-a { left: 18%; bottom: 34%; animation: culture-mote 18s ease-in-out infinite; }
+.mote-b { left: 32%; bottom: 28%; animation: culture-mote 21s ease-in-out infinite 4s; }
+.mote-c { left: 24%; bottom: 40%; animation: culture-mote 24s ease-in-out infinite 8s; }
+
+.culture-bird {
+  position: absolute;
+  top: 18%;
+  left: -4%;
+  width: 9px;
+  height: 2px;
+  background: rgba(28, 20, 16, 0.38);
+  opacity: 0;
+  animation: culture-bird 36s linear 10s infinite;
+}
+
+.culture.is-bird .culture-bird {
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.culture.is-banner .culture-banner {
+  animation-duration: 2.4s;
+}
+
+.culture.is-walk .culture-npc {
+  opacity: 0.5;
+}
+
+.culture.is-flare .culture-sun {
+  opacity: 1;
+  filter: brightness(1.15);
+}
+
+.culture-belong,
+.culture-speak,
+.culture-link,
+.culture-join,
+.culture-wash {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+
+.culture-belong {
+  left: 50%;
+  top: 52%;
+  width: 16rem;
+  height: 12rem;
+  transform: translate(-50%, -40%);
+  background: radial-gradient(ellipse, rgba(255, 196, 120, 0.18), transparent 68%);
+  mix-blend-mode: screen;
+}
+
+.culture-speak {
+  left: 46%;
+  top: 46%;
+  width: 30%;
+  height: 18%;
+  background: linear-gradient(18deg, transparent 10%, rgba(255, 220, 150, 0.18) 48%, transparent 86%);
+  filter: blur(1px);
+  mix-blend-mode: screen;
+}
+
+.culture-link {
+  left: 36%;
+  top: 34%;
+  width: 40%;
+  height: 28%;
+  background: linear-gradient(22deg, transparent 8%, rgba(201, 168, 76, 0.2) 46%, transparent 88%);
+  mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+  mix-blend-mode: screen;
+}
+
+.culture-join {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 140, 0.28), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.join-a { left: 42%; top: 58%; }
+.join-b { left: 58%; top: 46%; }
+.join-c { left: 70%; top: 40%; }
+
+.culture-wash {
+  inset: 0;
+  background: linear-gradient(105deg, rgba(255, 210, 130, 0.05), transparent 36%, rgba(255, 196, 110, 0.08) 62%, transparent 80%);
+  mix-blend-mode: screen;
+}
+
+.culture.is-belonging .culture-belong { opacity: 1; }
+.culture.is-belonging .lamp-c,
+.culture.is-belonging .lamp-d,
+.culture.is-belonging .lamp-e { filter: brightness(1.35); }
+
+.culture.is-communication .culture-speak {
+  opacity: 1;
+  animation: culture-speak 2.8s ease-in-out infinite;
+}
+
+.culture.is-connection .culture-link { opacity: 1; }
+
+.culture.is-collaboration .culture-join {
+  opacity: 1;
+  animation: culture-join 2.6s ease-out infinite;
+}
+
+.culture.is-collaboration .join-b { animation-delay: 0.25s; }
+.culture.is-collaboration .join-c { animation-delay: 0.5s; }
+
+.culture.is-lit .culture-lamp { filter: brightness(1.4); }
+.culture.is-lit .culture-wash { opacity: 1; }
+.culture.is-lit .culture-sun { opacity: 1; }
+
+.culture-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 52% 48%, transparent 50%, rgba(6, 17, 29, 0.22) 100%);
+  pointer-events: none;
+}
+
+.culture-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 17, 29, 0.4);
+  animation: culture-wake 2.1s ease forwards;
+  pointer-events: none;
+}
+
+.culture-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255, 232, 200, 0.2), transparent);
+  pointer-events: none;
+}
+
+.chapter-city .chapter-panel {
+  width: min(28.5rem, 100%);
+  max-width: 480px;
+  background:
+    linear-gradient(rgba(6, 17, 29, 0.84), rgba(6, 17, 29, 0.84)),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 236, 200, 0.03) 3px, rgba(255, 236, 200, 0.03) 4px);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  backdrop-filter: blur(12px);
+  color: #f4ead6;
+  animation: culture-panel 1.8s ease 0.35s both;
+}
+
+.chapter-city .chapter-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  bottom: 0.85rem;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, #d22030, transparent);
+  opacity: 0.7;
+}
+
+.chapter-city .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-city .chapter-story,
+.chapter-city .chapter-sub,
+.chapter-city .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-city .collect-voices {
+  gap: 0.55rem;
+}
+
+.chapter-city .voice-btn {
+  appearance: none;
+  width: 6.4rem;
+  min-height: 5.6rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  gap: 0.18rem;
+  padding: 0.55rem 0.35rem 0.6rem;
+  background: rgba(6, 17, 29, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f4ead6;
+  cursor: pointer;
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.52rem;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.chapter-city .voice-btn:hover,
+.chapter-city .voice-btn:focus-visible {
+  box-shadow: 0 0 16px rgba(232, 165, 75, 0.4);
+}
+
+.chapter-city .voice-btn.is-on {
+  background: rgba(201, 168, 76, 0.3);
+  color: #fff6d8;
+  box-shadow: 0 0 18px rgba(232, 165, 75, 0.45);
+}
+
+.chapter-city .voice-btn.is-pulse {
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
+.chapter-city .chapter-actions .cta-primary {
+  background: rgba(6, 17, 29, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-city .chapter-complete {
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.chapter-city.is-leaving .chapter-panel {
+  animation: culture-panel-out 0.55s ease forwards;
+}
+
+.chapter-city.is-leaving .culture-camera {
+  animation: culture-pull 0.7s ease forwards;
+}
+
+.chapter-city.is-leaving .culture-exit-mist {
+  animation: culture-exit-mist 0.7s ease forwards;
+}
+
+.chapter-city.is-still .culture-camera,
+.chapter-city.is-still .culture-sun,
+.chapter-city.is-still .culture-ray,
+.chapter-city.is-still .culture-cloud,
+.chapter-city.is-still .culture-shimmer,
+.chapter-city.is-still .culture-reflect,
+.chapter-city.is-still .culture-banner,
+.chapter-city.is-still .culture-frond,
+.chapter-city.is-still .culture-npc,
+.chapter-city.is-still .culture-mote,
+.chapter-city.is-still .culture-bird,
+.chapter-city.is-still .culture-dim,
+.chapter-city.is-still .culture-speak,
+.chapter-city.is-still .culture-join,
+.chapter-city.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-city.is-still .culture-camera { transform: none; }
+.chapter-city.is-still .culture-dim { opacity: 0; }
+.chapter-city.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-city.is-still .culture-shimmer { opacity: 0.06; }
+.chapter-city.is-still .culture-npc,
+.chapter-city.is-still .culture-bird { display: none; }
+
+@keyframes culture-push {
+  from { transform: scale(1.015) translateX(0); }
+  to { transform: scale(1.04) translateX(-5px); }
+}
+
+@keyframes culture-wake { to { opacity: 0; } }
+
+@keyframes culture-sun {
+  0%, 100% { opacity: 0.68; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes culture-ray {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.28; }
+}
+
+@keyframes culture-cloud {
+  from { transform: translateX(0); }
+  to { transform: translateX(7%); }
+}
+
+@keyframes culture-shimmer {
+  0% { background-position: 0% 50%; opacity: 0.07; }
+  50% { background-position: 100% 50%; opacity: 0.13; }
+  100% { background-position: 0% 50%; opacity: 0.07; }
+}
+
+@keyframes culture-reflect {
+  0%, 100% { transform: translateX(0); opacity: 0.08; }
+  50% { transform: translateX(10px); opacity: 0.16; }
+}
+
+@keyframes culture-banner {
+  0%, 100% { transform: rotate(-1deg) skewX(-1deg); }
+  50% { transform: rotate(2deg) skewX(1deg); }
+}
+
+@keyframes culture-awning {
+  0%, 100% { transform: scaleY(1) skewX(0); }
+  50% { transform: scaleY(1.04) skewX(2deg); }
+}
+
+@keyframes culture-frond {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+@keyframes culture-flicker {
+  0%, 100% { opacity: 0.42; }
+  40% { opacity: 0.78; }
+  62% { opacity: 0.5; }
+}
+
+@keyframes culture-walk-quay {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.38; }
+  82% { opacity: 0.32; }
+  100% { opacity: 0; transform: translateX(9vw); }
+}
+
+@keyframes culture-walk-plaza {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 0.32; }
+  80% { opacity: 0.28; }
+  100% { opacity: 0; transform: translateX(6vw); }
+}
+
+@keyframes culture-walk-stairs {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 0.3; }
+  80% { opacity: 0.24; }
+  100% { opacity: 0; transform: translate(1.4vw, -6vh); }
+}
+
+@keyframes culture-mote {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.12; }
+  50% { transform: translate3d(10px, -16px, 0); opacity: 0.3; }
+}
+
+@keyframes culture-bird {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.45; }
+  100% { opacity: 0; transform: translateX(58vw); }
+}
+
+@keyframes culture-speak {
+  0%, 100% { opacity: 0.25; transform: translateX(0); }
+  50% { opacity: 0.7; transform: translateX(8px); }
+}
+
+@keyframes culture-join {
+  0% { transform: scale(0.5); opacity: 0.6; }
+  100% { transform: scale(2.4) translate(-12px, -8px); opacity: 0; }
+}
+
+@keyframes culture-panel {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes culture-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes culture-pull {
+  to { transform: scale(1.01) translateX(0); }
+}
+
+@keyframes culture-exit-mist {
+  to { opacity: 1; transform: translateX(8%); }
+}
+
+@media (max-width: 900px) {
+  .culture-plate { object-position: 54% 50%; }
+  .culture.is-lite .culture-cloud-b,
+  .culture.is-lite .npc-stairs,
+  .culture.is-lite .npc-pair,
+  .culture.is-lite .mote-c {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .culture-plate { object-position: 60% 52%; }
+  .chapter-city { padding: 0.8rem 0.75rem 0.9rem; }
+  .chapter-city .chapter-panel {
+    width: 100%;
+    max-height: min(62dvh, 34rem);
+  }
+  .chapter-city .voice-btn {
+    width: 5.5rem;
+    min-height: 5rem;
+    font-size: 0.48rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .culture-camera,
+  .culture-sun,
+  .culture-ray,
+  .culture-cloud,
+  .culture-shimmer,
+  .culture-reflect,
+  .culture-banner,
+  .culture-frond,
+  .culture-npc,
+  .culture-mote,
+  .culture-bird,
+  .culture-dim,
+  .culture-speak,
+  .culture-join,
+  .chapter-city .chapter-panel {
+    animation: none !important;
+  }
+  .culture-camera { transform: none; }
+  .culture-dim { opacity: 0; }
+  .culture-shimmer { opacity: 0.06; }
+  .culture-npc,
+  .culture-bird { display: none; }
+}

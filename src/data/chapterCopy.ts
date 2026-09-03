@@ -3,50 +3,68 @@ import type { Destination } from '../types'
 export function chapterGuidance(dest: Destination, firstInteractive: boolean) {
   if (dest.interaction === 'rest' || dest.interaction === 'feast' || dest.interaction === 'signal' || dest.interaction === 'forbidden') {
     return {
-      lead: dest.interaction === 'signal' ? 'Watch the instruments.' : 'Take in the harbor.',
-      detail: 'Optional exploration. Your Odyssey continues whenever you\'re ready.',
+      lead: dest.interaction === 'signal' ? 'Watch the instruments' : 'Take in the harbor',
+      detail: firstInteractive
+        ? 'Optional exploration — continue your Odyssey whenever you\'re ready.'
+        : 'Optional. Return to the map whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'strengths') {
     return {
-      lead: 'Choose a path — or continue when ready',
-      detail: 'Optional. You may continue without selecting a path.',
+      lead: 'Choose your path',
+      detail: 'Select the path that best represents your experience. Optional — you may continue without making a selection.',
     }
   }
   if (dest.interaction === 'crew') {
     return {
-      lead: firstInteractive ? 'Assemble the crew' : 'Select the highlighted crew symbols',
-      detail: 'Optional exploration. Your Odyssey continues whenever you\'re ready.',
+      lead: 'Assemble the crew',
+      detail: 'Select the crew medallions to explore the chapter. Optional exploration — your Odyssey continues whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'beacon') {
     return {
       lead: 'Activate the three signals',
-      detail: firstInteractive
-        ? 'Select each glowing symbol to discover more and earn Odyssey XP. Optional — your journey continues either way.'
-        : 'Optional exploration. Your Odyssey continues whenever you\'re ready.',
+      detail: 'Select each glowing symbol to discover more and earn Odyssey XP. Optional exploration — your journey continues either way.',
     }
   }
   if (dest.interaction === 'voices') {
-    return { lead: 'Listen to the voices of the city', detail: 'Explore the glowing symbols. Optional exploration.' }
+    return {
+      lead: 'Listen to the voices of the city',
+      detail: 'Explore the glowing symbols to discover the values that shape a strong crew. Optional exploration — your Odyssey continues whenever you\'re ready.',
+    }
   }
   if (dest.interaction === 'crates') {
-    return { lead: 'Open the supply crates', detail: 'Select Spaces, Equipment, and Payroll. Optional exploration.' }
+    return {
+      lead: 'Explore the highlighted objects',
+      detail: 'Select Spaces, Equipment, and Payroll. Optional exploration — continue your Odyssey whenever you\'re ready.',
+    }
   }
   if (dest.interaction === 'trials') {
-    return { lead: 'Rebuild the path together', detail: 'Activate each crew principle. Optional exploration.' }
+    return {
+      lead: 'Explore the highlighted objects',
+      detail: 'Activate each crew principle in order. Optional exploration — continue your Odyssey whenever you\'re ready.',
+    }
   }
   if (dest.interaction === 'oracle') {
-    return { lead: 'Consult the Oracle', detail: 'Activate each principle. Optional exploration.' }
+    return {
+      lead: 'Explore the highlighted objects',
+      detail: 'Select each glowing symbol to consult the Oracle. Optional exploration — continue your Odyssey whenever you\'re ready.',
+    }
   }
   if (dest.interaction === 'briefing') {
-    return { lead: 'Review the mission briefing', detail: 'Explore each marker. Optional.' }
+    return {
+      lead: 'Explore the highlighted objects',
+      detail: 'Select The Terrain, Your Role, and The Mission. Optional exploration — continue your Odyssey whenever you\'re ready.',
+    }
   }
   if (dest.interaction === 'reflection') {
-    return { lead: 'Every Odyssey changes the traveler.', detail: 'Select a prompt if you wish. No typed response is required.' }
+    return {
+      lead: 'Every Odyssey changes the traveler',
+      detail: 'Select a prompt if you wish. Optional — no typed response is required.',
+    }
   }
   return {
     lead: 'Explore the highlighted objects',
-    detail: 'Optional exploration. Your Odyssey continues whenever you\'re ready.',
+    detail: 'Select each glowing symbol to discover more. Optional exploration — continue your Odyssey whenever you\'re ready.',
   }
 }

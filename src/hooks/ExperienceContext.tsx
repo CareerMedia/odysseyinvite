@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import gsap from 'gsap'
 import { allEggsFound, getAchievement } from '../data/achievements'
 import { DESTINATION_ENV } from '../data/world'
 import { destinations, getDestination, JOURNEY_ORDER } from '../data/destinations'
@@ -18,7 +19,7 @@ import { delay, deriveWorld } from '../utils/worldDerive'
 import { preloadNextDestination, preloadStage } from '../utils/preload'
 import { getSoundEngine } from '../utils/sound'
 import { loadProgress, resetProgress, saveProgress } from '../utils/storage'
-import { canEnterDestination, getDestinationStatus, unlockOnVisit } from '../utils/voyageState'
+import { canEnterDestination, getDestinationStatus, nextAvailableId, nextMajorId, unlockOnVisit } from '../utils/voyageState'
 import { useIsMobile } from './useIsMobile'
 import { useReducedMotion } from './useReducedMotion'
 
@@ -48,6 +49,7 @@ type ExperienceContextValue = {
   enterWorld: (withSound: boolean) => void
   completeIntro: () => void
   requestDestination: (id: string) => boolean
+  advanceVoyage: () => void
   arriveAt: (id: string) => void
   enterChapter: (id: string) => void
   closeChapter: () => void
@@ -200,7 +202,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     (id: string) => {
       updateProgress((current) => ({
         ...current,
-        revealedIds: Array.from(new Set([...current.revealedIds, ...neighborsOf(id), id])),
+        revealedIds: Array.from(new Set([...current.revealedIds, ...JOURNEY_ORDER, ...neighborsOf(id), id])),
       }))
     },
     [updateProgress],
@@ -212,7 +214,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
         ...current,
         currentDestinationId: id,
         visitedIds: current.visitedIds.includes(id) ? current.visitedIds : [...current.visitedIds, id],
-        revealedIds: Array.from(new Set([...current.revealedIds, ...neighborsOf(id), id])),
+        revealedIds: Array.from(new Set([...current.revealedIds, ...JOURNEY_ORDER, ...neighborsOf(id), id])),
       }))
     },
     [updateProgress],
@@ -267,6 +269,17 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     },
     [progress],
   )
+
+  const advanceVoyage = useCallback(() => {
+    const next = nextMajorId(progress) ?? nextAvailableId(progress)
+    if (!next) {
+      setActiveChapterId(null)
+      setScene(Scene.Complete)
+      setMapFocus({ mode: 'full' })
+      return
+    }
+    enterChapter(next)
+  }, [enterChapter, progress])
 
   const closeChapter = useCallback(() => {
     const type = activeChapterId ? DESTINATION_ENV[activeChapterId]?.transitionOut ?? 'cloudPass' : 'cloudPass'
@@ -366,6 +379,9 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     setActiveChapterId(null)
     setWipe(null)
     setUiHidden(false)
+    setDetailsOpen(false)
+    setMapFocus(null)
+    gsap.killTweensOf('.opening-stage, .opening-stage *, .intro, .intro *, .ocean, .ocean *, .title-card, .reveal-layer, .intro-veil, .prologue-layer')
     setOpeningKey((value) => value + 1)
     setScene(Scene.Cinematic)
   }, [])
@@ -449,6 +465,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       enterWorld,
       completeIntro,
       requestDestination,
+      advanceVoyage,
       arriveAt,
       enterChapter,
       closeChapter,
@@ -470,6 +487,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     }),
     [
       activeChapterId,
+      advanceVoyage,
       arriveAt,
       beginVoyage,
       closeChapter,

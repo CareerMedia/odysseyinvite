@@ -34,12 +34,13 @@
 }
 
 .chrome-rail {
-  top: 1rem;
-  right: 6.5rem;
+  top: 4.2rem;
+  right: calc(1.3rem + env(safe-area-inset-right, 0px));
   z-index: 31;
   display: flex;
-  gap: 0.45rem;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
 }
 
 .rail-btn {
@@ -58,12 +59,13 @@
   left: 1.2rem;
   bottom: 5.8rem;
   z-index: 33;
-  width: min(22rem, calc(100vw - 2rem));
-  padding: 1rem 1.1rem;
+  width: min(20rem, calc(100vw - 2.4rem));
+  padding: 0.85rem 0.95rem;
   background: rgba(10, 22, 40, 0.72);
   border: 1px solid rgba(201, 168, 76, 0.35);
   color: var(--parchment);
   backdrop-filter: blur(12px);
+  pointer-events: auto;
 }
 
 .map-guide h2 {
@@ -169,7 +171,7 @@
   bottom: 1.15rem;
   transform: translateX(-50%);
   z-index: 30;
-  min-width: min(92vw, 36rem);
+  min-width: min(92vw, 40rem);
   padding: 0.7rem 1.1rem 0.8rem;
   background: rgba(16, 22, 28, 0.48);
   border: 1px solid rgba(201, 168, 76, 0.28);
@@ -177,12 +179,51 @@
   text-align: center;
 }
 
+.progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
 .voyage-progress p {
-  margin: 0 0 0.35rem;
+  margin: 0;
   font-family: var(--display);
   letter-spacing: 0.28em;
   font-size: 0.62rem;
   color: var(--gold);
+}
+
+.progress-hint {
+  margin: 0.4rem 0 0;
+  letter-spacing: 0.12em;
+  font-size: 0.58rem;
+  opacity: 0.88;
+}
+
+.progress-next {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  height: 2rem;
+  padding: 0 0.7rem 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  background: rgba(10, 22, 40, 0.72);
+  color: #f0d48a;
+  font-family: var(--display);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.progress-next:hover,
+.progress-next:focus-visible {
+  box-shadow: 0 0 14px rgba(201, 168, 76, 0.4);
 }
 
 .progress-track {
@@ -205,12 +246,25 @@
   background: rgba(201, 168, 76, 0.45);
 }
 
-.progress-dot {
-  width: 0.55rem;
-  height: 0.55rem;
+.progress-dot,
+.progress-island {
+  appearance: none;
+  padding: 0;
+  width: 0.7rem;
+  height: 0.7rem;
   border-radius: 50%;
   border: 1px solid var(--gold);
   background: transparent;
+  cursor: pointer;
+}
+
+.progress-island {
+  width: auto;
+  height: auto;
+  border: 0;
+  background: none;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .progress-dot.is-done,
@@ -366,6 +420,8 @@
   .xp-display { left: 0.7rem; bottom: 5.3rem; }
   .toast-stack { right: 0.7rem; left: 0.7rem; bottom: 6.4rem; }
   .brand-lockup { letter-spacing: 0.12em; max-width: 12rem; }
+  .chrome-rail { top: 3.8rem; right: 0.7rem; }
+  .map-guide { left: 0.7rem; right: 0.7rem; width: auto; bottom: 5.2rem; }
 }
 
 @keyframes toast-in {

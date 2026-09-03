@@ -5,12 +5,12 @@ export function MapGuidance() {
   if (progress.mapGuidanceSeen) return null
 
   return (
-    <div className="map-guide" role="dialog" aria-labelledby="map-guide-title">
+    <div className="map-guide" aria-labelledby="map-guide-title">
       <p className="chapter-kicker">How to navigate</p>
-      <h2 id="map-guide-title">Your voyage is charted one destination at a time.</h2>
-      <p>Select the glowing destination to continue.</p>
-      <p>Interactions inside each chapter are optional.</p>
-      <p>Return to the map whenever you&apos;re ready to continue.</p>
+      <h2 id="map-guide-title">The whole chart is open.</h2>
+      <p>Select any island to visit that destination.</p>
+      <p>Use Next in the chapter tracker to follow the recommended course.</p>
+      <p>Activities inside each chapter are optional. Return to the map whenever you&apos;re ready.</p>
       <button className="cta-primary" type="button" onClick={markMapGuidanceSeen}>
         Got it
       </button>

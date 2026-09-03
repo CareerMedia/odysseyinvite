@@ -4,14 +4,14 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { mapTextureVars, textures } from '../assets/textures'
 import { destinations, getDestination, VOYAGE_PATH } from '../data/destinations'
 import { useExperience } from '../hooks/ExperienceContext'
-import { DestinationKind, DestStatus } from '../types'
-import { nextAvailableId, storyCompletion } from '../utils/voyageState'
+import { DestinationKind, DestStatus, Scene } from '../types'
+import { chartedDestinationIds, nextAvailableId, nextMajorId, storyCompletion } from '../utils/voyageState'
 import { DestinationArt } from './DestinationArt'
 import { AmbientParticles } from './AmbientParticles'
 
 gsap.registerPlugin(MotionPathPlugin)
 
-export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
+export function VoyageMap() {
   const {
     progress,
     arriveAt,
@@ -27,6 +27,7 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
     forbiddenReveal,
     endForbiddenReveal,
     lockedHint,
+    setScene,
   } = useExperience()
   const root = useRef<HTMLDivElement>(null)
   const camera = useRef<HTMLDivElement>(null)
@@ -40,44 +41,65 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
     () => destinations.find((item) => item.id === progress.currentDestinationId) ?? destinations[0],
     [progress.currentDestinationId],
   )
+  const nextOpenId = nextMajorId(progress) ?? nextAvailableId(progress)
   const completion = storyCompletion(progress)
 
+  useEffect(() => {
+    return () => {
+      sailing.current = false
+    }
+  }, [])
+
   useLayoutEffect(() => {
-    if (!mapShip.current || !pathRef.current) return
-    gsap.set(mapShip.current, {
-      motionPath: {
-        path: pathRef.current,
-        align: pathRef.current,
-        alignOrigin: [0.5, 0.55],
-        autoRotate: 90,
-        start: current.routePosition,
-        end: current.routePosition,
-      },
-    })
-    setMapReady(true)
-  }, [current.routePosition])
+    let cancelled = false
+    const placeShip = () => {
+      const path = pathRef.current
+      const ship = mapShip.current
+      if (cancelled || !path || !ship) return
+      if (path.getBBox().width < 1) {
+        requestAnimationFrame(placeShip)
+        return
+      }
+      gsap.set(ship, {
+        motionPath: {
+          path,
+          align: path,
+          alignOrigin: [0.5, 0.5],
+          autoRotate: true,
+          start: current.routePosition,
+          end: current.routePosition,
+        },
+      })
+      if (!mapReady && camera.current) {
+        gsap.set(camera.current, { x: 0, y: 0, scale: 1 })
+      }
+      setMapReady(true)
+    }
+    placeShip()
+    return () => {
+      cancelled = true
+    }
+  }, [current.position.x, current.position.y, current.routePosition, isMobile, mapReady])
 
   useEffect(() => {
-    if (!fromOcean) return
-    window.setTimeout(() => sound.play('paper'), reducedMotion ? 80 : 4800)
-  }, [fromOcean, reducedMotion, sound])
+    if (!mapReady || progress.visitedIds.length > 0) return
+    window.setTimeout(() => sound.play('paper'), reducedMotion ? 80 : 400)
+  }, [mapReady, progress.visitedIds.length, reducedMotion, sound])
 
   useEffect(() => {
-    if (!camera.current || !mapFocus) return
-    if (mapFocus.mode === 'full') {
-      gsap.to(camera.current, { x: 0, y: 0, scale: 1, duration: 1.1, ease: 'power2.out' })
+    if (!camera.current) return
+    if (!mapFocus || mapFocus.mode === 'full') {
+      gsap.to(camera.current, { x: 0, y: 0, scale: 1, duration: mapFocus ? 0.9 : 0, ease: 'power2.out' })
       return
     }
-    const dest = destinations.find((item) => item.id === (mapFocus.id ?? progress.currentDestinationId))
-    if (!dest || isMobile) return
     gsap.to(camera.current, {
-      x: (0.5 - dest.position.x / 1700) * 48,
-      y: (0.5 - dest.position.y / 980) * 32,
-      scale: mapFocus.mode === 'destination' ? 1.08 : 1,
-      duration: 1.2,
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: 0.9,
       ease: 'power2.out',
     })
-  }, [isMobile, mapFocus, progress.currentDestinationId])
+  }, [mapFocus, progress.currentDestinationId])
 
   const sailTo = (id: string) => {
     if (!requestDestination(id)) return
@@ -106,8 +128,8 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
       motionPath: {
         path,
         align: path,
-        alignOrigin: [0.5, 0.7],
-        autoRotate: 90,
+        alignOrigin: [0.5, 0.5],
+        autoRotate: true,
         start,
         end,
       },
@@ -121,10 +143,11 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
       },
     })
 
-    if (camera.current && !isMobile) {
+    if (camera.current) {
       gsap.to(camera.current, {
-        x: (0.5 - target.position.x / 1700) * 40,
-        y: (0.5 - target.position.y / 980) * 28,
+        x: 0,
+        y: 0,
+        scale: 1,
         duration,
         ease: 'power1.inOut',
       })
@@ -138,7 +161,7 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
       ref={root}
     >
       <div className="map-camera" ref={camera}>
-        <svg className="map-art" viewBox="0 0 1700 980" role="img" aria-label="Illustrated voyage map of the Career Center Odyssey">
+        <svg className="map-art" viewBox="0 0 1700 980" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustrated voyage map of the Career Center Odyssey">
           <defs>
             <linearGradient id="seaPaint" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stopColor="#2a6a78" />
@@ -163,15 +186,10 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
             </pattern>
             <mask id="fogMask">
               <rect width="1700" height="980" fill="white" />
-              {(progress.voyageComplete
-                ? destinations
-                    .filter((item) => item.kind !== DestinationKind.Hidden || progress.revealedIds.includes(item.id))
-                    .map((item) => item.id)
-                : progress.revealedIds
-              ).map((id) => {
+              {chartedDestinationIds(progress).map((id) => {
                 const dest = destinations.find((item) => item.id === id)
                 if (!dest) return null
-                const r = progress.voyageComplete ? 240 : id === 'prologue' ? 200 : 140
+                const r = dest.kind === DestinationKind.Minor ? 170 : 230
                 return (
                   <path
                     key={id}
@@ -200,7 +218,6 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
           <circle cx="710" cy="690" r="2" fill="#c9a84c" opacity="0.4" />
           <circle cx="1180" cy="510" r="2" fill="#c9a84c" opacity="0.45" />
 
-          <MapCartouche />
           <CompassRose unstable={world.weather === 'oracleAnomaly' || forbiddenReveal || world.weather === 'storm'} />
           <SeaBeast />
           <MapStories />
@@ -218,14 +235,16 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
           {destinations.map((dest) => {
             const status = statusOf(dest.id)
             if (dest.kind === DestinationKind.Hidden && status === DestStatus.Locked) return null
-            const revealed = status !== DestStatus.Locked
+            const revealed = dest.kind !== DestinationKind.Hidden || status !== DestStatus.Locked
             const isCurrent = status === DestStatus.Current
             const isOpen = dest.id === hovered
+            const isNext = dest.id === nextOpenId
+            const isMajor = dest.kind === DestinationKind.Major || dest.kind === DestinationKind.Finale
             return (
               <g
                 key={dest.id}
-                className={`destination is-${status} ${revealed ? 'is-revealed' : ''} ${isCurrent ? 'is-current' : ''} ${isOpen ? 'is-open' : ''} ${status === DestStatus.Completed ? `is-memory-${dest.visualType}` : ''}`}
-                tabIndex={status === DestStatus.Locked ? -1 : 0}
+                className={`destination is-${status} ${revealed ? 'is-revealed' : ''} ${isCurrent ? 'is-current' : ''} ${isNext ? 'is-next' : ''} ${isOpen ? 'is-open' : ''} ${isMajor ? 'is-major' : 'is-minor'} ${status === DestStatus.Completed ? `is-memory-${dest.visualType}` : ''}`}
+                tabIndex={0}
                 role="button"
                 aria-label={`${dest.mythicTitle}. ${status}. ${dest.actualTitle}. ${dest.timeRange}`}
                 onMouseEnter={() => {
@@ -250,25 +269,34 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
                   r={dest.kind === DestinationKind.Minor ? 4 : 6}
                   fill={status === DestStatus.Completed ? '#2a8a8a' : isCurrent ? '#d22030' : revealed ? '#c9a84c' : '#7a6840'}
                 />
-                {isCurrent ? (
+                {isCurrent || isNext ? (
                   <circle className="marker-ring" cx={dest.position.x} cy={dest.position.y + 26} r="10" fill="none" stroke="#c9a84c" strokeWidth="1.2" />
                 ) : null}
-                <circle className="destination-hit" cx={dest.position.x} cy={dest.position.y} r={isMobile ? 36 : 28} />
+                <circle className="destination-hit" cx={dest.position.x} cy={dest.position.y} r={isMobile ? 44 : 38} />
                 <g className="destination-label" transform={`translate(${dest.position.x}, ${dest.position.y - 42})`}>
-                  <rect x="-78" y="-16" width="156" height={dest.chapter ? 38 : 26} rx="3" fill="rgba(16, 22, 32, 0.72)" />
-                  {dest.chapter ? (
-                    <text textAnchor="middle" fill="#e8d48b" fontFamily="Cinzel, serif" fontSize="10" letterSpacing="1.4">
-                      {dest.chapter}
-                    </text>
-                  ) : null}
-                  <text y={dest.chapter ? 16 : 4} textAnchor="middle" fill="#e8d5b0" fontFamily="Cinzel, serif" fontSize={dest.kind === DestinationKind.Minor ? 11 : 13}>
-                    {dest.mythicTitle}
-                  </text>
                   {lockedHint === dest.id ? (
-                    <text y={dest.chapter ? 32 : 20} textAnchor="middle" fill="#d22030" fontFamily="Manrope, sans-serif" fontSize="9">
-                      Locked · Chart the previous destination
-                    </text>
-                  ) : null}
+                    <>
+                      <rect x="-72" y="-10" width="144" height="36" rx="3" fill="rgba(16, 22, 32, 0.78)" />
+                      <text y="2" textAnchor="middle" fill="#e8d48b" fontFamily="Cinzel, serif" fontSize="10" letterSpacing="1.6">
+                        LOCKED
+                      </text>
+                      <text y="16" textAnchor="middle" fill="#e8d5b0" fontFamily="Manrope, sans-serif" fontSize="8">
+                        Visit the previous destination first
+                      </text>
+                    </>
+                  ) : (
+                    <>
+                      <rect x="-78" y="-16" width="156" height={dest.chapter ? 38 : 26} rx="3" fill="rgba(16, 22, 32, 0.72)" />
+                      {dest.chapter ? (
+                        <text textAnchor="middle" fill="#e8d48b" fontFamily="Cinzel, serif" fontSize="10" letterSpacing="1.4">
+                          {dest.chapter}
+                        </text>
+                      ) : null}
+                      <text y={dest.chapter ? 16 : 4} textAnchor="middle" fill="#e8d5b0" fontFamily="Cinzel, serif" fontSize={dest.kind === DestinationKind.Minor ? 11 : 13}>
+                        {dest.mythicTitle}
+                      </text>
+                    </>
+                  )}
                 </g>
               </g>
             )
@@ -276,15 +304,11 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
 
           <g ref={mapShip} className="map-ship">
             <g className="map-ship-body">
-              <ellipse cx="0" cy="11" rx="16" ry="4" fill="rgba(60,40,10,0.28)" />
+              <ellipse className="map-ship-wake" cx="-2" cy="11" rx="16" ry="4" fill="rgba(60,40,10,0.28)" />
               <path d="M-16 4 C -4 -2 8 -2 18 4 C 10 10 -6 10 -16 4 Z" fill="#6a4022" />
               <path d="M-16 4 C -4 -2 8 -2 18 4 C 10 10 -6 10 -16 4 Z" fill="url(#mapWood)" opacity="0.45" style={{ mixBlendMode: 'multiply' }} />
               <path d="M2 -16 L 2 4" stroke="#3a2416" strokeWidth="1.6" />
               <path d="M2 -14 L 14 -8 L 2 -4 Z" fill="#efe4c8" />
-              <g transform="translate(12 -18)">
-                <path d="M0 0 L 0 10" stroke="#3a2416" strokeWidth="1" />
-                <path d="M0 1 L 9 5 L 0 8 Z" fill="#d22030" />
-              </g>
             </g>
           </g>
 
@@ -307,26 +331,13 @@ export function VoyageMap({ fromOcean }: { fromOcean: boolean }) {
             <span>
               {completion.done} / {completion.total} destinations · {progress.xp} Odyssey XP · {progress.unlockedAchievementIds.length} achievements
             </span>
+            <button className="cta-primary" type="button" onClick={() => setScene(Scene.Complete)}>
+              Odyssey Complete
+            </button>
           </div>
         ) : null}
       </div>
     </div>
-  )
-}
-
-function MapCartouche() {
-  return (
-    <g transform="translate(90 70)" opacity="0.82">
-      <rect x="0" y="0" width="280" height="78" fill="url(#mapParchment)" stroke="#5a3d16" strokeWidth="1.2" />
-      <rect x="0" y="0" width="280" height="78" fill="#e8d5b0" opacity="0.55" style={{ mixBlendMode: 'color' }} />
-      <rect x="6" y="6" width="268" height="66" fill="none" stroke="#c9a84c" strokeWidth="0.8" />
-      <text x="140" y="32" textAnchor="middle" fill="#8b1e24" fontFamily="Cinzel, serif" fontSize="11" letterSpacing="2">
-        EXPEDITION CHART
-      </text>
-      <text x="140" y="56" textAnchor="middle" fill="#2a2114" fontFamily="Cinzel, serif" fontSize="16">
-        The Career Center Odyssey
-      </text>
-    </g>
   )
 }
 

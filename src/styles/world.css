@@ -1,3 +1,14 @@
+.opening-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.opening-stage:empty {
+  display: none;
+}
+
 .world {
   --sky-top: #03080f;
   --sky-mid: #0a1628;

@@ -406,7 +406,6 @@
 .ship-bob { transform-origin: 50% 70%; }
 .ship-pitch { transform-origin: 50% 72%; }
 .sail-sway { transform-origin: 220px 70px; }
-.flag-wave { transform-origin: 318px 38px; }
 .lantern-flicker { transform-origin: center; }
 .ship-shadow { opacity: 0.35; }
 

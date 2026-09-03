@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { chapterGuidance } from '../../data/chapterCopy'
 import { getDestination } from '../../data/destinations'
 import { useExperience } from '../../hooks/ExperienceContext'
@@ -7,6 +7,13 @@ import { textureVarsFor } from '../../assets/textures'
 import { ChapterAtmosphere } from '../world/ChapterAtmosphere'
 import { ChapterTextures } from '../world/ChapterTextures'
 import { ChapterWorld } from './ChapterWorld'
+import { Eye, Heart, Link2, MessageCircle, Shield, Users, Zap } from 'lucide-react'
+import { GatheringHarbor } from './GatheringHarbor'
+import { IsleOfReadiness } from './IsleOfReadiness'
+import { KingdomOfCulture } from './KingdomOfCulture'
+import '../../styles/gathering.css'
+import '../../styles/readiness.css'
+import '../../styles/culture.css'
 
 export function ChapterScene() {
   const {
@@ -27,10 +34,19 @@ export function ChapterScene() {
   const dest = activeChapterId ? getDestination(activeChapterId) : undefined
   const already = Boolean(dest && progress.completedIds.includes(dest.id))
   const [done, setDone] = useState(already)
+  const [leaving, setLeaving] = useState(false)
+  const leaveTimer = useRef<number | null>(null)
   const firstInteractive = progress.visitedIds.filter((id) => id !== dest?.id).length <= 1
+  const isGathering = dest?.id === 'prologue'
+  const isReadiness = dest?.id === 'readiness'
+  const isCulture = dest?.id === 'culture'
+  const [signals, setSignals] = useState<string[]>([])
+  const usesPlate = isGathering || isReadiness || isCulture
 
   useEffect(() => {
     setDone(Boolean(dest && progress.completedIds.includes(dest.id)))
+    setLeaving(false)
+    setSignals([])
   }, [activeChapterId, dest, progress.completedIds])
 
   useEffect(() => {
@@ -38,7 +54,10 @@ export function ChapterScene() {
       if (event.key === 'Escape') closeChapter()
     }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      if (leaveTimer.current) window.clearTimeout(leaveTimer.current)
+    }
   }, [closeChapter])
 
   if (!dest) return null
@@ -46,29 +65,65 @@ export function ChapterScene() {
   const finishInteraction = () => {
     setDone(true)
     if (dest.id === 'forbidden') unlockAchievement('forbidden-island')
+    if (isCulture) sound.intensify('music', 1.12, 1.6)
     completeChapter(dest.id)
   }
 
   const guide = chapterGuidance(dest, firstInteractive)
 
+  const returnToMap = () => {
+    sound.play('click')
+    if (usesPlate && !reducedMotion) {
+      setLeaving(true)
+      if (leaveTimer.current) window.clearTimeout(leaveTimer.current)
+      leaveTimer.current = window.setTimeout(() => closeChapter(), 620)
+      return
+    }
+    closeChapter()
+  }
+
   return (
     <div
-      className={`chapter chapter-${dest.visualType} transition-${dest.transition} ${reducedMotion ? 'is-still' : ''} ${dest.id === 'ithaca' ? 'is-quiet' : ''}`}
+      className={`chapter chapter-${dest.visualType} transition-${dest.transition} ${reducedMotion ? 'is-still' : ''} ${dest.id === 'ithaca' ? 'is-quiet' : ''} ${leaving ? 'is-leaving' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="chapter-heading"
     >
-      <div className="chapter-world" style={textureVarsFor(dest.visualType)} aria-hidden="true">
-        <ChapterAtmosphere
-          world={world}
-          quality={quality}
-          visualType={dest.visualType}
-          reduced={reducedMotion}
-          hidden={pageHidden}
-          chapterComplete={done || already}
-        />
-        <ChapterWorld type={dest.visualType} />
-        <ChapterTextures type={dest.visualType} />
+      <div className="chapter-world" style={usesPlate ? undefined : textureVarsFor(dest.visualType)} aria-hidden="true">
+        {isGathering ? (
+          <GatheringHarbor reduced={reducedMotion} hidden={pageHidden} quality={quality} leaving={leaving} />
+        ) : isReadiness ? (
+          <IsleOfReadiness
+            reduced={reducedMotion}
+            hidden={pageHidden}
+            quality={quality}
+            leaving={leaving}
+            signals={signals}
+            complete={done || already}
+          />
+        ) : isCulture ? (
+          <KingdomOfCulture
+            reduced={reducedMotion}
+            hidden={pageHidden}
+            quality={quality}
+            leaving={leaving}
+            voices={signals}
+            complete={done || already}
+          />
+        ) : (
+          <>
+            <ChapterAtmosphere
+              world={world}
+              quality={quality}
+              visualType={dest.visualType}
+              reduced={reducedMotion}
+              hidden={pageHidden}
+              chapterComplete={done || already}
+            />
+            <ChapterWorld type={dest.visualType} />
+            <ChapterTextures type={dest.visualType} />
+          </>
+        )}
       </div>
 
       <aside className="chapter-panel">
@@ -91,7 +146,7 @@ export function ChapterScene() {
             <p>{dest.completeLine}</p>
           </div>
         ) : (
-          <ChapterInteraction destId={dest.id} done={done} onComplete={finishInteraction} />
+          <ChapterInteraction destId={dest.id} done={done} onComplete={finishInteraction} onSignals={isReadiness || isCulture ? setSignals : undefined} />
         )}
 
         {done && !already ? (
@@ -108,6 +163,7 @@ export function ChapterScene() {
               type="button"
               onClick={() => {
                 setDone(false)
+                setSignals([])
                 sound.play('click')
               }}
             >
@@ -138,16 +194,18 @@ export function ChapterScene() {
             </button>
           ) : null}
           <button
+            className="cta-secondary"
+            type="button"
+            onClick={returnToMap}
+          >
+            Continue voyage
+          </button>
+          <button
             className="cta-primary"
             type="button"
-            onClick={() => {
-              sound.play('click')
-              closeChapter()
-            }}
+            onClick={returnToMap}
           >
-            {dest.interaction === 'rest' || dest.interaction === 'signal' || dest.interaction === 'feast'
-              ? 'Continue the Voyage'
-              : 'Return to the map'}
+            Return to the map
           </button>
         </div>
       </aside>
@@ -159,10 +217,12 @@ function ChapterInteraction({
   destId,
   done,
   onComplete,
+  onSignals,
 }: {
   destId: string
   done: boolean
   onComplete: () => void
+  onSignals?: (ids: string[]) => void
 }) {
   const dest = getDestination(destId)
   const { progress, setStrengthsPath, sound } = useExperience()
@@ -172,7 +232,8 @@ function ChapterInteraction({
   useEffect(() => {
     setPicked(dest?.interaction === 'strengths' && progress.strengthsPath ? [progress.strengthsPath] : [])
     setSignalPhase(0)
-  }, [dest?.interaction, destId, progress.strengthsPath])
+    onSignals?.([])
+  }, [dest?.interaction, destId, dest, done, onSignals, progress.strengthsPath])
 
   useEffect(() => {
     if (dest?.interaction !== 'signal') return
@@ -200,6 +261,37 @@ function ChapterInteraction({
               ? 'Something is interfering with the map.'
               : 'Unknown signal detected.'}
         </p>
+      </div>
+    )
+  }
+
+  if (dest.interaction === 'beacon') {
+    const icons = { watch: Eye, respond: Zap, protect: Shield }
+    return (
+      <div className="collect collect-beacon">
+        {dest.items.map((item) => {
+          const Icon = icons[item.id as keyof typeof icons] ?? Eye
+          const on = picked.includes(item.id)
+          return (
+            <button
+              key={item.id}
+              className={`beacon-btn ${on ? 'is-on' : 'is-pulse'}`}
+              type="button"
+              aria-label={`${item.label}. Optional signal.`}
+              onClick={() => {
+                if (on) return
+                const next = [...picked, item.id]
+                setPicked(next)
+                onSignals?.(next)
+                sound.play('click')
+                if (next.length >= dest.items.length) onComplete()
+              }}
+            >
+              <Icon size={18} strokeWidth={1.6} />
+              {item.label}
+            </button>
+          )
+        })}
       </div>
     )
   }
@@ -249,18 +341,49 @@ function ChapterInteraction({
     )
   }
 
-  const needed = dest.interaction === 'voices' ? 3 : dest.items.length
+  if (dest.interaction === 'voices') {
+    const icons = { belonging: Heart, communication: MessageCircle, connection: Link2, collaboration: Users }
+    return (
+      <div className="collect collect-voices">
+        {dest.items.map((item) => {
+          const Icon = icons[item.id as keyof typeof icons] ?? Heart
+          const on = picked.includes(item.id)
+          return (
+            <button
+              key={item.id}
+              className={`voice-btn ${on ? 'is-on' : 'is-pulse'}`}
+              type="button"
+              aria-label={`${item.label}. Optional city voice.`}
+              onClick={() => {
+                if (on) return
+                const next = [...picked, item.id]
+                setPicked(next)
+                onSignals?.(next)
+                sound.play('click')
+                if (next.length >= dest.items.length) onComplete()
+              }}
+            >
+              <Icon size={18} strokeWidth={1.6} />
+              {item.label}
+            </button>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const needed = dest.items.length
 
   return (
     <div className={`collect collect-${dest.interaction} is-count-${picked.length}`}>
-      {dest.items.map((item, index) => (
-        <button
-          key={item.id}
-          className={`collect-item ${picked.includes(item.id) ? 'is-on' : ''} ${picked.length === 0 ? 'is-pulse' : ''}`}
-          type="button"
-          aria-label={item.label}
-          disabled={dest.interaction === 'trials' && picked.length !== index}
-          onClick={() => {
+        {dest.items.map((item, index) => (
+          <button
+            key={item.id}
+            className={`collect-item ${picked.includes(item.id) ? 'is-on' : ''} ${picked.includes(item.id) ? '' : 'is-pulse'}`}
+            type="button"
+            aria-label={`${item.label}. Optional.`}
+            disabled={dest.interaction === 'trials' && picked.length !== index}
+            onClick={() => {
             if (picked.includes(item.id)) return
             const next = [...picked, item.id]
             setPicked(next)

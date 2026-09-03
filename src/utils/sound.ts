@@ -48,6 +48,7 @@ export class SoundEngine {
   private manifestLoaded = false
   private eventTimer: number | null = null
   private currentMood: AudioMood | null = null
+  private cultureAttached = false
   private volumes = {
     master: 0.62,
     music: 0.7,
@@ -144,6 +145,7 @@ export class SoundEngine {
       fadeGain(this.categories.music, this.volumes.music * spec.music, spec.duration, this.ctx)
       fadeGain(this.categories.ambience, this.volumes.ambience * spec.ambience, spec.duration, this.ctx)
     }
+    if (mood === 'cultureCity') this.attachCultureColor()
   }
 
   playPanned(cue: CueName, pan: number) {
@@ -196,6 +198,7 @@ export class SoundEngine {
       window.clearTimeout(this.eventTimer)
       this.eventTimer = null
     }
+    this.cultureAttached = false
     if (resetMode) this.mode = 'silent'
   }
 
@@ -361,6 +364,11 @@ export class SoundEngine {
     makeLoop(0.72, 'bandpass', ocean ? 360 : 260, 0.65, ocean ? 0.2 : 0.1)
     makeLoop(1.08, 'bandpass', ocean ? 620 : 400, 0.5, ocean ? 0.12 : 0.07)
     makeLoop(0.9, 'highpass', ocean ? 1200 : 880, 0.4, 0.05)
+    if (this.currentMood === 'cultureCity') {
+      makeLoop(0.52, 'bandpass', 1380, 0.85, 0.032)
+      makeLoop(0.78, 'bandpass', 880, 0.6, 0.024)
+      this.cultureAttached = true
+    }
 
     const drone = ctx.createOscillator()
     drone.type = 'sine'
@@ -475,10 +483,56 @@ export class SoundEngine {
   private scheduleEnvironment() {
     const loop = () => {
       if (!this.enabled || this.mode === 'silent') return
-      if (Math.random() > 0.45) this.noiseBurst(0.26, 240 + Math.random() * 80, 0.02)
+      if (this.currentMood === 'cultureCity') this.playCultureAmbience()
+      else if (Math.random() > 0.45) this.noiseBurst(0.26, 240 + Math.random() * 80, 0.02)
       this.eventTimer = window.setTimeout(loop, 8000 + Math.random() * 12000)
     }
     this.eventTimer = window.setTimeout(loop, 5000 + Math.random() * 4000)
+  }
+
+  private attachCultureColor() {
+    if (this.cultureAttached || !this.ctx || !this.categories || this.mode === 'silent') return
+    const ctx = this.ctx
+    const noise = createNoiseBuffer(ctx, 8)
+    const add = (rate: number, freq: number, q: number, volume: number) => {
+      const source = ctx.createBufferSource()
+      source.buffer = noise
+      source.loop = true
+      source.playbackRate.value = rate
+      const filter = ctx.createBiquadFilter()
+      filter.type = 'bandpass'
+      filter.frequency.value = freq
+      filter.Q.value = q
+      const gain = ctx.createGain()
+      gain.gain.value = 0.0001
+      source.connect(filter)
+      filter.connect(gain)
+      gain.connect(this.categories!.ambience)
+      source.start()
+      fadeGain(gain, volume * this.proximity, 2.2, ctx)
+      this.ambience.push(source, filter, gain)
+    }
+    add(0.52, 1380, 0.85, 0.032)
+    add(0.78, 880, 0.6, 0.024)
+    this.cultureAttached = true
+  }
+
+  private playCultureAmbience() {
+    if (!this.ctx || !this.categories) return
+    const roll = Math.random()
+    const now = this.ctx.currentTime
+    if (roll < 0.32) {
+      const pan = -0.55 + Math.random() * 0.35
+      this.tone(1180, now, 0.09, 0.012, 'sine', SoundCategory.Environment)
+      this.tone(980, now + 0.08, 0.12, 0.01, 'triangle', SoundCategory.Environment)
+      this.playPanned('hover', pan)
+    } else if (roll < 0.58) {
+      this.noiseBurst(0.2, 360 + Math.random() * 80, 0.014)
+    } else if (roll < 0.8) {
+      this.tone(392, now, 1.5, 0.011, 'sine', SoundCategory.Effects)
+    } else {
+      this.noiseBurst(0.28, 1500, 0.01)
+    }
   }
 }
 
