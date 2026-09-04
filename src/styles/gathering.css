@@ -16,10 +16,11 @@
 
 .gathering-camera {
   position: absolute;
-  inset: -2%;
-  transform: scale(1.02);
+  inset: -8%;
+  transform: scale(1.06);
   transform-origin: 42% 52%;
-  animation: gathering-push 14s ease-out forwards;
+  animation: gathering-push 16s ease-out forwards;
+  background: #123040;
 }
 
 .gathering-plate {
@@ -255,8 +256,8 @@
 .chapter-harbor.is-still .chapter-panel { opacity: 1; transform: none; }
 
 @keyframes gathering-push {
-  from { transform: scale(1.02) translateX(0); }
-  to { transform: scale(1.05) translateX(-8px); }
+  from { transform: scale(1.06); }
+  to { transform: scale(1.1); }
 }
 
 @keyframes gathering-wake {

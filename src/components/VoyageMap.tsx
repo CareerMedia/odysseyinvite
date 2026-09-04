@@ -13,6 +13,9 @@ import harbor2Island from '../assets/map/islands/safe-harbor-2.webp'
 import oracleIsland from '../assets/map/islands/oracle-of-ai.webp'
 import opportunityIsland from '../assets/map/islands/sea-of-opportunity.webp'
 import ithacaIsland from '../assets/map/islands/ithaca.webp'
+import gatheringPlate from '../assets/environments/gathering/gathering-harbor.jpg'
+import readinessPlate from '../assets/environments/readiness/isle-of-readiness.jpg'
+import culturePlate from '../assets/environments/culture/kingdom-of-culture.jpg'
 import { textures } from '../assets/textures'
 import { destinations } from '../data/destinations'
 import { MAP_WORLD, MAP_ZOOM, ROUTE_T, voyageOverviewPoints } from '../data/mapWorld'
@@ -132,6 +135,13 @@ export function VoyageMap() {
   }, [mapReady, progress.visitedIds.length, reducedMotion, sound])
 
   useEffect(() => {
+    ;[gatheringPlate, readinessPlate, culturePlate].forEach((src) => {
+      const image = new Image()
+      image.src = src
+    })
+  }, [])
+
+  useEffect(() => {
     if (!mapReady || !mapFocus) return
     if (mapFocus.mode === 'full') {
       camera.showOverview(voyageOverviewPoints(current.id, nextOpenId))
@@ -221,6 +231,7 @@ export function VoyageMap() {
       className={`map-world ${mapReady ? 'is-ready' : ''} time-${world.timeOfDay} ${progress.voyageComplete ? 'is-complete' : ''} ${world.timeOfDay === 'twilight' ? 'is-twilight' : ''} ${progress.revealedIds.includes('forbidden') && !progress.completedIds.includes('forbidden') ? 'is-rising' : ''} ${forbiddenReveal ? 'is-revealing' : ''}`}
       ref={camera.viewportRef}
       onClick={onOceanClick}
+      onDragStart={(event) => event.preventDefault()}
     >
       <div className="map-camera" ref={camera.worldRef} style={{ width: MAP_WORLD.width, height: MAP_WORLD.height }}>
         <MapOcean complete={progress.voyageComplete} />

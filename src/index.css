@@ -49,6 +49,13 @@ body {
   min-height: 100dvh;
 }
 
+img,
+svg,
+canvas {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 button,
 a {
   font-family: inherit;

@@ -7,6 +7,9 @@
   cursor: grab;
   touch-action: none;
   background: #0b2a36;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .map-world.is-ready {
@@ -2205,8 +2208,8 @@
 }
 
 @keyframes pulse-ring {
-  0% { opacity: 0.85; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.7); }
+  0% { opacity: 0.45; }
+  100% { opacity: 0; }
 }
 
 @keyframes readiness-beacon {
@@ -2520,4 +2523,60 @@
   .ith-harbor {
     animation: none;
   }
+}
+
+/* Keep filters off island buttons. Parent filters isolate mix-blend overlays
+   and re-rasterize the PNG + route every frame, which looks like flicker. */
+.map-island,
+.map-island.is-available,
+.map-island.is-current,
+.map-island.is-highlight,
+.map-island.is-visited,
+.map-island.is-completed,
+.map-island.is-locked,
+.map-island:hover,
+.map-island:focus-visible {
+  filter: none !important;
+}
+
+.map-island-art {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.map-island.is-locked .map-island-art {
+  filter: saturate(0.78);
+  opacity: 0.9;
+}
+
+.map-island.is-available .map-island-art,
+.map-island.is-current .map-island-art,
+.map-island.is-highlight .map-island-art {
+  filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.26));
+}
+
+.map-island:hover .map-island-art,
+.map-island:focus-visible .map-island-art {
+  filter: drop-shadow(0 0 12px rgba(201, 168, 76, 0.34));
+}
+
+.map-island.is-oracle.is-available .map-island-art,
+.map-island.is-oracle.is-current .map-island-art,
+.map-island.is-oracle.is-highlight .map-island-art,
+.map-island.is-oracle:hover .map-island-art,
+.map-island.is-oracle:focus-visible .map-island-art {
+  filter: drop-shadow(0 0 10px rgba(90, 220, 230, 0.28));
+}
+
+.map-route-live,
+.map-route-future {
+  filter: none;
+}
+
+.map-art,
+.map-ship-layer,
+.map-island-layer {
+  user-select: none;
+  -webkit-user-select: none;
 }

@@ -404,8 +404,11 @@ function ChapterInteraction({
   useEffect(() => {
     setPicked(dest?.interaction === 'strengths' && progress.strengthsPath ? [progress.strengthsPath] : picks ?? [])
     setSignalPhase(0)
-    if (dest?.interaction !== 'crates' && dest?.interaction !== 'trials' && dest?.interaction !== 'oracle' && dest?.interaction !== 'briefing' && dest?.interaction !== 'reflection') onSignals?.([])
-  }, [dest?.interaction, destId, dest, done, onSignals, picks, progress.strengthsPath])
+  }, [destId, dest?.interaction, progress.strengthsPath])
+
+  useEffect(() => {
+    if (picks) setPicked(picks)
+  }, [picks])
 
   useEffect(() => {
     if (dest?.interaction !== 'signal' || picks) return
