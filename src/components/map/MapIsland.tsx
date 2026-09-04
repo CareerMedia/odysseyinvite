@@ -26,6 +26,7 @@ export function MapIsland({
   highlighted,
   lockedText,
   showLabel,
+  anomaly,
   onSelect,
 }: {
   dest: Destination
@@ -34,6 +35,7 @@ export function MapIsland({
   highlighted: boolean
   lockedText?: string
   showLabel: boolean
+  anomaly?: boolean
   onSelect: (id: string) => void
 }) {
   const meta = ISLAND_META[dest.id]
@@ -43,7 +45,7 @@ export function MapIsland({
   return (
     <button
       type="button"
-      className={`map-island is-${status} ${highlighted ? 'is-highlight' : ''} ${image ? 'has-art' : 'is-placeholder'} ${showLabel ? 'is-labeled' : ''}`}
+      className={`map-island is-${status} ${highlighted ? 'is-highlight' : ''} ${image ? 'has-art' : 'is-placeholder'} ${showLabel ? 'is-labeled' : ''} ${dest.id === 'readiness' ? 'is-readiness' : ''} ${dest.id === 'culture' ? 'is-culture' : ''} ${dest.id === 'harbor-1' ? 'is-harbor-1' : ''} ${dest.id === 'strengths' ? 'is-strengths' : ''} ${dest.id === 'quartermaster' ? 'is-quartermaster' : ''} ${dest.id === 'feast' ? 'is-feast' : ''} ${dest.id === 'trials' ? 'is-trials' : ''} ${dest.id === 'harbor-2' ? 'is-harbor-2' : ''} ${dest.id === 'oracle' ? 'is-oracle' : ''} ${dest.id === 'opportunity' ? 'is-opportunity' : ''} ${dest.id === 'ithaca' ? 'is-ithaca' : ''} ${anomaly ? 'is-anomaly' : ''}`}
       style={{
         left: meta.x,
         top: meta.y,
@@ -62,14 +64,137 @@ export function MapIsland({
           <path d={shape} className="island-placeholder-coast" />
         </svg>
       )}
-      {status === 'completed' ? <span className="map-island-star" aria-hidden="true" /> : null}
+      {dest.id === 'readiness' ? <span className="map-island-beacon" aria-hidden="true" /> : null}
+      {dest.id === 'culture' ? (
+        <>
+          <span className="culture-fall" aria-hidden="true" />
+          <span className="culture-window win-a" aria-hidden="true" />
+          <span className="culture-window win-b" aria-hidden="true" />
+          <span className="culture-window win-c" aria-hidden="true" />
+          <span className="culture-harbor" aria-hidden="true" />
+        </>
+      ) : null}
+      {dest.id === 'harbor-1' ? (
+        <>
+          <span className="harbor1-fall" aria-hidden="true" />
+          <span className="harbor1-lantern lamp-a" aria-hidden="true" />
+          <span className="harbor1-lantern lamp-b" aria-hidden="true" />
+          <span className="harbor1-lantern lamp-c" aria-hidden="true" />
+          <span className="harbor1-dock" aria-hidden="true" />
+        </>
+      ) : null}
+      {dest.id === 'strengths' ? (
+        <>
+          <span className="temple-fall" aria-hidden="true" />
+          <span className="temple-mist" aria-hidden="true" />
+          <span className="temple-entrance" aria-hidden="true" />
+          <span className="temple-torch torch-a" aria-hidden="true" />
+          <span className="temple-torch torch-b" aria-hidden="true" />
+          <span className="temple-dock" aria-hidden="true" />
+          {status === 'completed' ? <span className="temple-compass" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {dest.id === 'quartermaster' ? (
+        <>
+          <span className="deck-fall" aria-hidden="true" />
+          <span className="deck-glow" aria-hidden="true" />
+          <span className="deck-lantern lamp-a" aria-hidden="true" />
+          <span className="deck-lantern lamp-b" aria-hidden="true" />
+          <span className="deck-lantern lamp-c" aria-hidden="true" />
+          <span className="deck-crane" aria-hidden="true" />
+          <span className="deck-ripple" aria-hidden="true" />
+          {status === 'completed' ? <span className="deck-crate" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {dest.id === 'feast' ? (
+        <>
+          <span className="feast-fall" aria-hidden="true" />
+          <span className="feast-fire" aria-hidden="true" />
+          <span className="feast-lights" aria-hidden="true" />
+          <span className="feast-lantern lamp-a" aria-hidden="true" />
+          <span className="feast-lantern lamp-b" aria-hidden="true" />
+          <span className="feast-ripple" aria-hidden="true" />
+          {status === 'completed' ? <span className="feast-olive" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {dest.id === 'trials' ? (
+        <>
+          <span className="trials-fall" aria-hidden="true" />
+          <span className="trials-mist" aria-hidden="true" />
+          <span className="trials-peak" aria-hidden="true" />
+          <span className="trials-torch torch-a" aria-hidden="true" />
+          <span className="trials-torch torch-b" aria-hidden="true" />
+          <span className="trials-bridge" aria-hidden="true" />
+          <span className="trials-ripple" aria-hidden="true" />
+          {status === 'completed' ? <span className="trials-emblem" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {dest.id === 'harbor-2' ? (
+        <>
+          <span className="harbor2-fall" aria-hidden="true" />
+          <span className="harbor2-lantern lamp-a" aria-hidden="true" />
+          <span className="harbor2-lantern lamp-b" aria-hidden="true" />
+          <span className="harbor2-lantern lamp-c" aria-hidden="true" />
+          <span className="harbor2-tower" aria-hidden="true" />
+          <span className="harbor2-fire" aria-hidden="true" />
+          <span className="harbor2-dock" aria-hidden="true" />
+          <span className="harbor2-anomaly" aria-hidden="true" />
+        </>
+      ) : null}
+      {dest.id === 'oracle' ? (
+        <>
+          <span className="oracle-orb" aria-hidden="true" />
+          <span className="oracle-beam" aria-hidden="true" />
+          <span className="oracle-ring" aria-hidden="true" />
+          <span className="oracle-fall" aria-hidden="true" />
+          <span className="oracle-rock" aria-hidden="true" />
+          <span className="oracle-lantern lamp-a" aria-hidden="true" />
+          <span className="oracle-lantern lamp-b" aria-hidden="true" />
+          <span className="oracle-lantern lamp-c" aria-hidden="true" />
+          <span className="oracle-ripple" aria-hidden="true" />
+          {status === 'completed' ? (
+            <>
+              <span className="oracle-node node-a" aria-hidden="true" />
+              <span className="oracle-node node-b" aria-hidden="true" />
+              <span className="oracle-node node-c" aria-hidden="true" />
+            </>
+          ) : null}
+        </>
+      ) : null}
+      {dest.id === 'opportunity' ? (
+        <>
+          <span className="opp-citadel" aria-hidden="true" />
+          <span className="opp-lighthouse" aria-hidden="true" />
+          <span className="opp-beam" aria-hidden="true" />
+          <span className="opp-scope" aria-hidden="true" />
+          <span className="opp-fall" aria-hidden="true" />
+          <span className="opp-lantern lamp-a" aria-hidden="true" />
+          <span className="opp-lantern lamp-b" aria-hidden="true" />
+          <span className="opp-lantern lamp-c" aria-hidden="true" />
+          <span className="opp-ripple" aria-hidden="true" />
+          {status === 'completed' ? <span className="opp-compass" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {dest.id === 'ithaca' ? (
+        <>
+          <span className="ith-temple" aria-hidden="true" />
+          <span className="ith-fall" aria-hidden="true" />
+          <span className="ith-lantern lamp-a" aria-hidden="true" />
+          <span className="ith-lantern lamp-b" aria-hidden="true" />
+          <span className="ith-lantern lamp-c" aria-hidden="true" />
+          <span className="ith-ripple" aria-hidden="true" />
+          <span className="ith-harbor" aria-hidden="true" />
+          {status === 'completed' ? <span className="ith-star" aria-hidden="true" /> : null}
+        </>
+      ) : null}
+      {status === 'completed' && dest.id !== 'strengths' && dest.id !== 'quartermaster' && dest.id !== 'feast' && dest.id !== 'trials' && dest.id !== 'oracle' && dest.id !== 'opportunity' && dest.id !== 'ithaca' ? <span className="map-island-star" aria-hidden="true" /> : null}
       <span className="map-island-light" aria-hidden="true" />
       <span className="map-island-label" style={{ transform: `translate(-50%, ${meta.labelOffset.y}px)` }}>
         {lockedText ? (
           <em>{lockedText}</em>
         ) : (
           <>
-            {dest.chapter ? <small>{dest.chapter === 'Prologue' ? 'Prologue' : `Chapter ${dest.chapter}`}</small> : null}
+            {dest.id === 'harbor-1' || dest.id === 'quartermaster' || dest.id === 'feast' || dest.id === 'harbor-2' ? <small>Waystation</small> : dest.id === 'ithaca' ? <small>Final Destination</small> : dest.chapter ? <small>{dest.chapter === 'Prologue' ? 'Prologue' : `Chapter ${dest.chapter}`}</small> : null}
             <strong>{dest.mythicTitle}</strong>
           </>
         )}

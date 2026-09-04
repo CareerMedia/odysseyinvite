@@ -106,6 +106,7 @@
   inset: 0;
   overflow: visible;
   pointer-events: none;
+  z-index: 1;
 }
 
 .map-art .map-egg,
@@ -116,6 +117,7 @@
 .map-island-layer {
   position: absolute;
   inset: 0;
+  z-index: 4;
 }
 
 .map-island {
@@ -127,6 +129,7 @@
   background: transparent;
   cursor: pointer;
   z-index: 3;
+  overflow: visible;
 }
 
 .map-island-art,
@@ -137,6 +140,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  background: transparent;
   pointer-events: none;
 }
 
@@ -228,6 +232,1715 @@
   opacity: 0.72;
 }
 
+.map-island.is-readiness .island-foam {
+  opacity: 0;
+}
+
+.map-island.is-readiness .island-shallows {
+  inset: 24% 20% 12%;
+  opacity: 0.32;
+}
+
+.map-island.is-readiness .island-shadow {
+  height: 16%;
+  bottom: 10%;
+  opacity: 0.55;
+}
+
+.map-island-beacon {
+  position: absolute;
+  left: 48%;
+  top: 10%;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.42), transparent 72%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+  animation: readiness-beacon 6.5s ease-in-out infinite;
+}
+
+.map-island.is-readiness.is-locked {
+  filter: saturate(0.72);
+  opacity: 0.88;
+}
+
+.map-island.is-readiness.is-locked .map-island-beacon {
+  opacity: 0.28;
+}
+
+.map-island.is-readiness.is-visited,
+.map-island.is-readiness.is-completed,
+.map-island.is-readiness.is-available,
+.map-island.is-readiness.is-current {
+  filter: none;
+}
+
+.map-island.is-readiness.is-visited .map-island-beacon,
+.map-island.is-readiness.is-completed .map-island-beacon,
+.map-island.is-readiness.is-available .map-island-beacon,
+.map-island.is-readiness.is-current .map-island-beacon {
+  opacity: 0.95;
+}
+
+.map-island.is-readiness.is-available,
+.map-island.is-readiness.is-current,
+.map-island.is-readiness.is-highlight {
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.32));
+}
+
+.map-island.is-readiness:hover,
+.map-island.is-readiness:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 186, 80, 0.4));
+}
+
+.map-island.is-readiness:hover .map-island-beacon,
+.map-island.is-readiness:focus-visible .map-island-beacon {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.map-island.is-culture .island-foam { opacity: 0; }
+.map-island.is-culture .island-shallows {
+  inset: 22% 16% 8%;
+  opacity: 0.3;
+}
+.map-island.is-culture .island-shadow {
+  height: 18%;
+  bottom: 8%;
+  opacity: 0.5;
+}
+
+.culture-fall,
+.culture-window,
+.culture-harbor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+}
+
+.culture-fall {
+  left: 18%;
+  top: 28%;
+  width: 14%;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(210, 236, 245, 0.18), transparent 80%);
+  opacity: 0.35;
+  animation: culture-fall 4.8s ease-in-out infinite;
+}
+
+.culture-window {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.55), transparent 70%);
+  opacity: 0.35;
+}
+
+.culture-window.win-a { left: 46%; top: 42%; animation: culture-window 5.6s ease-in-out infinite; }
+.culture-window.win-b { left: 58%; top: 36%; animation: culture-window 6.4s ease-in-out 0.6s infinite; }
+.culture-window.win-c { left: 52%; top: 50%; animation: culture-window 7s ease-in-out 1.2s infinite; }
+
+.culture-harbor {
+  left: 38%;
+  bottom: 12%;
+  width: 28%;
+  height: 16%;
+  background: radial-gradient(ellipse, rgba(255, 214, 140, 0.16), transparent 70%);
+  opacity: 0.4;
+}
+
+.map-island.is-culture.is-locked {
+  filter: saturate(0.74);
+  opacity: 0.88;
+}
+
+.map-island.is-culture.is-locked .culture-window,
+.map-island.is-culture.is-locked .culture-fall,
+.map-island.is-culture.is-locked .culture-harbor {
+  opacity: 0.12;
+}
+
+.map-island.is-culture.is-visited,
+.map-island.is-culture.is-completed,
+.map-island.is-culture.is-available,
+.map-island.is-culture.is-current {
+  filter: none;
+}
+
+.map-island.is-culture.is-visited .culture-window,
+.map-island.is-culture.is-completed .culture-window,
+.map-island.is-culture.is-available .culture-window,
+.map-island.is-culture.is-current .culture-window {
+  opacity: 0.7;
+}
+
+.map-island.is-culture.is-available,
+.map-island.is-culture.is-current,
+.map-island.is-culture.is-highlight {
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.3));
+}
+
+.map-island.is-culture:hover,
+.map-island.is-culture:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 186, 80, 0.38));
+}
+
+.map-island.is-culture:hover .culture-window,
+.map-island.is-culture:focus-visible .culture-window {
+  opacity: 0.9;
+}
+
+.map-island.is-harbor-1 .island-foam { opacity: 0; }
+.map-island.is-harbor-1 .island-shallows {
+  inset: 26% 18% 10%;
+  opacity: 0.22;
+}
+.map-island.is-harbor-1 .island-shadow {
+  height: 14%;
+  bottom: 8%;
+  opacity: 0.42;
+}
+
+.harbor1-fall,
+.harbor1-lantern,
+.harbor1-dock {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+}
+
+.harbor1-fall {
+  left: 78%;
+  top: 32%;
+  width: 11%;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(214, 240, 244, 0.16), transparent 82%);
+  opacity: 0.28;
+  animation: harbor1-fall 6.4s ease-in-out infinite;
+}
+
+.harbor1-lantern {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 204, 110, 0.48), transparent 72%);
+  opacity: 0.3;
+}
+
+.harbor1-lantern.lamp-a { left: 34%; top: 70%; animation: harbor1-lantern 7.2s ease-in-out infinite; }
+.harbor1-lantern.lamp-b { left: 48%; top: 34%; animation: harbor1-lantern 8s ease-in-out 0.8s infinite; }
+.harbor1-lantern.lamp-c { left: 62%; top: 50%; animation: harbor1-lantern 6.8s ease-in-out 1.4s infinite; }
+
+.harbor1-dock {
+  left: 50%;
+  bottom: 5%;
+  width: 24%;
+  height: 13%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.32;
+}
+
+.map-island.is-harbor-1.is-locked {
+  filter: saturate(0.68);
+  opacity: 0.86;
+}
+
+.map-island.is-harbor-1.is-locked .harbor1-lantern,
+.map-island.is-harbor-1.is-locked .harbor1-fall,
+.map-island.is-harbor-1.is-locked .harbor1-dock {
+  opacity: 0.1;
+}
+
+.map-island.is-harbor-1.is-visited,
+.map-island.is-harbor-1.is-completed,
+.map-island.is-harbor-1.is-available,
+.map-island.is-harbor-1.is-current {
+  filter: none;
+}
+
+.map-island.is-harbor-1.is-visited .harbor1-lantern,
+.map-island.is-harbor-1.is-completed .harbor1-lantern,
+.map-island.is-harbor-1.is-available .harbor1-lantern,
+.map-island.is-harbor-1.is-current .harbor1-lantern {
+  opacity: 0.62;
+}
+
+.map-island.is-harbor-1.is-available,
+.map-island.is-harbor-1.is-current,
+.map-island.is-harbor-1.is-highlight {
+  filter: drop-shadow(0 0 10px rgba(255, 196, 110, 0.22));
+}
+
+.map-island.is-harbor-1.is-available::before,
+.map-island.is-harbor-1.is-current::before,
+.map-island.is-harbor-1.is-highlight::before {
+  border-color: rgba(255, 210, 140, 0.28);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-harbor-1:hover,
+.map-island.is-harbor-1:focus-visible {
+  transform: translate(-50%, -50%) scale(1.028);
+  filter: drop-shadow(0 0 12px rgba(255, 196, 110, 0.3));
+}
+
+.map-island.is-harbor-1:hover .harbor1-lantern,
+.map-island.is-harbor-1:focus-visible .harbor1-lantern {
+  opacity: 0.82;
+}
+
+.map-island.is-harbor-1 .map-island-label {
+  min-width: 7.2rem;
+  padding: 0.22rem 0.42rem;
+}
+
+.map-island.is-harbor-1 .map-island-label strong {
+  font-size: 0.62rem;
+}
+
+.map-island.is-harbor-1 .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-strengths .island-foam { opacity: 0; }
+.map-island.is-strengths .island-shallows {
+  inset: 24% 16% 8%;
+  opacity: 0.24;
+}
+.map-island.is-strengths .island-shadow {
+  height: 15%;
+  bottom: 7%;
+  opacity: 0.48;
+}
+
+.temple-fall,
+.temple-mist,
+.temple-entrance,
+.temple-torch,
+.temple-dock,
+.temple-compass {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.temple-fall,
+.temple-mist,
+.temple-entrance,
+.temple-torch,
+.temple-dock {
+  mix-blend-mode: screen;
+}
+
+.temple-fall {
+  left: 16%;
+  top: 36%;
+  width: 18%;
+  height: 34%;
+  background: linear-gradient(180deg, rgba(220, 240, 246, 0.2), transparent 78%);
+  opacity: 0.3;
+  animation: temple-fall 5.8s ease-in-out infinite;
+}
+
+.temple-mist {
+  left: 14%;
+  top: 58%;
+  width: 22%;
+  height: 18%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(230, 244, 248, 0.16), transparent 72%);
+  opacity: 0.28;
+  animation: temple-mist 7.2s ease-in-out infinite;
+}
+
+.temple-entrance {
+  left: 46%;
+  top: 26%;
+  width: 14%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.42), transparent 72%);
+  opacity: 0.38;
+  animation: temple-glow 6.8s ease-in-out infinite;
+}
+
+.temple-torch {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 186, 80, 0.5), transparent 72%);
+  opacity: 0.34;
+}
+
+.temple-torch.torch-a { left: 54%; top: 68%; animation: temple-torch 7.4s ease-in-out infinite; }
+.temple-torch.torch-b { left: 68%; top: 78%; animation: temple-torch 8s ease-in-out 0.9s infinite; }
+
+.temple-dock {
+  left: 48%;
+  bottom: 4%;
+  width: 22%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.3;
+}
+
+.temple-compass {
+  left: 50%;
+  bottom: -18%;
+  width: 7px;
+  height: 7px;
+  margin-left: 3.4rem;
+  background: #f0d48a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity: 0.85;
+  z-index: 5;
+}
+
+.map-island.is-strengths.is-locked {
+  filter: saturate(0.74);
+  opacity: 0.88;
+}
+
+.map-island.is-strengths.is-locked .temple-entrance,
+.map-island.is-strengths.is-locked .temple-torch,
+.map-island.is-strengths.is-locked .temple-fall,
+.map-island.is-strengths.is-locked .temple-mist,
+.map-island.is-strengths.is-locked .temple-dock {
+  opacity: 0.12;
+}
+
+.map-island.is-strengths.is-visited,
+.map-island.is-strengths.is-completed,
+.map-island.is-strengths.is-available,
+.map-island.is-strengths.is-current {
+  filter: none;
+}
+
+.map-island.is-strengths.is-visited .temple-entrance,
+.map-island.is-strengths.is-completed .temple-entrance,
+.map-island.is-strengths.is-available .temple-entrance,
+.map-island.is-strengths.is-current .temple-entrance {
+  opacity: 0.72;
+}
+
+.map-island.is-strengths.is-visited .temple-torch,
+.map-island.is-strengths.is-completed .temple-torch,
+.map-island.is-strengths.is-available .temple-torch,
+.map-island.is-strengths.is-current .temple-torch {
+  opacity: 0.7;
+}
+
+.map-island.is-strengths.is-completed .temple-entrance {
+  opacity: 0.88;
+}
+
+.map-island.is-strengths.is-available,
+.map-island.is-strengths.is-current,
+.map-island.is-strengths.is-highlight {
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.32));
+}
+
+.map-island.is-strengths:hover,
+.map-island.is-strengths:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 186, 80, 0.4));
+}
+
+.map-island.is-strengths:hover .temple-entrance,
+.map-island.is-strengths:focus-visible .temple-entrance {
+  opacity: 0.92;
+}
+
+.map-island.is-quartermaster .island-foam { opacity: 0; }
+.map-island.is-quartermaster .island-shallows {
+  inset: 26% 18% 10%;
+  opacity: 0.22;
+}
+.map-island.is-quartermaster .island-shadow {
+  height: 14%;
+  bottom: 8%;
+  opacity: 0.42;
+}
+
+.deck-fall,
+.deck-glow,
+.deck-lantern,
+.deck-crane,
+.deck-ripple,
+.deck-crate {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.deck-fall,
+.deck-glow,
+.deck-lantern,
+.deck-crane,
+.deck-ripple {
+  mix-blend-mode: screen;
+}
+
+.deck-fall {
+  left: 74%;
+  top: 42%;
+  width: 14%;
+  height: 28%;
+  background: linear-gradient(180deg, rgba(214, 240, 246, 0.16), transparent 80%);
+  opacity: 0.28;
+  animation: deck-fall 6.2s ease-in-out infinite;
+}
+
+.deck-glow {
+  left: 44%;
+  top: 38%;
+  width: 16%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.28), transparent 72%);
+  opacity: 0.32;
+  animation: deck-glow 7s ease-in-out infinite;
+}
+
+.deck-lantern {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 186, 80, 0.5), transparent 72%);
+  opacity: 0.3;
+}
+
+.deck-lantern.lamp-a { left: 34%; top: 66%; animation: deck-lantern 7.4s ease-in-out infinite; }
+.deck-lantern.lamp-b { left: 48%; top: 48%; animation: deck-lantern 8s ease-in-out 0.7s infinite; }
+.deck-lantern.lamp-c { left: 62%; top: 54%; animation: deck-lantern 6.8s ease-in-out 1.2s infinite; }
+
+.deck-crane {
+  left: 28%;
+  top: 48%;
+  width: 10%;
+  height: 18%;
+  background: linear-gradient(180deg, rgba(255, 220, 160, 0.12), transparent 80%);
+  opacity: 0.22;
+  transform-origin: 50% 0;
+  animation: deck-crane 8.6s ease-in-out infinite;
+}
+
+.deck-ripple {
+  left: 42%;
+  bottom: 4%;
+  width: 24%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.28;
+}
+
+.deck-crate {
+  left: 50%;
+  bottom: -16%;
+  width: 6px;
+  height: 6px;
+  margin-left: 4.6rem;
+  background: #f0d48a;
+  box-shadow: 6px 0 0 #e2c070;
+  opacity: 0.88;
+  z-index: 5;
+}
+
+.map-island.is-quartermaster.is-locked {
+  filter: saturate(0.7);
+  opacity: 0.86;
+}
+
+.map-island.is-quartermaster.is-locked .deck-lantern,
+.map-island.is-quartermaster.is-locked .deck-glow,
+.map-island.is-quartermaster.is-locked .deck-fall,
+.map-island.is-quartermaster.is-locked .deck-crane,
+.map-island.is-quartermaster.is-locked .deck-ripple {
+  opacity: 0.1;
+}
+
+.map-island.is-quartermaster.is-visited,
+.map-island.is-quartermaster.is-completed,
+.map-island.is-quartermaster.is-available,
+.map-island.is-quartermaster.is-current {
+  filter: none;
+}
+
+.map-island.is-quartermaster.is-visited .deck-lantern,
+.map-island.is-quartermaster.is-completed .deck-lantern,
+.map-island.is-quartermaster.is-available .deck-lantern,
+.map-island.is-quartermaster.is-current .deck-lantern {
+  opacity: 0.64;
+}
+
+.map-island.is-quartermaster.is-visited .deck-glow,
+.map-island.is-quartermaster.is-completed .deck-glow,
+.map-island.is-quartermaster.is-available .deck-glow,
+.map-island.is-quartermaster.is-current .deck-glow {
+  opacity: 0.55;
+}
+
+.map-island.is-quartermaster.is-available,
+.map-island.is-quartermaster.is-current,
+.map-island.is-quartermaster.is-highlight {
+  filter: drop-shadow(0 0 10px rgba(255, 196, 110, 0.22));
+}
+
+.map-island.is-quartermaster.is-available::before,
+.map-island.is-quartermaster.is-current::before,
+.map-island.is-quartermaster.is-highlight::before {
+  border-color: rgba(255, 210, 140, 0.28);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-quartermaster:hover,
+.map-island.is-quartermaster:focus-visible {
+  transform: translate(-50%, -50%) scale(1.028);
+  filter: drop-shadow(0 0 12px rgba(255, 196, 110, 0.3));
+}
+
+.map-island.is-quartermaster:hover .deck-lantern,
+.map-island.is-quartermaster:focus-visible .deck-lantern {
+  opacity: 0.82;
+}
+
+.map-island.is-quartermaster .map-island-label {
+  min-width: 8.2rem;
+  padding: 0.22rem 0.42rem;
+}
+
+.map-island.is-quartermaster .map-island-label strong {
+  font-size: 0.6rem;
+}
+
+.map-island.is-quartermaster .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-feast .island-foam { opacity: 0; }
+.map-island.is-feast .island-shallows {
+  inset: 26% 18% 10%;
+  opacity: 0.22;
+}
+.map-island.is-feast .island-shadow {
+  height: 14%;
+  bottom: 8%;
+  opacity: 0.42;
+}
+
+.feast-fall,
+.feast-fire,
+.feast-lights,
+.feast-lantern,
+.feast-ripple,
+.feast-olive {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.feast-fall,
+.feast-fire,
+.feast-lights,
+.feast-lantern,
+.feast-ripple {
+  mix-blend-mode: screen;
+}
+
+.feast-fall {
+  left: 76%;
+  top: 40%;
+  width: 14%;
+  height: 32%;
+  background: linear-gradient(180deg, rgba(220, 242, 248, 0.18), transparent 80%);
+  opacity: 0.28;
+  animation: feast-fall 6s ease-in-out infinite;
+}
+
+.feast-fire {
+  left: 46%;
+  top: 32%;
+  width: 14%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 170, 70, 0.42), transparent 72%);
+  opacity: 0.36;
+  animation: feast-fire 6.6s ease-in-out infinite;
+}
+
+.feast-lights {
+  left: 34%;
+  top: 26%;
+  width: 34%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 130, 0.2), transparent 72%);
+  opacity: 0.3;
+  animation: feast-lights 5.8s ease-in-out infinite;
+}
+
+.feast-lantern {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 186, 80, 0.5), transparent 72%);
+  opacity: 0.3;
+}
+
+.feast-lantern.lamp-a { left: 38%; top: 62%; animation: feast-lantern 7.2s ease-in-out infinite; }
+.feast-lantern.lamp-b { left: 58%; top: 58%; animation: feast-lantern 8s ease-in-out 0.8s infinite; }
+
+.feast-ripple {
+  left: 40%;
+  bottom: 4%;
+  width: 24%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.28;
+}
+
+.feast-olive {
+  left: 50%;
+  bottom: -16%;
+  width: 6px;
+  height: 6px;
+  margin-left: 4.2rem;
+  border-radius: 50%;
+  background: #c9b060;
+  box-shadow: 0 0 0 1px rgba(240, 212, 138, 0.7);
+  opacity: 0.9;
+  z-index: 5;
+}
+
+.map-island.is-feast.is-locked {
+  filter: saturate(0.7);
+  opacity: 0.86;
+}
+
+.map-island.is-feast.is-locked .feast-fire,
+.map-island.is-feast.is-locked .feast-lights,
+.map-island.is-feast.is-locked .feast-lantern,
+.map-island.is-feast.is-locked .feast-fall,
+.map-island.is-feast.is-locked .feast-ripple {
+  opacity: 0.1;
+}
+
+.map-island.is-feast.is-visited,
+.map-island.is-feast.is-completed,
+.map-island.is-feast.is-available,
+.map-island.is-feast.is-current {
+  filter: none;
+}
+
+.map-island.is-feast.is-visited .feast-fire,
+.map-island.is-feast.is-completed .feast-fire,
+.map-island.is-feast.is-available .feast-fire,
+.map-island.is-feast.is-current .feast-fire,
+.map-island.is-feast.is-visited .feast-lights,
+.map-island.is-feast.is-completed .feast-lights,
+.map-island.is-feast.is-available .feast-lights,
+.map-island.is-feast.is-current .feast-lights {
+  opacity: 0.62;
+}
+
+.map-island.is-feast.is-visited .feast-lantern,
+.map-island.is-feast.is-completed .feast-lantern,
+.map-island.is-feast.is-available .feast-lantern,
+.map-island.is-feast.is-current .feast-lantern {
+  opacity: 0.64;
+}
+
+.map-island.is-feast.is-completed .feast-fire {
+  opacity: 0.78;
+}
+
+.map-island.is-feast.is-available,
+.map-island.is-feast.is-current,
+.map-island.is-feast.is-highlight {
+  filter: drop-shadow(0 0 10px rgba(255, 176, 90, 0.24));
+}
+
+.map-island.is-feast.is-available::before,
+.map-island.is-feast.is-current::before,
+.map-island.is-feast.is-highlight::before {
+  border-color: rgba(255, 200, 120, 0.3);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-feast:hover,
+.map-island.is-feast:focus-visible {
+  transform: translate(-50%, -50%) scale(1.028);
+  filter: drop-shadow(0 0 12px rgba(255, 186, 90, 0.32));
+}
+
+.map-island.is-feast:hover .feast-lights,
+.map-island.is-feast:focus-visible .feast-lights,
+.map-island.is-feast:hover .feast-lantern,
+.map-island.is-feast:focus-visible .feast-lantern {
+  opacity: 0.84;
+}
+
+.map-island.is-feast .map-island-label {
+  min-width: 7.6rem;
+  padding: 0.22rem 0.42rem;
+}
+
+.map-island.is-feast .map-island-label strong {
+  font-size: 0.6rem;
+}
+
+.map-island.is-feast .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-trials .island-foam { opacity: 0; }
+.map-island.is-trials .island-shallows {
+  inset: 24% 16% 8%;
+  opacity: 0.24;
+}
+.map-island.is-trials .island-shadow {
+  height: 15%;
+  bottom: 7%;
+  opacity: 0.48;
+}
+
+.trials-fall,
+.trials-mist,
+.trials-peak,
+.trials-torch,
+.trials-bridge,
+.trials-ripple,
+.trials-emblem {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.trials-fall,
+.trials-mist,
+.trials-peak,
+.trials-torch,
+.trials-ripple {
+  mix-blend-mode: screen;
+}
+
+.trials-fall {
+  left: 54%;
+  top: 30%;
+  width: 16%;
+  height: 34%;
+  background: linear-gradient(180deg, rgba(214, 238, 246, 0.2), transparent 80%);
+  opacity: 0.3;
+  animation: trials-fall 5.6s ease-in-out infinite;
+}
+
+.trials-mist {
+  left: 50%;
+  top: 52%;
+  width: 20%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(230, 244, 248, 0.16), transparent 72%);
+  opacity: 0.26;
+  animation: trials-mist 7s ease-in-out infinite;
+}
+
+.trials-peak {
+  left: 46%;
+  top: 10%;
+  width: 12%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 160, 60, 0.46), transparent 72%);
+  opacity: 0.4;
+  animation: trials-peak 6.4s ease-in-out infinite;
+}
+
+.trials-torch {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 176, 70, 0.5), transparent 72%);
+  opacity: 0.32;
+}
+
+.trials-torch.torch-a { left: 28%; top: 58%; animation: trials-torch 7.2s ease-in-out infinite; }
+.trials-torch.torch-b { left: 62%; top: 48%; animation: trials-torch 8s ease-in-out 0.8s infinite; }
+
+.trials-bridge {
+  left: 42%;
+  top: 36%;
+  width: 18%;
+  height: 8%;
+  background: linear-gradient(90deg, transparent, rgba(255, 220, 160, 0.1), transparent);
+  opacity: 0.22;
+  transform-origin: 10% 50%;
+  animation: trials-bridge 7.8s ease-in-out infinite;
+}
+
+.trials-ripple {
+  left: 28%;
+  bottom: 4%;
+  width: 22%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.28;
+}
+
+.trials-emblem {
+  left: 50%;
+  bottom: -18%;
+  width: 7px;
+  height: 7px;
+  margin-left: 5.2rem;
+  background: #f0d48a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity: 0.88;
+  z-index: 5;
+}
+
+.map-island.is-trials.is-locked {
+  filter: saturate(0.74);
+  opacity: 0.88;
+}
+
+.map-island.is-trials.is-locked .trials-peak,
+.map-island.is-trials.is-locked .trials-torch,
+.map-island.is-trials.is-locked .trials-fall,
+.map-island.is-trials.is-locked .trials-mist,
+.map-island.is-trials.is-locked .trials-bridge,
+.map-island.is-trials.is-locked .trials-ripple {
+  opacity: 0.12;
+}
+
+.map-island.is-trials.is-visited,
+.map-island.is-trials.is-completed,
+.map-island.is-trials.is-available,
+.map-island.is-trials.is-current {
+  filter: none;
+}
+
+.map-island.is-trials.is-visited .trials-peak,
+.map-island.is-trials.is-completed .trials-peak,
+.map-island.is-trials.is-available .trials-peak,
+.map-island.is-trials.is-current .trials-peak {
+  opacity: 0.74;
+}
+
+.map-island.is-trials.is-visited .trials-torch,
+.map-island.is-trials.is-completed .trials-torch,
+.map-island.is-trials.is-available .trials-torch,
+.map-island.is-trials.is-current .trials-torch {
+  opacity: 0.7;
+}
+
+.map-island.is-trials.is-completed .trials-peak {
+  opacity: 0.88;
+}
+
+.map-island.is-trials.is-available,
+.map-island.is-trials.is-current,
+.map-island.is-trials.is-highlight {
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.32));
+}
+
+.map-island.is-trials:hover,
+.map-island.is-trials:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 176, 70, 0.4));
+}
+
+.map-island.is-trials:hover .trials-peak,
+.map-island.is-trials:focus-visible .trials-peak,
+.map-island.is-trials:hover .trials-torch,
+.map-island.is-trials:focus-visible .trials-torch {
+  opacity: 0.92;
+}
+
+.map-island.is-harbor-2 .island-foam { opacity: 0; }
+.map-island.is-harbor-2 .island-shallows {
+  inset: 26% 18% 10%;
+  opacity: 0.22;
+}
+.map-island.is-harbor-2 .island-shadow {
+  height: 14%;
+  bottom: 8%;
+  opacity: 0.42;
+}
+
+.harbor2-fall,
+.harbor2-lantern,
+.harbor2-tower,
+.harbor2-fire,
+.harbor2-dock,
+.harbor2-anomaly {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.harbor2-fall,
+.harbor2-lantern,
+.harbor2-tower,
+.harbor2-fire,
+.harbor2-dock,
+.harbor2-anomaly {
+  mix-blend-mode: screen;
+}
+
+.harbor2-fall {
+  left: 18%;
+  top: 34%;
+  width: 16%;
+  height: 32%;
+  background: linear-gradient(180deg, rgba(214, 240, 246, 0.16), transparent 80%);
+  opacity: 0.28;
+  animation: harbor2-fall 6.4s ease-in-out infinite;
+}
+
+.harbor2-lantern {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 204, 110, 0.48), transparent 72%);
+  opacity: 0.3;
+}
+
+.harbor2-lantern.lamp-a { left: 42%; top: 72%; animation: harbor2-lantern 7.2s ease-in-out infinite; }
+.harbor2-lantern.lamp-b { left: 50%; top: 42%; animation: harbor2-lantern 8s ease-in-out 0.8s infinite; }
+.harbor2-lantern.lamp-c { left: 68%; top: 62%; animation: harbor2-lantern 6.8s ease-in-out 1.3s infinite; }
+
+.harbor2-tower {
+  left: 56%;
+  top: 18%;
+  width: 12%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.28), transparent 72%);
+  opacity: 0.3;
+  animation: harbor2-tower 7.6s ease-in-out infinite;
+}
+
+.harbor2-fire {
+  left: 66%;
+  top: 64%;
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 170, 70, 0.28), transparent 72%);
+  opacity: 0.28;
+  animation: harbor2-fire 6.8s ease-in-out infinite;
+}
+
+.harbor2-dock {
+  left: 40%;
+  bottom: 4%;
+  width: 24%;
+  height: 12%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.12), transparent 72%);
+  opacity: 0.28;
+}
+
+.harbor2-anomaly {
+  left: 36%;
+  bottom: 6%;
+  width: 28%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(90, 220, 230, 0.16), transparent 72%);
+  opacity: 0;
+}
+
+.map-island.is-harbor-2.is-anomaly .harbor2-anomaly {
+  opacity: 0.34;
+  animation: harbor2-anomaly 5.4s ease-in-out infinite;
+}
+
+.map-island.is-harbor-2.is-anomaly .harbor2-tower {
+  animation-duration: 3.2s;
+}
+
+.map-island.is-harbor-2.is-locked {
+  filter: saturate(0.7);
+  opacity: 0.86;
+}
+
+.map-island.is-harbor-2.is-locked .harbor2-lantern,
+.map-island.is-harbor-2.is-locked .harbor2-fall,
+.map-island.is-harbor-2.is-locked .harbor2-tower,
+.map-island.is-harbor-2.is-locked .harbor2-fire,
+.map-island.is-harbor-2.is-locked .harbor2-dock,
+.map-island.is-harbor-2.is-locked .harbor2-anomaly {
+  opacity: 0.1;
+}
+
+.map-island.is-harbor-2.is-visited,
+.map-island.is-harbor-2.is-completed,
+.map-island.is-harbor-2.is-available,
+.map-island.is-harbor-2.is-current {
+  filter: none;
+}
+
+.map-island.is-harbor-2.is-visited .harbor2-lantern,
+.map-island.is-harbor-2.is-completed .harbor2-lantern,
+.map-island.is-harbor-2.is-available .harbor2-lantern,
+.map-island.is-harbor-2.is-current .harbor2-lantern {
+  opacity: 0.64;
+}
+
+.map-island.is-harbor-2.is-available,
+.map-island.is-harbor-2.is-current,
+.map-island.is-harbor-2.is-highlight {
+  filter: drop-shadow(0 0 10px rgba(255, 196, 110, 0.22));
+}
+
+.map-island.is-harbor-2.is-available::before,
+.map-island.is-harbor-2.is-current::before,
+.map-island.is-harbor-2.is-highlight::before {
+  border-color: rgba(255, 210, 140, 0.28);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-harbor-2:hover,
+.map-island.is-harbor-2:focus-visible {
+  transform: translate(-50%, -50%) scale(1.028);
+  filter: drop-shadow(0 0 12px rgba(255, 196, 110, 0.3));
+}
+
+.map-island.is-harbor-2:hover .harbor2-lantern,
+.map-island.is-harbor-2:focus-visible .harbor2-lantern {
+  opacity: 0.82;
+}
+
+.map-island.is-harbor-2 .map-island-label {
+  min-width: 7.4rem;
+  padding: 0.22rem 0.42rem;
+}
+
+.map-island.is-harbor-2 .map-island-label strong {
+  font-size: 0.6rem;
+}
+
+.map-island.is-harbor-2 .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-oracle .island-foam { opacity: 0; }
+.map-island.is-oracle .island-shallows {
+  inset: 28% 20% 10%;
+  opacity: 0.18;
+  background: radial-gradient(ellipse, rgba(70, 196, 214, 0.2), transparent 70%);
+}
+.map-island.is-oracle .island-shadow {
+  height: 12%;
+  bottom: 8%;
+  opacity: 0.36;
+}
+.map-island.is-oracle .map-island-light {
+  opacity: 0;
+}
+
+.oracle-orb,
+.oracle-beam,
+.oracle-ring,
+.oracle-fall,
+.oracle-rock,
+.oracle-lantern,
+.oracle-ripple,
+.oracle-node {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.oracle-orb,
+.oracle-beam,
+.oracle-ring,
+.oracle-fall,
+.oracle-ripple,
+.oracle-node {
+  mix-blend-mode: screen;
+}
+
+.oracle-orb {
+  left: 46%;
+  top: 24%;
+  width: 12%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120, 236, 255, 0.42), rgba(40, 160, 210, 0.08) 58%, transparent 74%);
+  opacity: 0.36;
+  animation: oracle-orb 5.6s ease-in-out infinite;
+}
+
+.oracle-beam {
+  left: 50.5%;
+  top: 6%;
+  width: 3%;
+  height: 22%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(190, 246, 255, 0.28), transparent 86%);
+  opacity: 0.22;
+  animation: oracle-beam 6.8s ease-in-out infinite;
+}
+
+.oracle-ring {
+  left: 42%;
+  top: 18%;
+  width: 20%;
+  height: 28%;
+  border-radius: 50%;
+  border: 1px solid rgba(90, 220, 240, 0.28);
+  opacity: 0.34;
+  animation: oracle-ring 16s linear infinite;
+}
+
+.oracle-fall {
+  left: 22%;
+  top: 36%;
+  width: 14%;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(190, 236, 246, 0.18), transparent 82%);
+  opacity: 0.26;
+  animation: oracle-fall 5.8s ease-in-out infinite;
+}
+
+.oracle-rock {
+  left: 72%;
+  top: 6%;
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(110, 220, 240, 0.16), transparent 72%);
+  opacity: 0.28;
+  animation: oracle-rock 14s ease-in-out infinite;
+}
+
+.oracle-lantern {
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.5), transparent 72%);
+  opacity: 0.28;
+}
+
+.oracle-lantern.lamp-a { left: 28%; top: 76%; animation: oracle-lantern 7.4s ease-in-out infinite; }
+.oracle-lantern.lamp-b { left: 48%; top: 62%; animation: oracle-lantern 8.2s ease-in-out 0.7s infinite; }
+.oracle-lantern.lamp-c { left: 62%; top: 58%; animation: oracle-lantern 6.9s ease-in-out 1.2s infinite; }
+
+.oracle-ripple {
+  left: 24%;
+  bottom: 4%;
+  width: 22%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(90, 210, 230, 0.12), transparent 72%);
+  opacity: 0.22;
+  animation: oracle-ripple 7.2s ease-in-out infinite;
+}
+
+.oracle-node {
+  width: 0.22rem;
+  height: 0.22rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160, 244, 255, 0.9), transparent 70%);
+  opacity: 0.7;
+}
+
+.oracle-node.node-a { left: 44%; top: 88%; }
+.oracle-node.node-b { left: 50%; top: 90%; }
+.oracle-node.node-c { left: 56%; top: 88%; }
+
+.map-island.is-oracle.is-locked {
+  filter: saturate(0.78) drop-shadow(0 0 8px rgba(70, 190, 210, 0.16));
+  opacity: 0.88;
+}
+
+.map-island.is-oracle.is-locked .oracle-orb {
+  opacity: 0.22;
+}
+
+.map-island.is-oracle.is-locked .oracle-beam,
+.map-island.is-oracle.is-locked .oracle-ring,
+.map-island.is-oracle.is-locked .oracle-fall,
+.map-island.is-oracle.is-locked .oracle-rock,
+.map-island.is-oracle.is-locked .oracle-lantern,
+.map-island.is-oracle.is-locked .oracle-ripple {
+  opacity: 0.1;
+}
+
+.map-island.is-oracle.is-visited,
+.map-island.is-oracle.is-completed,
+.map-island.is-oracle.is-available,
+.map-island.is-oracle.is-current {
+  filter: none;
+}
+
+.map-island.is-oracle.is-visited .oracle-orb,
+.map-island.is-oracle.is-completed .oracle-orb,
+.map-island.is-oracle.is-available .oracle-orb,
+.map-island.is-oracle.is-current .oracle-orb {
+  opacity: 0.62;
+}
+
+.map-island.is-oracle.is-visited .oracle-ring,
+.map-island.is-oracle.is-completed .oracle-ring,
+.map-island.is-oracle.is-available .oracle-ring,
+.map-island.is-oracle.is-current .oracle-ring {
+  opacity: 0.46;
+}
+
+.map-island.is-oracle.is-completed .oracle-orb {
+  opacity: 0.74;
+}
+
+.map-island.is-oracle.is-available,
+.map-island.is-oracle.is-current,
+.map-island.is-oracle.is-highlight {
+  filter: drop-shadow(0 0 12px rgba(90, 220, 230, 0.3));
+}
+
+.map-island.is-oracle.is-available::before,
+.map-island.is-oracle.is-current::before,
+.map-island.is-oracle.is-highlight::before {
+  border-color: rgba(110, 230, 240, 0.36);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-oracle:hover,
+.map-island.is-oracle:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 14px rgba(90, 220, 230, 0.4));
+}
+
+.map-island.is-oracle:hover .oracle-orb,
+.map-island.is-oracle:focus-visible .oracle-orb {
+  opacity: 0.82;
+}
+
+.map-island.is-oracle .map-island-label {
+  min-width: 8.2rem;
+  padding: 0.22rem 0.48rem;
+}
+
+.map-island.is-oracle .map-island-label strong {
+  font-size: 0.62rem;
+}
+
+.map-island.is-oracle .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-opportunity .island-foam { opacity: 0; }
+.map-island.is-opportunity .island-shallows {
+  inset: 28% 18% 8%;
+  opacity: 0.2;
+  background: radial-gradient(ellipse, rgba(90, 186, 176, 0.2), transparent 70%);
+}
+.map-island.is-opportunity .island-shadow {
+  height: 12%;
+  bottom: 7%;
+  opacity: 0.38;
+}
+.map-island.is-opportunity .map-island-light {
+  opacity: 0;
+}
+
+.opp-citadel,
+.opp-lighthouse,
+.opp-beam,
+.opp-scope,
+.opp-fall,
+.opp-lantern,
+.opp-ripple,
+.opp-compass {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.opp-citadel,
+.opp-lighthouse,
+.opp-beam,
+.opp-scope,
+.opp-fall,
+.opp-ripple {
+  mix-blend-mode: screen;
+}
+
+.opp-citadel {
+  left: 44%;
+  top: 28%;
+  width: 16%;
+  height: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.34), transparent 72%);
+  opacity: 0.32;
+  animation: opp-citadel 6.4s ease-in-out infinite;
+}
+
+.opp-lighthouse {
+  left: 16%;
+  top: 22%;
+  width: 10%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 120, 0.46), transparent 72%);
+  opacity: 0.34;
+  animation: opp-lighthouse 7.2s ease-in-out infinite;
+}
+
+.opp-beam {
+  left: 4%;
+  top: 24%;
+  width: 16%;
+  height: 8%;
+  background: linear-gradient(270deg, rgba(255, 226, 150, 0.22), transparent 86%);
+  opacity: 0.2;
+  animation: opp-beam 8s ease-in-out infinite;
+}
+
+.opp-scope {
+  left: 74%;
+  top: 18%;
+  width: 8%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 232, 180, 0.28), transparent 72%);
+  opacity: 0.22;
+  animation: opp-scope 9s ease-in-out infinite;
+}
+
+.opp-fall {
+  left: 32%;
+  top: 40%;
+  width: 14%;
+  height: 28%;
+  background: linear-gradient(180deg, rgba(210, 240, 246, 0.18), transparent 82%);
+  opacity: 0.26;
+  animation: opp-fall 5.8s ease-in-out infinite;
+}
+
+.opp-lantern {
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.52), transparent 72%);
+  opacity: 0.28;
+}
+
+.opp-lantern.lamp-a { left: 26%; top: 74%; animation: opp-lantern 7.4s ease-in-out infinite; }
+.opp-lantern.lamp-b { left: 48%; top: 58%; animation: opp-lantern 8.1s ease-in-out 0.6s infinite; }
+.opp-lantern.lamp-c { left: 66%; top: 52%; animation: opp-lantern 6.8s ease-in-out 1.1s infinite; }
+
+.opp-ripple {
+  left: 22%;
+  bottom: 4%;
+  width: 24%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(120, 210, 210, 0.12), transparent 72%);
+  opacity: 0.22;
+  animation: opp-ripple 7.4s ease-in-out infinite;
+}
+
+.opp-compass {
+  left: 58%;
+  top: 86%;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: #f0d48a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity: 0.78;
+  transform: rotate(28deg);
+}
+
+.map-island.is-opportunity.is-locked {
+  filter: saturate(0.76) drop-shadow(0 0 8px rgba(255, 196, 110, 0.1));
+  opacity: 0.88;
+}
+
+.map-island.is-opportunity.is-locked .opp-citadel,
+.map-island.is-opportunity.is-locked .opp-lighthouse,
+.map-island.is-opportunity.is-locked .opp-beam,
+.map-island.is-opportunity.is-locked .opp-scope,
+.map-island.is-opportunity.is-locked .opp-fall,
+.map-island.is-opportunity.is-locked .opp-lantern,
+.map-island.is-opportunity.is-locked .opp-ripple {
+  opacity: 0.1;
+}
+
+.map-island.is-opportunity.is-visited,
+.map-island.is-opportunity.is-completed,
+.map-island.is-opportunity.is-available,
+.map-island.is-opportunity.is-current {
+  filter: none;
+}
+
+.map-island.is-opportunity.is-visited .opp-lighthouse,
+.map-island.is-opportunity.is-completed .opp-lighthouse,
+.map-island.is-opportunity.is-available .opp-lighthouse,
+.map-island.is-opportunity.is-current .opp-lighthouse {
+  opacity: 0.62;
+}
+
+.map-island.is-opportunity.is-visited .opp-citadel,
+.map-island.is-opportunity.is-completed .opp-citadel,
+.map-island.is-opportunity.is-available .opp-citadel,
+.map-island.is-opportunity.is-current .opp-citadel {
+  opacity: 0.52;
+}
+
+.map-island.is-opportunity.is-completed .opp-citadel {
+  opacity: 0.64;
+}
+
+.map-island.is-opportunity.is-available,
+.map-island.is-opportunity.is-current,
+.map-island.is-opportunity.is-highlight {
+  filter: drop-shadow(0 0 12px rgba(255, 196, 110, 0.3));
+}
+
+.map-island.is-opportunity.is-available::before,
+.map-island.is-opportunity.is-current::before,
+.map-island.is-opportunity.is-highlight::before {
+  border-color: rgba(255, 214, 140, 0.38);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-opportunity:hover,
+.map-island.is-opportunity:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 14px rgba(255, 196, 110, 0.4));
+}
+
+.map-island.is-opportunity:hover .opp-lighthouse,
+.map-island.is-opportunity:focus-visible .opp-lighthouse,
+.map-island.is-opportunity:hover .opp-citadel,
+.map-island.is-opportunity:focus-visible .opp-citadel {
+  opacity: 0.8;
+}
+
+.map-island.is-opportunity .map-island-label {
+  min-width: 9.2rem;
+  padding: 0.22rem 0.5rem;
+}
+
+.map-island.is-opportunity .map-island-label strong {
+  font-size: 0.6rem;
+}
+
+.map-island.is-opportunity .map-island-label small {
+  font-size: 0.46rem;
+}
+
+.map-island.is-ithaca .island-foam { opacity: 0; }
+.map-island.is-ithaca .island-shallows {
+  inset: 30% 18% 8%;
+  opacity: 0.18;
+  background: radial-gradient(ellipse, rgba(255, 186, 90, 0.16), transparent 70%);
+}
+.map-island.is-ithaca .island-shadow {
+  height: 12%;
+  bottom: 6%;
+  opacity: 0.36;
+}
+.map-island.is-ithaca .map-island-light {
+  opacity: 0;
+}
+
+.ith-temple,
+.ith-fall,
+.ith-lantern,
+.ith-ripple,
+.ith-harbor,
+.ith-star {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ith-temple,
+.ith-fall,
+.ith-ripple,
+.ith-harbor {
+  mix-blend-mode: screen;
+}
+
+.ith-temple {
+  left: 46%;
+  top: 10%;
+  width: 14%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.42), transparent 72%);
+  opacity: 0.34;
+  animation: ith-temple 6.8s ease-in-out infinite;
+}
+
+.ith-fall {
+  left: 40%;
+  top: 38%;
+  width: 16%;
+  height: 28%;
+  background: linear-gradient(180deg, rgba(210, 236, 246, 0.18), transparent 82%);
+  opacity: 0.24;
+  animation: ith-fall 6s ease-in-out infinite;
+}
+
+.ith-lantern {
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.52), transparent 72%);
+  opacity: 0.3;
+}
+
+.ith-lantern.lamp-a { left: 24%; top: 74%; animation: ith-lantern 7.2s ease-in-out infinite; }
+.ith-lantern.lamp-b { left: 36%; top: 68%; animation: ith-lantern 8s ease-in-out 0.6s infinite; }
+.ith-lantern.lamp-c { left: 58%; top: 52%; animation: ith-lantern 6.8s ease-in-out 1.1s infinite; }
+
+.ith-ripple {
+  left: 20%;
+  bottom: 4%;
+  width: 24%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 196, 110, 0.12), transparent 72%);
+  opacity: 0.22;
+  animation: ith-ripple 7.6s ease-in-out infinite;
+}
+
+.ith-harbor {
+  left: 22%;
+  bottom: 6%;
+  width: 18%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 210, 140, 0.16), transparent 72%);
+  opacity: 0.2;
+}
+
+.ith-star {
+  left: 56%;
+  top: 86%;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: #f0d48a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity: 0.8;
+}
+
+.map-island.is-ithaca.is-locked {
+  filter: saturate(0.68) drop-shadow(0 0 8px rgba(255, 186, 90, 0.1));
+  opacity: 0.84;
+}
+
+.map-island.is-ithaca.is-locked .ith-temple {
+  opacity: 0.14;
+}
+
+.map-island.is-ithaca.is-locked .ith-fall,
+.map-island.is-ithaca.is-locked .ith-lantern,
+.map-island.is-ithaca.is-locked .ith-ripple,
+.map-island.is-ithaca.is-locked .ith-harbor {
+  opacity: 0.08;
+}
+
+.map-island.is-ithaca.is-visited,
+.map-island.is-ithaca.is-completed,
+.map-island.is-ithaca.is-available,
+.map-island.is-ithaca.is-current {
+  filter: none;
+}
+
+.map-island.is-ithaca.is-visited .ith-temple,
+.map-island.is-ithaca.is-completed .ith-temple,
+.map-island.is-ithaca.is-available .ith-temple,
+.map-island.is-ithaca.is-current .ith-temple {
+  opacity: 0.58;
+}
+
+.map-island.is-ithaca.is-visited .ith-lantern,
+.map-island.is-ithaca.is-completed .ith-lantern,
+.map-island.is-ithaca.is-available .ith-lantern,
+.map-island.is-ithaca.is-current .ith-lantern {
+  opacity: 0.62;
+}
+
+.map-island.is-ithaca.is-completed .ith-temple {
+  opacity: 0.7;
+}
+
+.map-island.is-ithaca.is-available,
+.map-island.is-ithaca.is-current,
+.map-island.is-ithaca.is-highlight {
+  filter: drop-shadow(0 0 14px rgba(201, 80, 64, 0.22)) drop-shadow(0 0 12px rgba(255, 196, 110, 0.32));
+}
+
+.map-island.is-ithaca.is-available::before,
+.map-island.is-ithaca.is-current::before,
+.map-island.is-ithaca.is-highlight::before {
+  border-color: rgba(255, 196, 110, 0.42);
+  height: 16%;
+  bottom: 2%;
+}
+
+.map-island.is-ithaca.is-available .ith-harbor,
+.map-island.is-ithaca.is-current .ith-harbor,
+.map-island.is-ithaca.is-highlight .ith-harbor {
+  opacity: 0.42;
+  animation: ith-harbor 2.2s ease-out 1;
+}
+
+.map-island.is-ithaca:hover,
+.map-island.is-ithaca:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 16px rgba(255, 196, 110, 0.42));
+}
+
+.map-island.is-ithaca:hover .ith-temple,
+.map-island.is-ithaca:focus-visible .ith-temple {
+  opacity: 0.82;
+}
+
+.map-world.is-complete .map-island.is-ithaca .ith-temple {
+  opacity: 0.78;
+}
+
+.map-world.is-complete .map-island.is-ithaca .ith-lantern {
+  opacity: 0.74;
+}
+
+.map-world.is-complete .map-island.is-ithaca .ith-ripple {
+  opacity: 0.36;
+}
+
+.map-island.is-ithaca .map-island-label {
+  min-width: 7.6rem;
+  padding: 0.22rem 0.5rem;
+}
+
+.map-island.is-ithaca .map-island-label strong {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.map-island.is-ithaca .map-island-label small {
+  font-size: 0.46rem;
+}
+
 .map-island-light {
   position: absolute;
   left: 42%;
@@ -245,6 +1958,39 @@
 .map-world.is-twilight .map-island.is-visited .map-island-light,
 .map-world.is-twilight .map-island.is-completed .map-island-light {
   opacity: 0.85;
+}
+
+.map-island.is-oracle .map-island-light,
+.map-world.is-complete .map-island.is-oracle .map-island-light,
+.map-world.is-twilight .map-island.is-oracle .map-island-light,
+.map-island.is-opportunity .map-island-light,
+.map-world.is-complete .map-island.is-opportunity .map-island-light,
+.map-world.is-twilight .map-island.is-opportunity .map-island-light {
+  opacity: 0;
+}
+
+.map-island.is-oracle.is-available .island-shallows,
+.map-island.is-oracle.is-current .island-shallows,
+.map-island.is-oracle.is-highlight .island-shallows {
+  background: radial-gradient(ellipse, rgba(80, 210, 230, 0.26), transparent 70%);
+}
+
+.map-island.is-opportunity.is-available .island-shallows,
+.map-island.is-opportunity.is-current .island-shallows,
+.map-island.is-opportunity.is-highlight .island-shallows {
+  background: radial-gradient(ellipse, rgba(255, 196, 110, 0.22), transparent 70%);
+}
+
+.map-island.is-ithaca .map-island-light,
+.map-world.is-complete .map-island.is-ithaca .map-island-light,
+.map-world.is-twilight .map-island.is-ithaca .map-island-light {
+  opacity: 0;
+}
+
+.map-island.is-ithaca.is-available .island-shallows,
+.map-island.is-ithaca.is-current .island-shallows,
+.map-island.is-ithaca.is-highlight .island-shallows {
+  background: radial-gradient(ellipse, rgba(255, 186, 90, 0.24), transparent 70%);
 }
 
 .map-island-star {
@@ -265,10 +2011,10 @@
   min-width: 8rem;
   padding: 0.28rem 0.5rem;
   border-radius: 3px;
-  background: rgba(6, 15, 25, 0.72);
+  background: rgba(6, 15, 25, 0.78);
   border: 1px solid rgba(201, 168, 76, 0.32);
   color: #f4ead6;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   z-index: 4;
 }
@@ -317,6 +2063,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 2;
 }
 
 .map-fog-shape {
@@ -328,12 +2075,21 @@
 .map-fog-shape.is-near { animation: fog-drift 34s linear infinite reverse; }
 .map-fog-shape.is-parted { opacity: 0; transition: opacity 1.8s ease; }
 
+.map-ship-layer {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 6;
+}
+
 .map-ship {
   overflow: visible;
   filter: drop-shadow(0 3px 3px rgba(60, 40, 10, 0.35));
 }
 
 .map-ship-body {
+  transform-origin: 0px 4px;
   animation: ship-bob 3.2s ease-in-out infinite;
 }
 
@@ -341,9 +2097,18 @@
   animation: ship-wake 2.4s ease-in-out infinite;
 }
 
+.map-world.is-complete .map-ship-wake {
+  opacity: 0.16;
+  animation: none;
+}
+
 .map-route-live {
   transition: stroke-dashoffset 1.4s ease;
   filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.35));
+}
+
+.map-route-live.is-final-leg {
+  transition: stroke-dashoffset 2.1s ease-in-out;
 }
 
 .map-ripple {
@@ -431,8 +2196,8 @@
 }
 
 @keyframes ship-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(1.5px); }
+  0%, 100% { transform: scale(1.45) translateY(0); }
+  50% { transform: scale(1.45) translateY(1.5px); }
 }
 
 @keyframes ocean-ripple {
@@ -442,6 +2207,237 @@
 @keyframes pulse-ring {
   0% { opacity: 0.85; transform: scale(1); }
   100% { opacity: 0; transform: scale(1.7); }
+}
+
+@keyframes readiness-beacon {
+  0%, 100% { opacity: 0.42; }
+  50% { opacity: 0.82; }
+}
+
+@keyframes culture-fall {
+  0%, 100% { opacity: 0.22; transform: translateY(0); }
+  50% { opacity: 0.42; transform: translateY(2px); }
+}
+
+@keyframes culture-window {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.72; }
+}
+
+@keyframes harbor1-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes harbor1-lantern {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.58; }
+}
+
+@keyframes temple-fall {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.38; }
+}
+
+@keyframes temple-mist {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.34; transform: scale(1.08); }
+}
+
+@keyframes temple-glow {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.62; }
+}
+
+@keyframes temple-torch {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.62; }
+}
+
+@keyframes deck-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes deck-glow {
+  0%, 100% { opacity: 0.24; }
+  50% { opacity: 0.48; }
+}
+
+@keyframes deck-lantern {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.58; }
+}
+
+@keyframes deck-crane {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes feast-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes feast-fire {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.56; }
+}
+
+@keyframes feast-lights {
+  0%, 100% { opacity: 0.24; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes feast-lantern {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.58; }
+}
+
+@keyframes trials-fall {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.38; }
+}
+
+@keyframes trials-mist {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.32; transform: scale(1.06); }
+}
+
+@keyframes trials-peak {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.64; }
+}
+
+@keyframes trials-torch {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.62; }
+}
+
+@keyframes trials-bridge {
+  0%, 100% { transform: rotate(-1.2deg); }
+  50% { transform: rotate(1.6deg); }
+}
+
+@keyframes harbor2-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes harbor2-lantern {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.58; }
+}
+
+@keyframes harbor2-tower {
+  0%, 100% { opacity: 0.22; }
+  50% { opacity: 0.46; }
+}
+
+@keyframes harbor2-fire {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes harbor2-anomaly {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.36; }
+}
+
+@keyframes oracle-orb {
+  0%, 100% { opacity: 0.32; transform: scale(1); }
+  50% { opacity: 0.62; transform: scale(1.06); }
+}
+
+@keyframes oracle-beam {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes oracle-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes oracle-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes oracle-rock {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(1px, -2px); }
+}
+
+@keyframes oracle-lantern {
+  0%, 100% { opacity: 0.24; }
+  50% { opacity: 0.54; }
+}
+
+@keyframes oracle-ripple {
+  0%, 100% { opacity: 0.14; transform: scale(1); }
+  50% { opacity: 0.28; transform: scale(1.04); }
+}
+
+@keyframes opp-citadel {
+  0%, 100% { opacity: 0.26; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes opp-lighthouse {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.58; }
+}
+
+@keyframes opp-beam {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes opp-scope {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.32; }
+}
+
+@keyframes opp-fall {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.34; }
+}
+
+@keyframes opp-lantern {
+  0%, 100% { opacity: 0.24; }
+  50% { opacity: 0.54; }
+}
+
+@keyframes opp-ripple {
+  0%, 100% { opacity: 0.14; transform: scale(1); }
+  50% { opacity: 0.28; transform: scale(1.04); }
+}
+
+@keyframes ith-temple {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.56; }
+}
+
+@keyframes ith-fall {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.32; }
+}
+
+@keyframes ith-lantern {
+  0%, 100% { opacity: 0.26; }
+  50% { opacity: 0.56; }
+}
+
+@keyframes ith-ripple {
+  0%, 100% { opacity: 0.14; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.04); }
+}
+
+@keyframes ith-harbor {
+  0% { opacity: 0.16; transform: scale(0.86); }
+  55% { opacity: 0.5; transform: scale(1.08); }
+  100% { opacity: 0.22; transform: scale(1); }
 }
 
 @keyframes compass-wobble {
@@ -466,11 +2462,62 @@
   .map-ocean-currents,
   .map-ocean-sun,
   .map-fog-shape,
-  .map-ship-wake,
-  .map-ship-body,
+  .map-ship-wake {
+    animation: none;
+  }
+  .map-ship-body {
+    animation: none;
+    transform: scale(1.45);
+  }
   .map-island.is-available::before,
   .map-island.is-current::before,
-  .map-island.is-highlight::before {
+  .map-island.is-highlight::before,
+  .map-island-beacon,
+  .culture-fall,
+  .culture-window,
+  .harbor1-fall,
+  .harbor1-lantern,
+  .temple-fall,
+  .temple-mist,
+  .temple-entrance,
+  .temple-torch,
+  .deck-fall,
+  .deck-glow,
+  .deck-lantern,
+  .deck-crane,
+  .feast-fall,
+  .feast-fire,
+  .feast-lights,
+  .feast-lantern,
+  .trials-fall,
+  .trials-mist,
+  .trials-peak,
+  .trials-torch,
+  .trials-bridge,
+  .harbor2-fall,
+  .harbor2-lantern,
+  .harbor2-tower,
+  .harbor2-fire,
+  .harbor2-anomaly,
+  .oracle-orb,
+  .oracle-beam,
+  .oracle-ring,
+  .oracle-fall,
+  .oracle-rock,
+  .oracle-lantern,
+  .oracle-ripple,
+  .opp-citadel,
+  .opp-lighthouse,
+  .opp-beam,
+  .opp-scope,
+  .opp-fall,
+  .opp-lantern,
+  .opp-ripple,
+  .ith-temple,
+  .ith-fall,
+  .ith-lantern,
+  .ith-ripple,
+  .ith-harbor {
     animation: none;
   }
 }

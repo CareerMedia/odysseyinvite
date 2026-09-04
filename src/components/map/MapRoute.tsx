@@ -5,10 +5,12 @@ export function MapRoute({
   pathRef,
   complete,
   reveal,
+  finalLeg,
 }: {
   pathRef: RefObject<SVGPathElement | null>
   complete: boolean
   reveal: number
+  finalLeg?: boolean
 }) {
   return (
     <g className="map-route" pointerEvents="none">
@@ -24,7 +26,7 @@ export function MapRoute({
       <path
         ref={pathRef}
         d={VOYAGE_PATH}
-        className="map-route-live"
+        className={`map-route-live ${finalLeg ? 'is-final-leg' : ''}`}
         fill="none"
         stroke={complete ? '#c9a84c' : '#d4b25a'}
         strokeWidth="2.1"

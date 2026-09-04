@@ -2,6 +2,17 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import gatheringIsland from '../assets/map/islands/gathering-of-the-crew.webp'
+import readinessIsland from '../assets/map/islands/isle-of-readiness.webp'
+import cultureIsland from '../assets/map/islands/kingdom-of-culture.webp'
+import harbor1Island from '../assets/map/islands/safe-harbor-1.webp'
+import strengthsIsland from '../assets/map/islands/temple-of-strengths.webp'
+import quartermasterIsland from '../assets/map/islands/quartermasters-deck.webp'
+import feastIsland from '../assets/map/islands/heros-feast.webp'
+import trialsIsland from '../assets/map/islands/trials-of-the-crew.webp'
+import harbor2Island from '../assets/map/islands/safe-harbor-2.webp'
+import oracleIsland from '../assets/map/islands/oracle-of-ai.webp'
+import opportunityIsland from '../assets/map/islands/sea-of-opportunity.webp'
+import ithacaIsland from '../assets/map/islands/ithaca.webp'
 import { textures } from '../assets/textures'
 import { destinations } from '../data/destinations'
 import { MAP_WORLD, MAP_ZOOM, ROUTE_T, voyageOverviewPoints } from '../data/mapWorld'
@@ -21,6 +32,17 @@ gsap.registerPlugin(MotionPathPlugin)
 
 const ISLAND_ART: Record<string, string> = {
   prologue: gatheringIsland,
+  readiness: readinessIsland,
+  culture: cultureIsland,
+  'harbor-1': harbor1Island,
+  strengths: strengthsIsland,
+  quartermaster: quartermasterIsland,
+  feast: feastIsland,
+  trials: trialsIsland,
+  'harbor-2': harbor2Island,
+  oracle: oracleIsland,
+  opportunity: opportunityIsland,
+  ithaca: ithacaIsland,
 }
 
 export function VoyageMap() {
@@ -56,7 +78,13 @@ export function VoyageMap() {
   const nextOpenId = nextMajorId(progress) ?? nextAvailableId(progress)
   const completion = storyCompletion(progress)
   const harborAlert = progress.visitedIds.includes('harbor-2') && !progress.visitedIds.includes('oracle')
-  const reveal = progress.voyageComplete ? 1 : Math.max(ROUTE_T[current.id] ?? 0, ...progress.visitedIds.map((id) => ROUTE_T[id] ?? 0))
+  const reveal = progress.voyageComplete
+    ? 1
+    : Math.max(
+        ROUTE_T[current.id] ?? 0,
+        ...progress.visitedIds.map((id) => ROUTE_T[id] ?? 0),
+        nextOpenId === 'ithaca' ? (ROUTE_T.ithaca ?? 0) : 0,
+      )
 
   useEffect(() => {
     return () => {
@@ -86,7 +114,7 @@ export function VoyageMap() {
         },
       })
       if (!mapReady) {
-        if (progress.voyageComplete) camera.focusDestination('ithaca', 1.04, false)
+        if (progress.voyageComplete) camera.focusDestination('ithaca', 1.1, false)
         else camera.showOverview(voyageOverviewPoints(current.id, nextOpenId), false)
         camera.apply()
       }
@@ -114,7 +142,14 @@ export function VoyageMap() {
       return
     }
     const id = mapFocus.id ?? current.id
-    camera.focusDestination(id, id === 'prologue' ? 1.1 : 1.08)
+    camera.focusDestination(
+      id,
+      id === 'ithaca'
+        ? 1.12
+        : id === 'prologue' || id === 'readiness' || id === 'culture' || id === 'strengths' || id === 'trials' || id === 'oracle' || id === 'opportunity'
+          ? 1.1
+          : 1.08,
+    )
     setPulseId(id)
     const timer = window.setTimeout(() => setPulseId(null), 2200)
     return () => window.clearTimeout(timer)
@@ -131,7 +166,7 @@ export function VoyageMap() {
     }
 
     revealAround(id)
-    camera.focusDestination(id, 1.08)
+    camera.focusDestination(id, id === 'ithaca' ? 1.12 : 1.08)
     if (reducedMotion || target.id === current.id) {
       arriveAt(id)
       enterChapter(id)
@@ -190,27 +225,19 @@ export function VoyageMap() {
       <div className="map-camera" ref={camera.worldRef} style={{ width: MAP_WORLD.width, height: MAP_WORLD.height }}>
         <MapOcean complete={progress.voyageComplete} />
         <svg className="map-art" viewBox={`0 0 ${MAP_WORLD.width} ${MAP_WORLD.height}`} width={MAP_WORLD.width} height={MAP_WORLD.height} role="img" aria-label="Illustrated voyage map of the Career Center Odyssey">
-          <defs>
-            <pattern id="mapWood" patternUnits="userSpaceOnUse" width="180" height="180">
-              <image href={textures.wood} width="180" height="180" preserveAspectRatio="xMidYMid slice" />
-            </pattern>
-          </defs>
           <MapDecor
             unstable={world.weather === 'oracleAnomaly' || forbiddenReveal || world.weather === 'storm' || harborAlert}
             settled={progress.voyageComplete || progress.currentDestinationId === 'ithaca'}
           />
-          <MapRoute pathRef={pathRef} complete={progress.voyageComplete} reveal={reveal} />
+          <MapRoute pathRef={pathRef} complete={progress.voyageComplete} reveal={reveal} finalLeg={nextOpenId === 'ithaca' || progress.voyageComplete} />
           <MapEasterEggs />
           <KrakenTentacle unlocked={progress.unlockedAchievementIds.includes('kraken-encounter')} />
-          <MapShip shipRef={mapShip} />
         </svg>
         <div className="map-island-layer">
           {destinations.map((dest) => {
             const status = statusOf(dest.id)
             if (dest.kind === DestinationKind.Hidden && status === DestStatus.Locked) return null
             const isNext = dest.id === nextOpenId
-            const zoom = mapReady ? camera.getCamera().zoom : 1
-            const showLabel = dest.kind !== DestinationKind.Minor || isNext || dest.id === current.id || dest.id === pulseId || zoom > 1.12
             return (
               <MapIsland
                 key={dest.id}
@@ -219,13 +246,22 @@ export function VoyageMap() {
                 image={ISLAND_ART[dest.id]}
                 highlighted={isNext || dest.id === pulseId || dest.id === current.id}
                 lockedText={lockedHint === dest.id ? (dest.id === 'forbidden' ? 'Uncharted' : 'Route not yet revealed') : undefined}
-                showLabel={Boolean(showLabel || lockedHint === dest.id)}
+                showLabel
+                anomaly={dest.id === 'harbor-2' && harborAlert}
                 onSelect={sailTo}
               />
             )
           })}
         </div>
         <MapClouds clearedIds={[...progress.visitedIds, ...progress.completedIds, ...(nextOpenId ? [nextOpenId] : [])]} />
+        <svg className="map-ship-layer" viewBox={`0 0 ${MAP_WORLD.width} ${MAP_WORLD.height}`} width={MAP_WORLD.width} height={MAP_WORLD.height} aria-hidden="true">
+          <defs>
+            <pattern id="mapWood" patternUnits="userSpaceOnUse" width="180" height="180">
+              <image href={textures.wood} width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+          </defs>
+          <MapShip shipRef={mapShip} />
+        </svg>
         {ripples.map((ripple) => (
           <span key={ripple.id} className="map-ripple" style={{ left: ripple.x, top: ripple.y }} />
         ))}
