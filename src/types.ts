@@ -98,6 +98,7 @@ export type AudioMood =
   | 'feast'
   | 'adventureIsland'
   | 'harborBreak'
+  | 'harborSignal'
   | 'oracleAnomaly'
   | 'opportunitySea'
   | 'ithacaSunset'

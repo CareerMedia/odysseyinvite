@@ -28,7 +28,7 @@ export function VoyageProgress() {
           className="progress-next"
           type="button"
           onClick={advanceVoyage}
-          aria-label={nextDest ? `Continue to ${nextDest.mythicTitle}` : 'Finish the Odyssey'}
+          aria-label={nextDest ? `Show the next destination, ${nextDest.mythicTitle}` : 'Finish the Odyssey'}
         >
           {nextDest ? 'Next' : 'Finish'}
           <ChevronRight size={16} strokeWidth={2.2} />

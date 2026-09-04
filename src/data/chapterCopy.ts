@@ -1,9 +1,21 @@
 import type { Destination } from '../types'
 
 export function chapterGuidance(dest: Destination, firstInteractive: boolean) {
-  if (dest.interaction === 'rest' || dest.interaction === 'feast' || dest.interaction === 'signal' || dest.interaction === 'forbidden') {
+  if (dest.interaction === 'feast') {
     return {
-      lead: dest.interaction === 'signal' ? 'Watch the instruments' : 'Take in the harbor',
+      lead: 'Take in the harbor',
+      detail: 'Optional. Return to the map whenever you\'re ready.',
+    }
+  }
+  if (dest.interaction === 'signal') {
+    return {
+      lead: 'Watch the instruments',
+      detail: 'Optional. Return to the map whenever you\'re ready.',
+    }
+  }
+  if (dest.interaction === 'rest' || dest.interaction === 'forbidden') {
+    return {
+      lead: 'Take in the harbor',
       detail: firstInteractive
         ? 'Optional exploration — continue your Odyssey whenever you\'re ready.'
         : 'Optional. Return to the map whenever you\'re ready.',
@@ -35,26 +47,26 @@ export function chapterGuidance(dest: Destination, firstInteractive: boolean) {
   }
   if (dest.interaction === 'crates') {
     return {
-      lead: 'Explore the highlighted objects',
-      detail: 'Select Spaces, Equipment, and Payroll. Optional exploration — continue your Odyssey whenever you\'re ready.',
+      lead: "Explore the Quartermaster's Deck",
+      detail: 'Select Spaces, Equipment, and Payroll to discover what keeps the voyage running. Optional exploration — continue your Odyssey whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'trials') {
     return {
-      lead: 'Explore the highlighted objects',
-      detail: 'Activate each crew principle in order. Optional exploration — continue your Odyssey whenever you\'re ready.',
+      lead: 'Build the path together',
+      detail: 'Activate each crew principle to strengthen the expedition. Optional exploration — continue your Odyssey whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'oracle') {
     return {
-      lead: 'Explore the highlighted objects',
-      detail: 'Select each glowing symbol to consult the Oracle. Optional exploration — continue your Odyssey whenever you\'re ready.',
+      lead: 'Consult the Oracle',
+      detail: 'Activate each principle to explore the chapter. Optional exploration — continue your Odyssey whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'briefing') {
     return {
-      lead: 'Explore the highlighted objects',
-      detail: 'Select The Terrain, Your Role, and The Mission. Optional exploration — continue your Odyssey whenever you\'re ready.',
+      lead: 'Prepare for the journey ahead',
+      detail: 'Explore each briefing point to chart the final approach. Optional exploration — continue your Odyssey whenever you\'re ready.',
     }
   }
   if (dest.interaction === 'reflection') {

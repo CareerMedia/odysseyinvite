@@ -6,11 +6,10 @@ export function MapGuidance() {
 
   return (
     <div className="map-guide" aria-labelledby="map-guide-title">
-      <p className="chapter-kicker">How to navigate</p>
-      <h2 id="map-guide-title">The whole chart is open.</h2>
-      <p>Select any island to visit that destination.</p>
-      <p>Use Next in the chapter tracker to follow the recommended course.</p>
-      <p>Activities inside each chapter are optional. Return to the map whenever you&apos;re ready.</p>
+      <p className="chapter-kicker">The chart is open</p>
+      <h2 id="map-guide-title">Drag to explore the chart</h2>
+      <p>Scroll or pinch to zoom. Use + and − if you prefer.</p>
+      <p>Select the glowing destination to continue. Next only shows you the course — it does not open a chapter.</p>
       <button className="cta-primary" type="button" onClick={markMapGuidanceSeen}>
         Got it
       </button>

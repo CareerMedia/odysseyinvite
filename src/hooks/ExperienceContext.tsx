@@ -23,7 +23,7 @@ import { canEnterDestination, getDestinationStatus, nextAvailableId, nextMajorId
 import { useIsMobile } from './useIsMobile'
 import { useReducedMotion } from './useReducedMotion'
 
-type MapFocus = { mode: 'destination' | 'ship' | 'full'; id?: string } | null
+type MapFocus = { mode: 'destination' | 'ship' | 'full'; id?: string; nonce?: number } | null
 
 type ExperienceContextValue = {
   scene: SceneId
@@ -54,6 +54,7 @@ type ExperienceContextValue = {
   enterChapter: (id: string) => void
   closeChapter: () => void
   completeChapter: (id: string) => void
+  finishOdyssey: () => void
   revealAround: (id: string) => void
   unlockAchievement: (id: string) => void
   setStrengthsPath: (path: Exclude<StrengthsPath, null>) => void
@@ -249,7 +250,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       void runTransition(type, () => {
         setActiveChapterId(id)
         setScene(Scene.Chapter)
-        setMapFocus({ mode: 'destination', id })
+        setMapFocus({ mode: 'destination', id, nonce: Date.now() })
         if (dest) sound.play(dest.audio.enter === 'oracle-enter' ? 'discover' : 'chime')
         preloadNextDestination(id)
       })
@@ -275,18 +276,19 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     if (!next) {
       setActiveChapterId(null)
       setScene(Scene.Complete)
-      setMapFocus({ mode: 'full' })
+      setMapFocus({ mode: 'destination', id: 'ithaca', nonce: Date.now() })
       return
     }
-    enterChapter(next)
-  }, [enterChapter, progress])
+    setMapFocus({ mode: 'destination', id: next, nonce: Date.now() })
+  }, [progress])
 
   const closeChapter = useCallback(() => {
     const type = activeChapterId ? DESTINATION_ENV[activeChapterId]?.transitionOut ?? 'cloudPass' : 'cloudPass'
+    const returnId = activeChapterId
     void runTransition(type, () => {
       setActiveChapterId(null)
       setScene(Scene.Map)
-      setMapFocus({ mode: 'full' })
+      setMapFocus({ mode: 'destination', id: returnId ?? undefined, nonce: Date.now() })
     })
   }, [activeChapterId, runTransition])
 
@@ -307,8 +309,8 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
           xp: current.xp + award,
         }
       }, true)
-      sound.play('discover')
-      if (dest && award > 0) pushToast(dest.completeTitle, dest.completeLine, award, dest.completeTitle)
+      if (id !== 'ithaca') sound.play('discover')
+      if (dest && award > 0 && id !== 'ithaca') pushToast(dest.completeTitle, dest.completeLine, award, dest.completeTitle)
     },
     [pushToast, sound, updateProgress],
   )
@@ -386,10 +388,22 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     setScene(Scene.Cinematic)
   }, [])
 
+  const finishOdyssey = useCallback(() => {
+    updateProgress((current) => ({
+      ...unlockOnVisit(current, 'ithaca'),
+      voyageComplete: true,
+    }), true)
+    void runTransition('sunFlare', () => {
+      setActiveChapterId(null)
+      setScene(Scene.Complete)
+      setMapFocus({ mode: 'destination', id: 'ithaca', nonce: Date.now() })
+    })
+  }, [runTransition, updateProgress])
+
   const viewCompletedVoyage = useCallback(() => {
     setActiveChapterId(null)
     setScene(Scene.Map)
-    setMapFocus({ mode: 'destination', id: 'ithaca' })
+      setMapFocus({ mode: 'destination', id: 'ithaca', nonce: Date.now() })
   }, [])
 
   const resetVoyage = useCallback(() => {
@@ -470,6 +484,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       enterChapter,
       closeChapter,
       completeChapter,
+      finishOdyssey,
       revealAround,
       unlockAchievement,
       setStrengthsPath,
@@ -496,6 +511,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
       detailsOpen,
       enterChapter,
       enterWorld,
+      finishOdyssey,
       forbiddenReveal,
       isDev,
       isMobile,

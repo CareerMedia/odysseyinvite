@@ -286,85 +286,22 @@ const SCENE: Record<VisualType, ReactElement> = {
   ),
   cove2: (
     <g>
-      <rect width="1600" height="900" fill="#102038" />
-      <path d="M0 500 C 400 440 900 520 1600 460 V 900 H 0 Z" fill="#0a2438" />
-      <ellipse cx="800" cy="520" rx="120" ry="120" fill="#7ec8b8" opacity="0.12" />
-      <circle cx="800" cy="500" r="90" fill="none" stroke="#c9a84c" strokeWidth="6" />
-      <circle cx="800" cy="500" r="54" fill="none" stroke="#7ec8b8" strokeWidth="3" />
-      <path d="M800 410 L 812 492 L 800 500 L 788 492 Z" fill="#d22030" />
-      <path d="M0 720 C 300 680 800 760 1600 700 V 900 H 0 Z" fill="#061018" />
-      <Wash d="M0 720 C 300 680 800 760 1600 700 V 900 H 0 Z" tex="leather" opacity={0.28} />
+      <rect width="1600" height="900" fill="#061018" />
     </g>
   ),
   oracle: (
     <g>
-      <rect width="1600" height="900" fill="#061018" />
-      <path d="M0 520 C 360 470 860 540 1600 480 V 900 H 0 Z" fill="#0a2438" />
-      <path d="M300 800 L 420 220 L 520 800 Z" fill="#6b7380" />
-      <path d="M1100 800 L 1200 180 L 1320 800 Z" fill="#5a6470" />
-      <ellipse cx="800" cy="420" rx="160" ry="160" fill="none" stroke="#7ec8b8" strokeWidth="3" />
-      <ellipse cx="800" cy="420" rx="100" ry="100" fill="none" stroke="#7ec8b8" strokeWidth="2" opacity="0.6" />
-      <circle cx="800" cy="420" r="36" fill="#7ec8b8" opacity="0.35" />
-      <path d="M640 420 L 960 420 M 800 260 L 800 580" stroke="#7ec8b8" strokeWidth="1" opacity="0.4" />
-      <circle cx="680" cy="300" r="3" fill="#7ec8b8" />
-      <circle cx="940" cy="280" r="3" fill="#7ec8b8" />
-      <circle cx="900" cy="540" r="3" fill="#7ec8b8" />
-      <path d="M680 300 L 800 420 L 940 280" fill="none" stroke="#7ec8b8" strokeWidth="1" opacity="0.45" />
-      <rect x="250" y="300" width="40" height="160" fill="#8b8370" />
-      <rect x="1310" y="280" width="40" height="180" fill="#8b8370" />
-      <Wash d="M300 800 L 420 220 L 520 800 Z" tex="mcliff" opacity={0.45} />
-      <Wash d="M1100 800 L 1200 180 L 1320 800 Z" tex="mcliff" opacity={0.45} />
-      <WashRect x={250} y={300} w={40} h={160} tex="marble" />
-      <WashRect x={1310} y={280} w={40} h={180} tex="marble" />
+      <rect width="1600" height="900" fill="#050d18" />
     </g>
   ),
   port: (
     <g>
-      <rect width="1600" height="900" fill="#2a4868" />
-      <path d="M0 0 H 1600 V 380 H 0 Z" fill="#6a7e9a" />
-      <circle cx="1280" cy="160" r="70" fill="#f0b24a" />
-      <ellipse cx="1280" cy="160" rx="180" ry="80" fill="#e8a54b" opacity="0.2" />
-      <path d="M0 460 C 300 400 800 480 1600 400 V 900 H 0 Z" fill="url(#cw-sea)" />
-      <path d="M900 500 C 1040 360 1240 340 1480 420 L 1540 620 L 920 640 Z" fill="#6f8a70" />
-      <rect x="1100" y="380" width="24" height="90" fill="#d8c4a0" />
-      <rect x="1180" y="340" width="36" height="130" fill="#e8d5b0" />
-      <rect x="1260" y="360" width="22" height="110" fill="#c4b08c" />
-      <path d="M200 640 C 280 600 360 630 420 610" fill="#6a4022" />
-      <path d="M500 620 C 580 580 660 610 740 590" fill="#6a4022" />
-      <path d="M280 600 L 280 640 L 340 630 Z" fill="#efe4c8" />
-      <path d="M580 580 L 580 620 L 640 610 Z" fill="#efe4c8" />
-      <path d="M360 580 L 360 610 L 400 596 Z" fill="#d22030" />
-      <Wash d="M900 500 C 1040 360 1240 340 1480 420 L 1540 620 L 920 640 Z" tex="stone" opacity={0.4} />
-      <Wash d="M200 640 C 280 600 360 630 420 610" tex="wood" />
-      <Wash d="M500 620 C 580 580 660 610 740 590" tex="wood" />
+      <rect width="1600" height="900" fill="#0a1624" />
     </g>
   ),
   ithaca: (
     <g>
-      <rect width="1600" height="900" fill="#2a2114" />
-      <path d="M0 0 H 1600 V 420 H 0 Z" fill="#6a4020" />
-      <circle cx="1320" cy="300" r="80" fill="#ffb44a" />
-      <ellipse cx="1320" cy="300" rx="220" ry="100" fill="#e8a54b" opacity="0.28" />
-      <path d="M0 500 C 400 450 900 520 1600 460 V 900 H 0 Z" fill="#1a3a44" />
-      <path d="M200 620 C 360 380 620 300 860 380 C 1100 460 980 680 720 720 C 420 770 220 700 200 620 Z" fill="#8b6914" />
-      <rect x="420" y="480" width="22" height="70" fill="#e8d5b0" />
-      <rect x="460" y="450" width="30" height="100" fill="#f0e2b8" />
-      <rect x="510" y="470" width="20" height="80" fill="#d8c4a0" />
-      <rect x="560" y="430" width="34" height="120" fill="#e8d5b0" />
-      <path d="M560 430 L 577 390 L 594 430" fill="#c9a84c" />
-      <circle cx="432" cy="488" r="2" fill="#e8a54b" />
-      <circle cx="476" cy="458" r="2" fill="#e8a54b" />
-      <circle cx="578" cy="438" r="2" fill="#e8a54b" />
-      <path d="M980 560 C 1080 400 1240 380 1400 460 L 1440 640 L 1000 650 Z" fill="#7a5a28" />
-      <ellipse cx="300" cy="700" rx="70" ry="10" fill="rgba(0,0,0,0.25)" />
-      <path d="M240 690 C 290 670 360 670 400 692 C 350 708 280 708 240 690 Z" fill="#4a2e1a" />
-      <path d="M320 620 L 320 690 L 370 686 Z" fill="#efe4c8" />
-      <Wash d="M200 620 C 360 380 620 300 860 380 C 1100 460 980 680 720 720 C 420 770 220 700 200 620 Z" tex="sand" opacity={0.38} />
-      <WashRect x={420} y={480} w={22} h={70} tex="stone" />
-      <WashRect x={460} y={450} w={30} h={100} tex="stone" />
-      <WashRect x={510} y={470} w={20} h={80} tex="stone" />
-      <WashRect x={560} y={430} w={34} h={120} tex="stone" />
-      <Wash d="M980 560 C 1080 400 1240 380 1400 460 L 1440 640 L 1000 650 Z" tex="terrain" opacity={0.4} />
+      <rect width="1600" height="900" fill="#1a140c" />
     </g>
   ),
   forbidden: (

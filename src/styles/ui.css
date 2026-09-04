@@ -22,6 +22,10 @@
   top: 1rem;
   left: 1.1rem;
   z-index: 31;
+  padding: 0.55rem 0.75rem 0.6rem;
+  background: rgba(6, 15, 25, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  backdrop-filter: blur(12px);
 }
 
 .brand-sub {
@@ -173,7 +177,7 @@
   z-index: 30;
   min-width: min(92vw, 40rem);
   padding: 0.7rem 1.1rem 0.8rem;
-  background: rgba(16, 22, 28, 0.48);
+  background: rgba(16, 22, 28, 0.62);
   border: 1px solid rgba(201, 168, 76, 0.28);
   backdrop-filter: blur(14px);
   text-align: center;

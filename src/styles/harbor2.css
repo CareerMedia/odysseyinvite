@@ -1,0 +1,567 @@
+.chapter-cove2 {
+  align-items: end;
+  justify-items: start;
+  padding: 1.15rem 1.2rem 1.3rem;
+}
+
+.chapter-cove2 .chapter-world {
+  background: #061018;
+}
+
+.harbor2 {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.harbor2-camera {
+  position: absolute;
+  inset: -2%;
+  transform: scale(1.015);
+  transform-origin: 50% 46%;
+  animation: harbor2-push 13s ease-out forwards;
+}
+
+.harbor2-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 48%;
+  display: block;
+}
+
+.harbor2-cloud {
+  position: absolute;
+  filter: blur(26px);
+  opacity: 0.08;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.cloud-a {
+  left: -10%;
+  top: 2%;
+  width: 46%;
+  height: 22%;
+  background: radial-gradient(ellipse, rgba(255, 220, 190, 0.22), transparent 70%);
+  animation: harbor2-cloud 48s linear infinite;
+}
+
+.cloud-b {
+  left: 52%;
+  top: 6%;
+  width: 36%;
+  height: 16%;
+  background: radial-gradient(ellipse, rgba(255, 236, 210, 0.16), transparent 70%);
+  animation: harbor2-cloud 62s linear infinite reverse;
+}
+
+.harbor2-sun {
+  position: absolute;
+  left: 46%;
+  top: 34%;
+  width: 22vw;
+  height: 16vw;
+  max-width: 16rem;
+  max-height: 12rem;
+  background: radial-gradient(ellipse, rgba(255, 210, 120, 0.2), transparent 70%);
+  mix-blend-mode: screen;
+  animation: harbor2-sun 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor2-waves {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 46%;
+  height: 30%;
+  background: linear-gradient(104deg, transparent 18%, rgba(255, 220, 160, 0.14) 48%, transparent 76%);
+  background-size: 180% 100%;
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0.14;
+  animation: harbor2-waves 11s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor2-foam {
+  position: absolute;
+  left: 16%;
+  bottom: 18%;
+  width: 22%;
+  height: 10%;
+  background: linear-gradient(90deg, transparent, rgba(230, 240, 245, 0.1), transparent);
+  opacity: 0.16;
+  animation: harbor2-foam 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor2-wake {
+  position: absolute;
+  right: 18%;
+  bottom: 16%;
+  width: 16%;
+  height: 8%;
+  background: linear-gradient(90deg, transparent, rgba(220, 236, 240, 0.12), transparent);
+  opacity: 0.16;
+  animation: harbor2-wake 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor2-lamp {
+  position: absolute;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.36), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.lamp-a { left: 13%; top: 34%; animation: harbor2-lamp 4.4s ease-in-out infinite; }
+.lamp-b { left: 20%; top: 62%; width: 1.8rem; height: 1.8rem; animation: harbor2-lamp 5.1s ease-in-out infinite 0.3s; }
+.lamp-c { left: 8%; bottom: 16%; animation: harbor2-lamp 6.3s ease-in-out infinite 0.5s; }
+.lamp-d { right: 18%; bottom: 14%; animation: harbor2-lamp 7s ease-in-out infinite 0.2s; }
+.lamp-e { right: 16%; top: 46%; width: 1.6rem; height: 1.6rem; animation: harbor2-lamp 5.6s ease-in-out infinite 0.8s; }
+
+.harbor2-window {
+  position: absolute;
+  left: 10%;
+  top: 32%;
+  width: 8%;
+  height: 8%;
+  background: radial-gradient(ellipse, rgba(255, 186, 90, 0.22), transparent 70%);
+  mix-blend-mode: screen;
+  animation: harbor2-lamp 5.8s ease-in-out infinite 0.4s;
+  pointer-events: none;
+}
+
+.harbor2-beacon {
+  position: absolute;
+  left: 49%;
+  top: 34%;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 220, 140, 0.28), transparent 70%);
+  mix-blend-mode: screen;
+  animation: harbor2-beacon 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor2-cyan,
+.harbor2-speck,
+.harbor2-glitch {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.harbor2-cyan {
+  left: 42%;
+  top: 52%;
+  width: 28%;
+  height: 18%;
+  background: radial-gradient(ellipse, rgba(126, 200, 184, 0.16), transparent 70%);
+  mix-blend-mode: screen;
+  filter: blur(10px);
+  transition: opacity 1.4s ease;
+}
+
+.harbor2-speck {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(160, 230, 220, 0.45);
+}
+
+.speck-a { left: 54%; top: 58%; }
+.speck-b { left: 62%; top: 62%; }
+
+.harbor2-glitch {
+  inset: 0;
+  box-shadow: inset 1px 0 0 rgba(126, 200, 184, 0.08);
+}
+
+.harbor2.is-drift .harbor2-cyan { opacity: 0.45; }
+.harbor2.is-drift .harbor2-cloud { animation-duration: 28s; }
+
+.harbor2.is-signal .harbor2-cyan {
+  opacity: 0.85;
+  animation: harbor2-cyan 5.5s ease-in-out infinite;
+}
+
+.harbor2.is-signal .harbor2-speck {
+  opacity: 0.55;
+  animation: harbor2-speck 4.8s ease-in-out infinite;
+}
+
+.harbor2.is-signal .harbor2-lamp { animation-duration: 2.4s; }
+.harbor2.is-signal .harbor2-beacon { filter: hue-rotate(18deg); opacity: 0.8; }
+.harbor2.is-signal .harbor2-glitch { animation: harbor2-glitch 0.5s ease 1; }
+.harbor2.is-signal .harbor2-plate { animation: harbor2-shift 0.46s ease 1; }
+
+.harbor2-bird {
+  position: absolute;
+  top: 18%;
+  left: 18%;
+  width: 7px;
+  height: 2px;
+  background: rgba(28, 24, 20, 0.28);
+  opacity: 0;
+  animation: harbor2-bird 38s linear 16s infinite;
+}
+
+.harbor2-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 46%, transparent 52%, rgba(6, 16, 27, 0.24) 100%);
+  pointer-events: none;
+}
+
+.harbor2-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 16, 27, 0.36);
+  animation: harbor2-dim 2.1s ease forwards;
+  pointer-events: none;
+}
+
+.harbor2-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(180, 220, 220, 0.16), transparent);
+  pointer-events: none;
+}
+
+.harbor2-gauge {
+  appearance: none;
+  position: absolute;
+  right: 3.5%;
+  bottom: 7%;
+  z-index: 3;
+  width: 4.7rem;
+  height: 4.7rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.gauge-ring,
+.gauge-mark,
+.gauge-needle,
+.gauge-hub {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  pointer-events: none;
+}
+
+.gauge-ring {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.62);
+  background: rgba(6, 16, 27, 0.62);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28), inset 0 0 0 6px rgba(42, 28, 12, 0.35);
+}
+
+.gauge-mark {
+  width: 2px;
+  height: 0.55rem;
+  top: 0.45rem;
+  background: #f0d48a;
+}
+
+.gauge-needle {
+  width: 2px;
+  height: 1.7rem;
+  top: 0.7rem;
+  background: linear-gradient(#8b1e24, #c9a84c);
+  transform-origin: 50% 100%;
+  animation: harbor2-needle 6s ease-in-out infinite;
+}
+
+.gauge-hub {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #f0d48a;
+}
+
+.harbor2.is-drift .gauge-needle {
+  animation: harbor2-needle-drift 2.8s ease-in-out infinite;
+}
+
+.harbor2.is-signal .gauge-needle {
+  animation: harbor2-needle-lost 3.6s ease-in-out infinite;
+}
+
+.harbor2.is-signal .gauge-ring {
+  box-shadow: 0 0 16px rgba(126, 200, 184, 0.28), inset 0 0 0 6px rgba(42, 28, 12, 0.35);
+}
+
+.harbor2-gauge:hover .gauge-ring,
+.harbor2-gauge:focus-visible .gauge-ring {
+  border-color: #f0d48a;
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.55), 0 0 16px rgba(126, 200, 184, 0.25);
+}
+
+.chapter-cove2 .chapter-panel {
+  width: min(26.5rem, 100%);
+  max-width: 450px;
+  background:
+    linear-gradient(rgba(6, 16, 27, 0.84), rgba(6, 16, 27, 0.84)),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 236, 200, 0.03) 3px, rgba(255, 236, 200, 0.03) 4px);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  backdrop-filter: blur(12px);
+  color: #f4ead6;
+  animation: harbor2-panel 1.8s ease 0.35s both;
+}
+
+.chapter-cove2 .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-cove2 .chapter-guide {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #f0d48a;
+}
+
+.chapter-cove2 .chapter-story,
+.chapter-cove2 .chapter-sub,
+.chapter-cove2 .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-cove2 .signal-box {
+  color: #f4ead6;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  background: rgba(6, 16, 27, 0.35);
+}
+
+.chapter-cove2 .signal-box.phase-2 {
+  color: #b7ebe3;
+  border-color: rgba(126, 200, 184, 0.4);
+}
+
+.chapter-cove2 .chapter-actions .cta-primary {
+  background: rgba(6, 16, 27, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-cove2 .chapter-complete {
+  background: rgba(126, 200, 184, 0.08);
+  border: 1px solid rgba(126, 200, 184, 0.24);
+}
+
+.chapter-cove2.is-leaving .chapter-panel {
+  animation: harbor2-panel-out 0.55s ease forwards;
+}
+
+.chapter-cove2.is-leaving .harbor2-camera {
+  animation: harbor2-pull 0.7s ease forwards;
+}
+
+.chapter-cove2.is-leaving .harbor2-exit-mist {
+  animation: harbor2-exit-mist 0.7s ease forwards;
+}
+
+.chapter-cove2.is-leaving .harbor2-cyan { opacity: 1; }
+.chapter-cove2.is-leaving .gauge-needle {
+  animation: harbor2-needle-snap 0.55s ease forwards;
+}
+
+.chapter-cove2.is-still .harbor2-camera,
+.chapter-cove2.is-still .harbor2-cloud,
+.chapter-cove2.is-still .harbor2-sun,
+.chapter-cove2.is-still .harbor2-waves,
+.chapter-cove2.is-still .harbor2-foam,
+.chapter-cove2.is-still .harbor2-wake,
+.chapter-cove2.is-still .harbor2-lamp,
+.chapter-cove2.is-still .harbor2-window,
+.chapter-cove2.is-still .harbor2-beacon,
+.chapter-cove2.is-still .harbor2-cyan,
+.chapter-cove2.is-still .harbor2-speck,
+.chapter-cove2.is-still .harbor2-bird,
+.chapter-cove2.is-still .harbor2-dim,
+.chapter-cove2.is-still .gauge-needle,
+.chapter-cove2.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-cove2.is-still .harbor2-camera { transform: none; }
+.chapter-cove2.is-still .harbor2-dim { opacity: 0; }
+.chapter-cove2.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-cove2.is-still .harbor2-waves { opacity: 0.07; }
+.chapter-cove2.is-still .harbor2-bird,
+.chapter-cove2.is-still .harbor2-speck { display: none; }
+.chapter-cove2.is-still .harbor2.is-signal .harbor2-cyan { opacity: 0.5; }
+.chapter-cove2.is-still .gauge-needle { transform: rotate(18deg); }
+
+@keyframes harbor2-push {
+  from { transform: scale(1.015); }
+  to { transform: scale(1.035); }
+}
+
+@keyframes harbor2-dim { to { opacity: 0; } }
+
+@keyframes harbor2-cloud {
+  from { transform: translateX(0); }
+  to { transform: translateX(7%); }
+}
+
+@keyframes harbor2-sun {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes harbor2-waves {
+  0% { background-position: 0% 50%; opacity: 0.1; }
+  50% { background-position: 100% 50%; opacity: 0.18; }
+  100% { background-position: 0% 50%; opacity: 0.1; }
+}
+
+@keyframes harbor2-foam {
+  0%, 100% { transform: translateX(0); opacity: 0.1; }
+  50% { transform: translateX(8px); opacity: 0.2; }
+}
+
+@keyframes harbor2-wake {
+  0%, 100% { transform: translateX(0); opacity: 0.1; }
+  50% { transform: translateX(6px); opacity: 0.2; }
+}
+
+@keyframes harbor2-lamp {
+  0%, 100% { opacity: 0.42; }
+  50% { opacity: 0.86; }
+}
+
+@keyframes harbor2-beacon {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes harbor2-cyan {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes harbor2-speck {
+  0%, 100% { transform: translateY(0); opacity: 0.2; }
+  50% { transform: translateY(-8px); opacity: 0.6; }
+}
+
+@keyframes harbor2-bird {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.35; }
+  100% { opacity: 0; transform: translateX(40vw); }
+}
+
+@keyframes harbor2-glitch {
+  0%, 100% { opacity: 0; }
+  40% { opacity: 0.35; }
+}
+
+@keyframes harbor2-shift {
+  0%, 100% { transform: none; filter: none; }
+  42% { transform: translateX(1px); filter: drop-shadow(-1px 0 0 rgba(126, 200, 184, 0.22)); }
+}
+
+@keyframes harbor2-needle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes harbor2-needle-drift {
+  0% { transform: rotate(8deg); }
+  35% { transform: rotate(26deg); }
+  48% { transform: rotate(14deg); }
+  100% { transform: rotate(38deg); }
+}
+
+@keyframes harbor2-needle-lost {
+  0% { transform: rotate(40deg); }
+  20% { transform: rotate(-80deg); }
+  40% { transform: rotate(160deg); }
+  100% { transform: rotate(128deg); }
+}
+
+@keyframes harbor2-needle-snap {
+  to { transform: rotate(210deg); }
+}
+
+@keyframes harbor2-panel {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes harbor2-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes harbor2-pull {
+  to { transform: scale(1.01); }
+}
+
+@keyframes harbor2-exit-mist {
+  to { opacity: 1; transform: translateX(8%); }
+}
+
+@media (max-width: 900px) {
+  .harbor2-plate { object-position: 52% 50%; }
+  .harbor2.is-lite .cloud-b,
+  .harbor2.is-lite .lamp-e,
+  .harbor2.is-lite .speck-b {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .harbor2-plate { object-position: 50% 46%; }
+  .chapter-cove2 { padding: 0.75rem 0.7rem 0.8rem; }
+  .chapter-cove2 .chapter-panel {
+    width: 100%;
+    max-width: none;
+    max-height: min(50dvh, 28rem);
+  }
+  .harbor2-gauge {
+    right: 0.7rem;
+    top: 0.7rem;
+    bottom: auto;
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+  .gauge-ring { width: 3.6rem; height: 3.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .harbor2-camera,
+  .harbor2-cloud,
+  .harbor2-sun,
+  .harbor2-waves,
+  .harbor2-foam,
+  .harbor2-wake,
+  .harbor2-lamp,
+  .harbor2-window,
+  .harbor2-beacon,
+  .harbor2-cyan,
+  .harbor2-speck,
+  .harbor2-bird,
+  .harbor2-dim,
+  .gauge-needle,
+  .chapter-cove2 .chapter-panel {
+    animation: none !important;
+  }
+  .harbor2-camera { transform: none; }
+  .harbor2-dim { opacity: 0; }
+  .harbor2-bird,
+  .harbor2-speck { display: none; }
+  .harbor2.is-signal .harbor2-cyan { opacity: 0.5; }
+  .harbor2.is-signal .gauge-needle { transform: rotate(22deg); }
+}

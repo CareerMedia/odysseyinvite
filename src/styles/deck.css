@@ -1,0 +1,510 @@
+.chapter-deck {
+  align-items: end;
+  justify-items: start;
+  padding: 1.1rem 1.1rem 1.3rem;
+}
+
+.chapter-deck .chapter-world {
+  background: #06101b;
+}
+
+.deck {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.deck-camera {
+  position: absolute;
+  inset: -2%;
+  transform: scale(1.015);
+  transform-origin: 58% 58%;
+  animation: deck-push 12s ease-out forwards;
+}
+
+.deck-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 52%;
+  display: block;
+}
+
+.deck-sun {
+  position: absolute;
+  left: 18%;
+  top: 28%;
+  width: 22vw;
+  height: 22vw;
+  max-width: 16rem;
+  max-height: 16rem;
+  transform: translate(calc(-50% + var(--gx, 0px)), calc(-50% + var(--gy, 0px)));
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.26) 0%, rgba(255, 150, 60, 0.08) 42%, transparent 72%);
+  mix-blend-mode: screen;
+  animation: deck-sun 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.deck-shimmer {
+  position: absolute;
+  left: 0;
+  width: 38%;
+  top: 36%;
+  height: 28%;
+  background: linear-gradient(102deg, transparent 18%, rgba(255, 220, 150, 0.12) 48%, transparent 72%);
+  background-size: 180% 100%;
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0.1;
+  animation: deck-shimmer 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.deck-port {
+  position: absolute;
+  right: 14%;
+  top: 28%;
+  width: 7%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 50%, rgba(180, 210, 230, 0.12), transparent 68%);
+  mix-blend-mode: screen;
+  animation: deck-port 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.deck-lamp {
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 80, 0.34), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.lamp-a { left: 16%; top: 24%; animation: deck-flicker 4.6s ease-in-out infinite; }
+.lamp-b { left: 34%; top: 62%; width: 2.6rem; height: 2.6rem; animation: deck-flicker 5.3s ease-in-out infinite 0.4s; }
+.lamp-c { left: 48%; top: 40%; width: 2.2rem; height: 2.2rem; animation: deck-flicker 6.8s ease-in-out infinite 0.8s; }
+.lamp-d { left: 68%; top: 54%; width: 4rem; height: 4rem; animation: deck-flicker 7.2s ease-in-out infinite 0.2s; }
+.lamp-e { left: 58%; top: 36%; width: 2rem; height: 2rem; animation: deck-flicker 5.8s ease-in-out infinite 1s; }
+
+.deck.is-flare .deck-lamp { filter: brightness(1.25); }
+
+.deck-paper {
+  position: absolute;
+  background: rgba(244, 226, 186, 0.08);
+  transform-origin: 0 100%;
+  pointer-events: none;
+}
+
+.paper-a {
+  left: 70%;
+  top: 58%;
+  width: 6%;
+  height: 5%;
+  animation: deck-paper 8.4s ease-in-out infinite;
+}
+
+.paper-b {
+  left: 44%;
+  top: 36%;
+  width: 4%;
+  height: 6%;
+  animation: deck-paper 9.6s ease-in-out infinite 1.2s;
+}
+
+.deck.is-paper .deck-paper { animation-duration: 2.2s; }
+
+.deck-rope {
+  position: absolute;
+  right: 18%;
+  top: 42%;
+  width: 1%;
+  height: 16%;
+  background: linear-gradient(180deg, rgba(90, 58, 28, 0.18), transparent 85%);
+  transform-origin: 50% 0;
+  animation: deck-rope 7.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.deck.is-rope .deck-rope { animation-duration: 2.4s; }
+
+.deck-mote {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 214, 140, 0.42);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.mote-a { left: 64%; bottom: 28%; animation: deck-mote 16s ease-in-out infinite; }
+.mote-b { left: 72%; bottom: 34%; animation: deck-mote 19s ease-in-out infinite 3s; }
+.mote-c { left: 40%; bottom: 22%; animation: deck-mote 22s ease-in-out infinite 6s; }
+
+.deck-gull {
+  position: absolute;
+  top: 22%;
+  left: 4%;
+  width: 7px;
+  height: 2px;
+  background: rgba(28, 20, 16, 0.28);
+  opacity: 0;
+  animation: deck-gull 38s linear 8s infinite;
+}
+
+.deck.is-gull .deck-gull {
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.deck-compass {
+  position: absolute;
+  left: 27%;
+  bottom: 8%;
+  width: min(18vw, 11rem);
+  height: min(18vw, 11rem);
+  pointer-events: none;
+}
+
+.deck-ring,
+.deck-spark {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.deck-ring {
+  box-shadow: inset 0 0 0 1.5px rgba(201, 168, 76, 0.22), 0 0 16px rgba(201, 168, 76, 0.1);
+  animation: deck-ring 10s ease-in-out infinite;
+}
+
+.deck-spark {
+  background: conic-gradient(from 0deg, transparent 0 88%, rgba(255, 220, 150, 0.4) 91%, transparent 95%);
+  mask-image: radial-gradient(circle, transparent 64%, #000 70%, #000 74%, transparent 78%);
+  animation: deck-spark 18s linear infinite;
+  opacity: 0.4;
+}
+
+.deck-spaces,
+.deck-equipment,
+.deck-payroll,
+.deck-wash {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  mix-blend-mode: screen;
+}
+
+.deck-spaces {
+  left: 38%;
+  top: 28%;
+  width: 22%;
+  height: 24%;
+  background: radial-gradient(ellipse, rgba(255, 214, 140, 0.2), transparent 70%);
+}
+
+.deck-equipment {
+  left: 56%;
+  top: 58%;
+  width: 18%;
+  height: 20%;
+  background: radial-gradient(ellipse, rgba(232, 176, 80, 0.2), transparent 68%);
+}
+
+.deck-payroll {
+  left: 66%;
+  top: 48%;
+  width: 22%;
+  height: 22%;
+  background: radial-gradient(ellipse, rgba(255, 220, 150, 0.18), transparent 68%);
+}
+
+.deck-wash {
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 196, 110, 0.08) 58%, transparent 82%);
+}
+
+.deck.is-spaces .deck-spaces,
+.deck.is-equipment .deck-equipment,
+.deck.is-payroll .deck-payroll {
+  opacity: 1;
+}
+
+.deck.is-ready .deck-lamp { filter: brightness(1.3); }
+.deck.is-ready .deck-wash { opacity: 1; }
+.deck.is-ready .deck-ring {
+  box-shadow: inset 0 0 0 2px rgba(255, 220, 150, 0.5), 0 0 24px rgba(201, 168, 76, 0.32);
+}
+
+.deck-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 52% 50%, transparent 48%, rgba(6, 16, 27, 0.26) 100%);
+  pointer-events: none;
+}
+
+.deck-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 16, 27, 0.46);
+  animation: deck-wake 2.1s ease forwards;
+  pointer-events: none;
+}
+
+.deck-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(40, 26, 16, 0.28), transparent);
+  pointer-events: none;
+}
+
+.deck-hot {
+  appearance: none;
+  position: absolute;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.deck-hot:hover,
+.deck-hot:focus-visible {
+  box-shadow: 0 0 18px rgba(201, 168, 76, 0.45);
+  border-color: rgba(201, 168, 76, 0.4);
+}
+
+.hot-spaces { left: 40%; top: 32%; width: 12%; height: 16%; }
+.hot-equipment { left: 58%; top: 60%; width: 11%; height: 14%; }
+.hot-payroll { left: 70%; top: 50%; width: 13%; height: 16%; }
+
+.chapter-deck .chapter-panel {
+  width: min(26.5rem, 100%);
+  max-width: 430px;
+  background:
+    linear-gradient(rgba(6, 16, 27, 0.84), rgba(6, 16, 27, 0.84)),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 236, 200, 0.03) 3px, rgba(255, 236, 200, 0.03) 4px);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  backdrop-filter: blur(12px);
+  color: #f4ead6;
+  animation: deck-panel 1.8s ease 0.35s both;
+}
+
+.chapter-deck .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-deck .chapter-story,
+.chapter-deck .chapter-sub,
+.chapter-deck .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-deck .collect-crates {
+  gap: 0.5rem;
+}
+
+.chapter-deck .crate-btn {
+  appearance: none;
+  width: 6.2rem;
+  min-height: 5.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  gap: 0.18rem;
+  padding: 0.55rem 0.35rem 0.6rem;
+  background: rgba(6, 16, 27, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f4ead6;
+  cursor: pointer;
+  font-family: var(--display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.56rem;
+  text-align: center;
+}
+
+.chapter-deck .crate-btn:hover,
+.chapter-deck .crate-btn:focus-visible {
+  box-shadow: 0 0 16px rgba(232, 165, 75, 0.4);
+}
+
+.chapter-deck .crate-btn.is-on {
+  background: rgba(201, 168, 76, 0.3);
+  color: #fff6d8;
+  box-shadow: 0 0 18px rgba(232, 165, 75, 0.45);
+}
+
+.chapter-deck .crate-btn.is-pulse {
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
+.chapter-deck .chapter-actions .cta-primary {
+  background: rgba(6, 16, 27, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-deck .chapter-complete {
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.chapter-deck.is-leaving .chapter-panel {
+  animation: deck-panel-out 0.55s ease forwards;
+}
+
+.chapter-deck.is-leaving .deck-camera {
+  animation: deck-pull 0.7s ease forwards;
+}
+
+.chapter-deck.is-leaving .deck-exit-mist {
+  animation: deck-exit-mist 0.7s ease forwards;
+}
+
+.chapter-deck.is-still .deck-camera,
+.chapter-deck.is-still .deck-sun,
+.chapter-deck.is-still .deck-shimmer,
+.chapter-deck.is-still .deck-port,
+.chapter-deck.is-still .deck-paper,
+.chapter-deck.is-still .deck-rope,
+.chapter-deck.is-still .deck-mote,
+.chapter-deck.is-still .deck-gull,
+.chapter-deck.is-still .deck-spark,
+.chapter-deck.is-still .deck-ring,
+.chapter-deck.is-still .deck-dim,
+.chapter-deck.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-deck.is-still .deck-camera { transform: none; }
+.chapter-deck.is-still .deck-dim { opacity: 0; }
+.chapter-deck.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-deck.is-still .deck-shimmer { opacity: 0.06; }
+.chapter-deck.is-still .deck-gull,
+.chapter-deck.is-still .deck-mote { display: none; }
+
+@keyframes deck-push {
+  from { transform: scale(1.015) translateX(0); }
+  to { transform: scale(1.035) translateX(-4px); }
+}
+
+@keyframes deck-wake { to { opacity: 0; } }
+
+@keyframes deck-sun {
+  0%, 100% { opacity: 0.68; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes deck-shimmer {
+  0% { background-position: 0% 50%; opacity: 0.07; }
+  50% { background-position: 100% 50%; opacity: 0.13; }
+  100% { background-position: 0% 50%; opacity: 0.07; }
+}
+
+@keyframes deck-port {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes deck-flicker {
+  0%, 100% { opacity: 0.42; }
+  40% { opacity: 0.8; }
+  62% { opacity: 0.5; }
+}
+
+@keyframes deck-paper {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.6deg); }
+}
+
+@keyframes deck-rope {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1.4deg); }
+}
+
+@keyframes deck-mote {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.12; }
+  50% { transform: translate3d(6px, -14px, 0); opacity: 0.32; }
+}
+
+@keyframes deck-gull {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateX(28vw); }
+}
+
+@keyframes deck-ring {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes deck-spark {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes deck-panel {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes deck-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes deck-pull {
+  to { transform: scale(1.01) translateX(0); }
+}
+
+@keyframes deck-exit-mist {
+  to { opacity: 1; transform: translateX(8%); }
+}
+
+@media (max-width: 900px) {
+  .deck-plate { object-position: 58% 54%; }
+  .deck.is-lite .deck-hot { display: none; }
+}
+
+@media (max-width: 640px) {
+  .deck-plate { object-position: 68% 58%; }
+  .chapter-deck { padding: 0.75rem 0.7rem 0.8rem; }
+  .chapter-deck .chapter-panel {
+    width: 100%;
+    max-width: none;
+    max-height: min(54dvh, 30rem);
+  }
+  .deck-hot { display: none; }
+  .chapter-deck .crate-btn {
+    width: 5.4rem;
+    min-height: 4.8rem;
+    font-size: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-camera,
+  .deck-sun,
+  .deck-shimmer,
+  .deck-port,
+  .deck-paper,
+  .deck-rope,
+  .deck-mote,
+  .deck-gull,
+  .deck-spark,
+  .deck-ring,
+  .deck-dim,
+  .chapter-deck .chapter-panel {
+    animation: none !important;
+  }
+  .deck-camera { transform: none; }
+  .deck-dim { opacity: 0; }
+  .deck-gull,
+  .deck-mote { display: none; }
+}

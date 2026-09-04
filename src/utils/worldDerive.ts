@@ -37,7 +37,7 @@ export function deriveWorld(
       lightingMood: 'sunsetGold',
     }
   } else {
-    next = mapWorld(progress.voyageComplete, latest)
+    next = mapWorld(progress.voyageComplete, latest, latestId)
   }
 
   return {

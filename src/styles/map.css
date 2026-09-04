@@ -4,123 +4,376 @@
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(232, 213, 176, 0.18), transparent 40%),
-    radial-gradient(ellipse at 80% 90%, rgba(140, 96, 40, 0.2), transparent 42%),
-    linear-gradient(160deg, #e6d2a8 0%, #c9b17c 48%, #b08d52 100%);
+  cursor: grab;
+  touch-action: none;
+  background: #0b2a36;
 }
 
 .map-world.is-ready {
   opacity: 1;
   pointer-events: auto;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.55s ease;
 }
+
+.map-world.is-dragging { cursor: grabbing; }
 
 .map-camera {
   position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.map-ocean,
+.map-ocean-depth,
+.map-ocean-shelf,
+.map-ocean-shimmer,
+.map-ocean-glint,
+.map-ocean-currents,
+.map-ocean-sun,
+.map-ocean-paper,
+.map-ocean-marks {
+  position: absolute;
   inset: 0;
-  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.map-ocean-depth {
+  background:
+    radial-gradient(ellipse at 16% 78%, #1a5c68 0%, transparent 26%),
+    radial-gradient(ellipse at 42% 58%, #14505c 0%, transparent 30%),
+    radial-gradient(ellipse at 78% 22%, #2f7a72 0%, transparent 30%),
+    radial-gradient(ellipse at 90% 70%, #0e3340 0%, transparent 28%),
+    radial-gradient(ellipse at 50% 50%, #164854 0%, #0c2430 74%);
+}
+
+.map-ocean-shelf {
+  background:
+    radial-gradient(circle at 13% 80%, rgba(94, 196, 176, 0.16), transparent 12%),
+    radial-gradient(circle at 36% 52%, rgba(94, 196, 176, 0.1), transparent 10%),
+    radial-gradient(circle at 93% 22%, rgba(232, 196, 110, 0.1), transparent 12%);
+}
+
+.map-ocean-shimmer {
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 236, 190, 0.08) 48%, transparent 72%);
+  background-size: 220% 100%;
+  animation: map-shimmer 18s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+.map-ocean-currents {
+  background: repeating-linear-gradient(18deg, transparent, transparent 46px, rgba(232, 213, 176, 0.03) 46px, rgba(232, 213, 176, 0.03) 48px);
+  animation: map-currents 46s linear infinite;
+}
+
+.map-ocean-sun {
+  background: radial-gradient(ellipse at 72% 18%, rgba(255, 210, 120, 0.16), transparent 22%);
+  animation: map-sun 14s ease-in-out infinite;
+}
+
+.map-ocean-glint {
+  background: linear-gradient(100deg, transparent 36%, rgba(255, 236, 200, 0.07) 50%, transparent 64%);
+  background-size: 160% 100%;
+  animation: map-glint 22s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+.map-ocean-paper {
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-size: 640px 640px;
+}
+
+.map-world.time-earlyMorning .map-ocean-depth,
+.map-world.time-morning .map-ocean-depth { filter: hue-rotate(-10deg) saturate(0.9) brightness(1.02); }
+.map-world.time-midday .map-ocean-depth { filter: hue-rotate(6deg) saturate(1.08) brightness(1.05); }
+.map-world.time-afternoon .map-ocean-depth,
+.map-world.time-earlyAfternoon .map-ocean-depth { filter: sepia(0.12) saturate(1.04); }
+.map-world.time-afternoon .map-ocean-sun { opacity: 0.9; }
+.map-world.time-goldenHour .map-ocean-sun,
+.map-world.time-goldenHour .map-ocean-shelf { filter: saturate(1.15) brightness(1.06); }
+.map-world.is-complete .map-ocean-depth,
+.map-world.is-twilight .map-ocean-depth {
+  filter: brightness(0.72) saturate(0.85);
+}
+.map-world.is-complete .map-ocean-sun {
+  background: radial-gradient(ellipse at 80% 16%, rgba(255, 186, 90, 0.18), transparent 24%);
 }
 
 .map-art {
   position: absolute;
   inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.map-art .map-egg,
+.map-art .kraken {
+  pointer-events: auto;
+}
+
+.map-island-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.map-island {
+  appearance: none;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.map-island-art,
+.map-island-placeholder {
+  position: relative;
+  z-index: 2;
+  display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
-}
-
-.map-parchment {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.42;
-  mix-blend-mode: multiply;
-  background-image: var(--tex-paper), var(--tex-leather);
-  background-size: 720px 720px, 480px 480px;
-  background-blend-mode: multiply;
-}
-
-.map-stain {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 12% 20%, rgba(90, 50, 20, 0.12), transparent 24%),
-    radial-gradient(circle at 88% 78%, rgba(80, 40, 16, 0.16), transparent 26%),
-    radial-gradient(circle at 70% 18%, rgba(180, 120, 40, 0.1), transparent 22%);
-}
-
-.fog-layer {
-  position: absolute;
-  inset: 0;
+  object-fit: contain;
   pointer-events: none;
 }
 
-.fog-cloud {
+.map-island-placeholder { overflow: visible; }
+
+.island-placeholder-fill {
+  fill: #9a8660;
+  opacity: 0.88;
+}
+
+.island-placeholder-coast {
+  fill: none;
+  stroke: #6f5b38;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  opacity: 0.7;
+}
+
+.island-water {
   position: absolute;
+  inset: -12% -8% -6%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.island-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 8%;
+  height: 22%;
   border-radius: 50%;
-  filter: blur(28px);
-  background: rgba(236, 232, 220, 0.22);
-  animation: fog-float 22s ease-in-out infinite;
+  background: rgba(6, 18, 24, 0.28);
+  filter: blur(8px);
 }
+
+.island-shallows {
+  position: absolute;
+  inset: 8%;
+  border-radius: 46%;
+  background: radial-gradient(ellipse, rgba(94, 196, 176, 0.22), transparent 68%);
+}
+
+.island-foam {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 14%;
+  height: 16%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(236, 232, 220, 0.16);
+  opacity: 0.45;
+}
+
+.map-island.is-available .island-shallows,
+.map-island.is-current .island-shallows,
+.map-island.is-highlight .island-shallows {
+  background: radial-gradient(ellipse, rgba(232, 196, 90, 0.28), transparent 70%);
+}
+
+.map-island.is-available,
+.map-island.is-current,
+.map-island.is-highlight {
+  filter: drop-shadow(0 0 16px rgba(201, 168, 76, 0.28));
+}
+
+.map-island.is-available::before,
+.map-island.is-current::before,
+.map-island.is-highlight::before {
+  content: '';
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 4%;
+  height: 22%;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  animation: pulse-ring 2.6s ease-out infinite;
+}
+
+.map-island:hover,
+.map-island:focus-visible {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: drop-shadow(0 0 18px rgba(201, 168, 76, 0.4));
+  outline: none;
+}
+
+.map-island.is-locked {
+  opacity: 0.72;
+}
+
+.map-island-light {
+  position: absolute;
+  left: 42%;
+  top: 38%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 90, 0.7), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.map-world.is-complete .map-island-light,
+.map-world.is-twilight .map-island.is-visited .map-island-light,
+.map-world.is-twilight .map-island.is-completed .map-island-light {
+  opacity: 0.85;
+}
+
+.map-island-star {
+  position: absolute;
+  top: 10%;
+  right: 14%;
+  width: 7px;
+  height: 7px;
+  background: #f0d48a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  z-index: 3;
+}
+
+.map-island-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  min-width: 8rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: 3px;
+  background: rgba(6, 15, 25, 0.72);
+  border: 1px solid rgba(201, 168, 76, 0.32);
+  color: #f4ead6;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.map-island-label small,
+.map-island-label strong,
+.map-island-label em {
+  display: block;
+  font-style: normal;
+  text-align: center;
+}
+
+.map-island-label small {
+  font-family: var(--display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.52rem;
+  color: #f0d48a;
+}
+
+.map-island-label strong {
+  font-family: var(--display);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.map-island-label em {
+  font-family: var(--display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  color: #f0d48a;
+}
+
+.map-island.is-labeled .map-island-label,
+.map-island.is-available .map-island-label,
+.map-island.is-current .map-island-label,
+.map-island.is-highlight .map-island-label,
+.map-island:hover .map-island-label,
+.map-island:focus-visible .map-island-label {
+  opacity: 1;
+}
+
+.map-clouds,
+.map-fog-art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map-fog-shape {
+  fill: rgba(236, 232, 220, 0.2);
+  filter: blur(8px);
+}
+
+.map-fog-shape.is-far { animation: fog-drift 52s linear infinite; }
+.map-fog-shape.is-near { animation: fog-drift 34s linear infinite reverse; }
+.map-fog-shape.is-parted { opacity: 0; transition: opacity 1.8s ease; }
 
 .map-ship {
   overflow: visible;
   filter: drop-shadow(0 3px 3px rgba(60, 40, 10, 0.35));
 }
 
-.destination {
-  cursor: pointer;
-  outline: none;
+.map-ship-body {
+  animation: ship-bob 3.2s ease-in-out infinite;
 }
 
-.destination:focus,
-.destination:focus-visible {
-  outline: none;
+.map-ship-wake {
+  animation: ship-wake 2.4s ease-in-out infinite;
 }
 
-.destination:focus-visible .marker-core {
-  stroke: #c9a84c;
-  stroke-width: 2;
+.map-route-live {
+  transition: stroke-dashoffset 1.4s ease;
+  filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.35));
 }
 
-.destination-hit {
-  fill: transparent;
-}
-
-.destination-label {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.35s ease, transform 0.45s ease;
+.map-ripple {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 1px solid rgba(230, 240, 245, 0.45);
+  border-radius: 50%;
+  animation: ocean-ripple 1.1s ease-out forwards;
   pointer-events: none;
 }
 
-.destination.is-major.is-revealed .destination-label,
-.destination.is-next .destination-label,
-.destination.is-current .destination-label {
-  opacity: 0.95;
-  transform: translateY(0);
+.map-zoom {
+  position: absolute;
+  right: 1.1rem;
+  bottom: 6.4rem;
+  z-index: 32;
+  display: grid;
+  gap: 0.3rem;
 }
 
-.destination.is-revealed:hover .destination-label,
-.destination.is-revealed:focus-visible .destination-label,
-.destination.is-open .destination-label,
-.destination.is-locked.is-open .destination-label {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.destination.is-next .marker-ring {
-  animation: pulse-ring 2.4s ease-out infinite;
-}
-
-.destination.is-revealed .marker-core {
-  filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.55));
-}
-
-.destination.is-current .marker-ring {
-  animation: pulse-ring 2.4s ease-out infinite;
+.map-zoom button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  background: rgba(6, 15, 25, 0.72);
+  color: #f0d48a;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .compass-needle {
@@ -128,41 +381,96 @@
   transition: transform 0.9s ease;
 }
 
+.map-world .compass-needle.is-unstable {
+  animation: compass-wobble 1.6s ease-in-out infinite;
+}
+
 .map-world.is-rising,
 .map-world.is-revealing {
   animation: map-tremor 1.1s ease;
 }
 
-@keyframes map-tremor {
-  0%, 100% { transform: none; }
-  25% { transform: translateX(-4px); }
-  50% { transform: translateX(4px); }
+.map-world .voyage-complete-banner {
+  pointer-events: auto;
+  z-index: 32;
 }
 
-.kraken {
-  cursor: pointer;
-  outline: none;
+.kraken { cursor: pointer; outline: none; }
+.kraken-arm { transform-origin: 80% 10%; }
+
+@keyframes map-shimmer {
+  0% { background-position: 0% 50%; opacity: 0.45; }
+  50% { background-position: 100% 50%; opacity: 0.8; }
+  100% { background-position: 0% 50%; opacity: 0.45; }
 }
 
-.kraken-arm {
-  transform-origin: 80% 10%;
+@keyframes map-currents {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-40px, -12px, 0); }
 }
 
-@keyframes fog-float {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+@keyframes map-sun {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes map-glint {
+  0% { background-position: 10% 40%; opacity: 0.35; }
+  50% { background-position: 80% 50%; opacity: 0.7; }
+  100% { background-position: 10% 40%; opacity: 0.35; }
+}
+
+@keyframes fog-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(18px, -8px, 0); }
+}
+
+@keyframes ship-wake {
+  0%, 100% { opacity: 0.18; transform: translateX(0); }
+  50% { opacity: 0.34; transform: translateX(-3px); }
+}
+
+@keyframes ship-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1.5px); }
+}
+
+@keyframes ocean-ripple {
+  to { transform: scale(3.2); opacity: 0; }
 }
 
 @keyframes pulse-ring {
-  0% { opacity: 0.9; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.9); }
+  0% { opacity: 0.85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+
+@keyframes compass-wobble {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@keyframes map-tremor {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
 }
 
 @media (max-width: 768px) {
-  .destination.is-open .destination-label,
-  .destination.is-next:focus-visible .destination-label {
-    opacity: 1;
-    transform: none;
+  .map-zoom { right: 0.7rem; bottom: 7.4rem; }
+  .map-island-label { min-width: 7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-ocean-shimmer,
+  .map-ocean-glint,
+  .map-ocean-currents,
+  .map-ocean-sun,
+  .map-fog-shape,
+  .map-ship-wake,
+  .map-ship-body,
+  .map-island.is-available::before,
+  .map-island.is-current::before,
+  .map-island.is-highlight::before {
+    animation: none;
   }
-  .fog-cloud { filter: blur(22px); }
 }

@@ -1,0 +1,671 @@
+.chapter-oracle {
+  align-items: end;
+  justify-items: start;
+  padding: 1.1rem 1.1rem 1.3rem;
+}
+
+.chapter-oracle .chapter-world {
+  background: #050d18;
+}
+
+.oracle {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.oracle-camera {
+  position: absolute;
+  inset: -2%;
+  transform: scale(1.015);
+  transform-origin: 50% 44%;
+  animation: oracle-push 14s ease-out forwards;
+}
+
+.oracle-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+  display: block;
+}
+
+.oracle-sea {
+  position: absolute;
+  left: 28%;
+  right: 28%;
+  top: 38%;
+  height: 18%;
+  background: linear-gradient(100deg, transparent 18%, rgba(255, 210, 150, 0.1) 48%, transparent 76%);
+  background-size: 180% 100%;
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0.14;
+  animation: oracle-sea 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.oracle-horizon {
+  position: absolute;
+  left: 36%;
+  top: 36%;
+  width: 28%;
+  height: 10%;
+  background: radial-gradient(ellipse, rgba(255, 176, 110, 0.16), transparent 70%);
+  mix-blend-mode: screen;
+  animation: oracle-horizon 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.oracle-cloud {
+  position: absolute;
+  left: 30%;
+  top: 28%;
+  width: 40%;
+  height: 14%;
+  background: radial-gradient(ellipse, rgba(180, 210, 230, 0.12), transparent 70%);
+  filter: blur(18px);
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  animation: oracle-cloud 50s linear infinite;
+  pointer-events: none;
+}
+
+.oracle-gull {
+  position: absolute;
+  top: 32%;
+  left: 34%;
+  width: 6px;
+  height: 2px;
+  background: rgba(20, 18, 16, 0.28);
+  opacity: 0;
+  animation: oracle-gull 42s linear 18s infinite;
+}
+
+.oracle-candle {
+  position: absolute;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 186, 90, 0.38), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.candle-a { left: 18%; bottom: 18%; animation: oracle-candle 4.4s ease-in-out infinite; }
+.candle-b { left: 28%; bottom: 14%; width: 1.1rem; height: 1.1rem; animation: oracle-candle 5.2s ease-in-out infinite 0.4s; }
+.candle-c { right: 20%; bottom: 16%; animation: oracle-candle 6.1s ease-in-out infinite 0.2s; }
+.candle-d { right: 30%; bottom: 13%; width: 1.15rem; height: 1.15rem; animation: oracle-candle 5.7s ease-in-out infinite 0.7s; }
+
+.oracle-page {
+  position: absolute;
+  width: 7%;
+  height: 6%;
+  background: linear-gradient(180deg, rgba(255, 226, 170, 0.1), transparent 80%);
+  transform-origin: 0 100%;
+  pointer-events: none;
+}
+
+.page-a { left: 16%; top: 58%; animation: oracle-page 9s ease-in-out infinite; }
+.page-b { right: 16%; top: 58%; animation: oracle-page 11s ease-in-out infinite 1s; }
+
+.oracle.is-page .oracle-page { animation-duration: 1.8s; }
+
+.oracle-wall {
+  position: absolute;
+  top: 28%;
+  width: 12%;
+  height: 22%;
+  border-radius: 50%;
+  border: 1px solid rgba(126, 200, 184, 0.08);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.wall-left { left: 11%; animation: oracle-wall 22s linear infinite; }
+.wall-right { right: 11%; animation: oracle-wall 28s linear infinite reverse; }
+
+.oracle.is-flash .oracle-wall { opacity: 0.45; }
+
+.oracle-ceiling {
+  position: absolute;
+  left: 28%;
+  top: 4%;
+  width: 44%;
+  height: 22%;
+  background: radial-gradient(ellipse, rgba(126, 200, 184, 0.06), transparent 70%);
+  animation: oracle-ceiling 26s linear infinite;
+  pointer-events: none;
+}
+
+.oracle.is-star .oracle-ceiling { opacity: 1; filter: brightness(1.3); }
+
+.oracle-floor {
+  position: absolute;
+  left: 32%;
+  top: 62%;
+  width: 36%;
+  height: 16%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(126, 200, 184, 0.1);
+  background: radial-gradient(ellipse, rgba(126, 200, 184, 0.08), transparent 68%);
+  opacity: 0.35;
+  animation: oracle-floor 16s linear infinite;
+  pointer-events: none;
+}
+
+.oracle-sphere {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(34vw, 22rem);
+  height: min(34vw, 22rem);
+  transform: translate(calc(-50% + var(--gx, 0px)), calc(-52% + var(--gy, 0px)));
+  pointer-events: none;
+}
+
+.orb-core {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190, 245, 240, 0.22), rgba(126, 200, 184, 0.08) 46%, transparent 72%);
+  mix-blend-mode: screen;
+  animation: oracle-core 5.4s ease-in-out infinite;
+}
+
+.orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(160, 230, 220, 0.18);
+}
+
+.ring-outer { inset: 6%; animation: oracle-orbit 22s linear infinite; }
+.ring-mid { inset: 18%; animation: oracle-orbit 15s linear infinite reverse; }
+.ring-inner { inset: 28%; animation: oracle-orbit 10s linear infinite; }
+
+.orb-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(160, 230, 220, 0.28), transparent);
+  opacity: 0.35;
+}
+
+.line-a { left: 18%; top: 38%; width: 64%; animation: oracle-line 7s ease-in-out infinite; }
+.line-b { left: 24%; top: 58%; width: 52%; animation: oracle-line 9s ease-in-out infinite 1.2s; }
+
+.orb-node {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(190, 245, 240, 0.7);
+  box-shadow: 0 0 8px rgba(126, 200, 184, 0.45);
+}
+
+.node-a { left: 22%; top: 30%; animation: oracle-node 3.2s ease-in-out infinite; }
+.node-b { left: 70%; top: 26%; animation: oracle-node 4.1s ease-in-out infinite 0.4s; }
+.node-c { left: 78%; top: 48%; animation: oracle-node 2.8s ease-in-out infinite 0.8s; }
+.node-d { left: 66%; top: 70%; animation: oracle-node 5.2s ease-in-out infinite 0.2s; }
+.node-e { left: 34%; top: 74%; animation: oracle-node 3.8s ease-in-out infinite 1s; }
+.node-f { left: 18%; top: 52%; animation: oracle-node 4.6s ease-in-out infinite 0.6s; }
+.node-g { left: 48%; top: 18%; animation: oracle-node 3.4s ease-in-out infinite 0.3s; }
+.node-h { left: 52%; top: 80%; animation: oracle-node 5.6s ease-in-out infinite 0.9s; }
+.node-i { left: 30%; top: 40%; animation: oracle-node 4.2s ease-in-out infinite 1.3s; }
+.node-j { left: 62%; top: 42%; animation: oracle-node 3.6s ease-in-out infinite 0.5s; }
+
+.orb-mote {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(180, 230, 230, 0.45);
+  opacity: 0;
+}
+
+.mote-p { left: 40%; top: 70%; animation: oracle-mote 8s ease-out infinite; }
+.mote-q { left: 58%; top: 66%; animation: oracle-mote 9.4s ease-out infinite 2s; }
+.mote-r { left: 46%; top: 78%; animation: oracle-mote 7.6s ease-out infinite 3.4s; }
+
+.oracle-ask,
+.oracle-eval,
+.oracle-make,
+.oracle-bloom {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 0.7s ease;
+}
+
+.oracle-ask {
+  left: 18%;
+  top: 42%;
+  width: 22%;
+  height: 28%;
+  background: radial-gradient(ellipse, rgba(160, 220, 240, 0.14), transparent 70%);
+}
+
+.oracle-eval {
+  left: 38%;
+  top: 28%;
+  width: 24%;
+  height: 34%;
+  background: radial-gradient(ellipse, rgba(126, 200, 184, 0.12), transparent 68%);
+}
+
+.oracle-make {
+  right: 16%;
+  top: 42%;
+  width: 22%;
+  height: 28%;
+  background: radial-gradient(ellipse, rgba(255, 214, 150, 0.1), transparent 70%);
+}
+
+.oracle-bloom {
+  inset: 0;
+  background: radial-gradient(circle at 50% 46%, rgba(160, 230, 220, 0.1), transparent 42%);
+}
+
+.oracle.is-ask .oracle-ask,
+.oracle.is-evaluate .oracle-eval,
+.oracle.is-create .oracle-make { opacity: 1; }
+
+.oracle.is-ask .node-a,
+.oracle.is-ask .node-b,
+.oracle.is-ask .node-g { filter: brightness(1.8); transform: scale(1.3); }
+
+.oracle.is-evaluate .orb-ring { border-color: rgba(200, 240, 230, 0.4); }
+.oracle.is-evaluate .wall-right { opacity: 0.55; }
+
+.oracle.is-create .node-c,
+.oracle.is-create .node-d,
+.oracle.is-create .node-j { filter: brightness(1.8); }
+.oracle.is-create .line-b { opacity: 0.8; }
+
+.oracle.is-awakened .oracle-bloom { opacity: 1; }
+.oracle.is-awakened .orb-core { opacity: 1; filter: brightness(1.25); }
+.oracle.is-awakened .oracle-floor {
+  opacity: 0.8;
+  animation: oracle-floor-pulse 2.2s ease-out 1;
+}
+.oracle.is-awakened .oracle-wall { opacity: 0.5; }
+
+.oracle.is-pulse .oracle-floor { opacity: 0.7; }
+
+.chapter-oracle:has(.oracle-btn[data-id='ask']:hover) .oracle-ask,
+.chapter-oracle:has(.oracle-hot.hot-ask:hover) .oracle-ask,
+.chapter-oracle:has(.oracle-btn[data-id='evaluate']:hover) .oracle-eval,
+.chapter-oracle:has(.oracle-hot.hot-evaluate:hover) .oracle-eval,
+.chapter-oracle:has(.oracle-btn[data-id='create']:hover) .oracle-make,
+.chapter-oracle:has(.oracle-hot.hot-create:hover) .oracle-make {
+  opacity: 0.7;
+}
+
+.chapter-oracle:has(.oracle-btn[data-id='ask']:hover) .ring-outer,
+.chapter-oracle:has(.oracle-hot.hot-ask:hover) .ring-outer {
+  animation-duration: 8s;
+}
+
+.chapter-oracle:has(.oracle-btn[data-id='evaluate']:hover) .orb-ring,
+.chapter-oracle:has(.oracle-hot.hot-evaluate:hover) .orb-ring {
+  border-color: rgba(200, 240, 230, 0.45);
+}
+
+.oracle-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 46%, transparent 48%, rgba(5, 13, 24, 0.28) 100%);
+  pointer-events: none;
+}
+
+.oracle-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 13, 24, 0.42);
+  animation: oracle-dim 2.2s ease forwards;
+  pointer-events: none;
+}
+
+.oracle-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 46%, rgba(160, 230, 220, 0.16), transparent 36%),
+    linear-gradient(100deg, transparent, rgba(180, 220, 230, 0.14), transparent);
+  pointer-events: none;
+}
+
+.oracle-hot {
+  appearance: none;
+  position: absolute;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.oracle-hot::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(5, 13, 24, 0.8);
+  border: 1px solid rgba(201, 168, 76, 0.45);
+  color: #f0d48a;
+  font-family: var(--display);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.oracle-hot:hover,
+.oracle-hot:focus-visible {
+  box-shadow: 0 0 18px rgba(126, 200, 184, 0.35);
+  border-color: rgba(201, 168, 76, 0.4);
+}
+
+.oracle-hot:hover::after,
+.oracle-hot:focus-visible::after { opacity: 1; }
+
+.hot-ask { left: 10%; top: 46%; width: 18%; height: 22%; }
+.hot-evaluate { left: 40%; top: 30%; width: 20%; height: 28%; }
+.hot-create { right: 10%; top: 46%; width: 18%; height: 22%; }
+
+.chapter-oracle .chapter-panel {
+  width: min(26.5rem, 100%);
+  max-width: 450px;
+  background:
+    linear-gradient(rgba(5, 13, 24, 0.86), rgba(5, 13, 24, 0.86)),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 236, 200, 0.03) 3px, rgba(255, 236, 200, 0.03) 4px);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  backdrop-filter: blur(12px);
+  color: #f4ead6;
+  animation: oracle-panel 1.9s ease 0.4s both;
+}
+
+.chapter-oracle .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-oracle .chapter-guide {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #f0d48a;
+}
+
+.chapter-oracle .chapter-story,
+.chapter-oracle .chapter-sub,
+.chapter-oracle .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-oracle .collect-oracle {
+  gap: 0.5rem;
+}
+
+.chapter-oracle .oracle-btn {
+  appearance: none;
+  width: 6.2rem;
+  min-height: 5.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  gap: 0.18rem;
+  padding: 0.55rem 0.3rem 0.6rem;
+  background: rgba(5, 13, 24, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f4ead6;
+  cursor: pointer;
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.52rem;
+  text-align: center;
+}
+
+.chapter-oracle .oracle-btn:hover,
+.chapter-oracle .oracle-btn:focus-visible {
+  box-shadow: 0 0 16px rgba(126, 200, 184, 0.35);
+  border-color: #f0d48a;
+}
+
+.chapter-oracle .oracle-btn.is-on {
+  background: rgba(126, 200, 184, 0.18);
+  color: #e8fff8;
+  box-shadow: 0 0 18px rgba(126, 200, 184, 0.35);
+}
+
+.chapter-oracle .oracle-btn.is-pulse {
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
+.chapter-oracle .oracle-note {
+  margin: 0 0 0.8rem;
+  color: #b7ebe3;
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.chapter-oracle .chapter-actions .cta-primary {
+  background: rgba(5, 13, 24, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-oracle .chapter-complete {
+  background: rgba(126, 200, 184, 0.08);
+  border: 1px solid rgba(126, 200, 184, 0.24);
+}
+
+.chapter-oracle.is-leaving .chapter-panel {
+  animation: oracle-panel-out 0.55s ease forwards;
+}
+
+.chapter-oracle.is-leaving .oracle-camera {
+  animation: oracle-pull 0.7s ease forwards;
+}
+
+.chapter-oracle.is-leaving .oracle-exit-mist {
+  animation: oracle-exit-mist 0.7s ease forwards;
+}
+
+.chapter-oracle.is-leaving .orb-core {
+  animation: oracle-collapse 0.65s ease forwards;
+}
+
+.chapter-oracle.is-still .oracle-camera,
+.chapter-oracle.is-still .oracle-sea,
+.chapter-oracle.is-still .oracle-horizon,
+.chapter-oracle.is-still .oracle-cloud,
+.chapter-oracle.is-still .oracle-gull,
+.chapter-oracle.is-still .oracle-candle,
+.chapter-oracle.is-still .oracle-page,
+.chapter-oracle.is-still .oracle-wall,
+.chapter-oracle.is-still .oracle-ceiling,
+.chapter-oracle.is-still .oracle-floor,
+.chapter-oracle.is-still .orb-core,
+.chapter-oracle.is-still .orb-ring,
+.chapter-oracle.is-still .orb-line,
+.chapter-oracle.is-still .orb-node,
+.chapter-oracle.is-still .orb-mote,
+.chapter-oracle.is-still .oracle-dim,
+.chapter-oracle.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-oracle.is-still .oracle-camera { transform: none; }
+.chapter-oracle.is-still .oracle-dim { opacity: 0; }
+.chapter-oracle.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-oracle.is-still .oracle-sea { opacity: 0.08; }
+.chapter-oracle.is-still .oracle-gull,
+.chapter-oracle.is-still .orb-mote { display: none; }
+.chapter-oracle.is-still .orb-node { opacity: 0.7; }
+
+@keyframes oracle-push {
+  from { transform: scale(1.015); }
+  to { transform: scale(1.04); }
+}
+
+@keyframes oracle-dim { to { opacity: 0; } }
+
+@keyframes oracle-sea {
+  0% { background-position: 0% 50%; opacity: 0.1; }
+  50% { background-position: 100% 50%; opacity: 0.18; }
+  100% { background-position: 0% 50%; opacity: 0.1; }
+}
+
+@keyframes oracle-horizon {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes oracle-cloud {
+  from { transform: translateX(0); }
+  to { transform: translateX(6%); }
+}
+
+@keyframes oracle-gull {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.3; }
+  100% { opacity: 0; transform: translateX(24vw); }
+}
+
+@keyframes oracle-candle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes oracle-page {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes oracle-wall {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes oracle-ceiling {
+  from { transform: rotate(0); }
+  to { transform: rotate(8deg); }
+}
+
+@keyframes oracle-floor {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes oracle-floor-pulse {
+  0% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+  100% { opacity: 0.55; transform: scale(1); }
+}
+
+@keyframes oracle-core {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.06); }
+}
+
+@keyframes oracle-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes oracle-line {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes oracle-node {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@keyframes oracle-mote {
+  0% { opacity: 0; transform: translateY(0); }
+  25% { opacity: 0.55; }
+  100% { opacity: 0; transform: translateY(-28px); }
+}
+
+@keyframes oracle-collapse {
+  to { transform: scale(0.18); opacity: 0.2; }
+}
+
+@keyframes oracle-panel {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes oracle-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes oracle-pull {
+  to { transform: scale(1.01); }
+}
+
+@keyframes oracle-exit-mist {
+  to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .oracle-plate { object-position: 50% 48%; }
+  .oracle.is-lite .oracle-hot,
+  .oracle.is-lite .oracle-ceiling,
+  .oracle.is-lite .oracle-cloud,
+  .oracle.is-lite .page-b,
+  .oracle.is-lite .candle-d {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .oracle-plate { object-position: 50% 44%; }
+  .chapter-oracle { padding: 0.75rem 0.7rem 0.8rem; }
+  .chapter-oracle .chapter-panel {
+    width: 100%;
+    max-width: none;
+    max-height: min(52dvh, 30rem);
+  }
+  .oracle-hot { display: none; }
+  .chapter-oracle .oracle-btn {
+    width: 5.4rem;
+    min-height: 4.8rem;
+    font-size: 0.48rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oracle-camera,
+  .oracle-sea,
+  .oracle-horizon,
+  .oracle-cloud,
+  .oracle-gull,
+  .oracle-candle,
+  .oracle-page,
+  .oracle-wall,
+  .oracle-ceiling,
+  .oracle-floor,
+  .orb-core,
+  .orb-ring,
+  .orb-line,
+  .orb-node,
+  .orb-mote,
+  .oracle-dim,
+  .chapter-oracle .chapter-panel {
+    animation: none !important;
+  }
+  .oracle-camera { transform: none; }
+  .oracle-dim { opacity: 0; }
+  .oracle-gull,
+  .orb-mote { display: none; }
+  .orb-node { opacity: 0.7; }
+}

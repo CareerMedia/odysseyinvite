@@ -1,0 +1,651 @@
+.chapter-temple {
+  align-items: end;
+  justify-items: start;
+  padding: 1.1rem 1.1rem 1.35rem;
+}
+
+.chapter-temple .chapter-world {
+  background: #06101c;
+}
+
+.temple {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.temple-camera {
+  position: absolute;
+  inset: -2%;
+  transform: scale(1.015);
+  transform-origin: 50% 40%;
+  animation: temple-push 13s ease-out forwards;
+}
+
+.temple-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 48%;
+  display: block;
+}
+
+.temple-sun {
+  position: absolute;
+  left: 14%;
+  top: 28%;
+  width: 24vw;
+  height: 24vw;
+  max-width: 20rem;
+  max-height: 20rem;
+  transform: translate(calc(-50% + var(--gx, 0px)), calc(-50% + var(--gy, 0px)));
+  background: radial-gradient(circle, rgba(255, 214, 130, 0.3) 0%, rgba(255, 176, 80, 0.1) 42%, transparent 72%);
+  mix-blend-mode: screen;
+  animation: temple-sun 11s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.temple-ray {
+  position: absolute;
+  left: 12%;
+  top: 24%;
+  width: 48%;
+  height: 36%;
+  transform-origin: 0 40%;
+  background: linear-gradient(104deg, rgba(255, 224, 160, 0.14), transparent 74%);
+  mask-image: linear-gradient(90deg, #000, transparent 86%), linear-gradient(180deg, transparent, #000 28%, #000 72%, transparent);
+  mask-composite: intersect;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.ray-a {
+  transform: rotate(10deg);
+  animation: temple-ray 12s ease-in-out infinite;
+}
+
+.ray-b {
+  width: 38%;
+  transform: rotate(20deg);
+  opacity: 0.16;
+  animation: temple-ray 14s ease-in-out infinite 1.8s;
+}
+
+.temple.is-discovery .temple-sun {
+  filter: brightness(1.12);
+}
+
+.temple-cloud {
+  position: absolute;
+  left: -8%;
+  top: 2%;
+  width: 40%;
+  height: 22%;
+  background: radial-gradient(ellipse, rgba(255, 230, 196, 0.28), transparent 70%);
+  filter: blur(24px);
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  animation: temple-cloud 42s linear infinite;
+  pointer-events: none;
+}
+
+.temple-shimmer {
+  position: absolute;
+  left: 0;
+  width: 36%;
+  top: 42%;
+  height: 24%;
+  background: linear-gradient(104deg, transparent 16%, rgba(255, 232, 176, 0.14) 48%, transparent 74%);
+  background-size: 180% 100%;
+  mask-image: linear-gradient(180deg, transparent, #000 24%, #000 76%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0.1;
+  animation: temple-shimmer 13s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.temple-fall {
+  position: absolute;
+  left: 61%;
+  top: 46%;
+  width: 5%;
+  height: 18%;
+  background: linear-gradient(180deg, rgba(210, 230, 240, 0.18), rgba(180, 210, 220, 0.05) 70%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
+  opacity: 0.28;
+  animation: temple-fall 1.8s linear infinite;
+  pointer-events: none;
+}
+
+.temple-mist {
+  position: absolute;
+  left: 58%;
+  top: 58%;
+  width: 10%;
+  height: 10%;
+  background: radial-gradient(ellipse, rgba(230, 236, 240, 0.2), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.35;
+  animation: temple-mist 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.temple.is-mist .temple-mist {
+  opacity: 0.6;
+}
+
+.temple-banner {
+  position: absolute;
+  transform-origin: 50% 0;
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.banner-a {
+  left: 45.6%;
+  top: 30%;
+  width: 1.5%;
+  height: 13%;
+  background: linear-gradient(180deg, rgba(88, 36, 110, 0.22), transparent 88%);
+  animation: temple-banner 5.8s ease-in-out infinite;
+}
+
+.banner-b {
+  left: 52.8%;
+  top: 30%;
+  width: 1.5%;
+  height: 13%;
+  background: linear-gradient(180deg, rgba(88, 36, 110, 0.2), transparent 88%);
+  animation: temple-banner 7.1s ease-in-out infinite 0.6s;
+}
+
+.banner-c {
+  right: 7%;
+  bottom: 8%;
+  width: 2.2%;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(88, 36, 110, 0.16), transparent 85%);
+  animation: temple-banner 6.4s ease-in-out infinite 0.3s;
+}
+
+.temple.is-banner .temple-banner {
+  animation-duration: 2.6s;
+}
+
+.temple-frond {
+  position: absolute;
+  left: 8%;
+  bottom: 10%;
+  width: 8%;
+  height: 16%;
+  background: radial-gradient(ellipse at 40% 90%, rgba(28, 52, 28, 0.16), transparent 70%);
+  transform-origin: 50% 100%;
+  animation: temple-frond 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.temple-columns {
+  position: absolute;
+  left: 38%;
+  top: 26%;
+  width: 24%;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(255, 226, 170, 0.08), transparent 80%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+
+.temple.is-mastery .temple-columns {
+  opacity: 1;
+}
+
+.temple-npc {
+  position: absolute;
+  width: 4px;
+  height: 9px;
+  border-radius: 40% 40% 20% 20%;
+  background: rgba(28, 20, 16, 0.28);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.npc-stair {
+  left: 49%;
+  top: 62%;
+  animation: temple-stair 36s ease-in-out infinite;
+}
+
+.npc-terrace {
+  left: 62%;
+  top: 58%;
+  width: 3px;
+  height: 7px;
+  animation: temple-terrace 40s linear infinite 8s;
+}
+
+.temple-bird {
+  position: absolute;
+  top: 16%;
+  left: -3%;
+  width: 8px;
+  height: 2px;
+  background: rgba(28, 20, 16, 0.35);
+  opacity: 0;
+  animation: temple-bird 40s linear 12s infinite;
+}
+
+.temple.is-bird .temple-bird {
+  animation-duration: 11s;
+  animation-delay: 0s;
+}
+
+.temple.is-flare .temple-sun {
+  opacity: 1;
+  filter: brightness(1.18);
+}
+
+.temple-compass {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  width: min(22vw, 13.5rem);
+  height: min(22vw, 13.5rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.compass-ring,
+.compass-core,
+.compass-spark,
+.compass-left,
+.compass-right {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.compass-ring {
+  box-shadow: inset 0 0 0 1.5px rgba(201, 168, 76, 0.28), 0 0 18px rgba(201, 168, 76, 0.12);
+  animation: temple-ring 9s ease-in-out infinite;
+}
+
+.compass-core {
+  inset: 28%;
+  background: radial-gradient(circle, rgba(255, 214, 140, 0.16), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.compass-spark {
+  inset: -6%;
+  background: conic-gradient(from 0deg, transparent 0 86%, rgba(255, 220, 150, 0.45) 90%, transparent 94%);
+  mask-image: radial-gradient(circle, transparent 62%, #000 68%, #000 72%, transparent 76%);
+  animation: temple-spark 16s linear infinite;
+  opacity: 0.45;
+}
+
+.compass-left,
+.compass-right {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  mix-blend-mode: screen;
+}
+
+.compass-left {
+  background: radial-gradient(circle at 32% 50%, rgba(255, 214, 140, 0.32), transparent 52%);
+}
+
+.compass-right {
+  background: radial-gradient(circle at 68% 50%, rgba(255, 214, 140, 0.32), transparent 52%);
+}
+
+.temple.is-discovery .compass-left,
+.temple.is-mastery .compass-right {
+  opacity: 1;
+}
+
+.temple.is-lit .compass-ring {
+  box-shadow: inset 0 0 0 2px rgba(255, 220, 150, 0.55), 0 0 28px rgba(201, 168, 76, 0.35);
+  animation: temple-artifact 1.4s ease;
+}
+
+.temple.is-lit .compass-core {
+  background: radial-gradient(circle, rgba(255, 220, 150, 0.34), transparent 70%);
+}
+
+.temple-route {
+  position: absolute;
+  left: 36%;
+  bottom: 22%;
+  width: 28%;
+  height: 38%;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 0.7s ease;
+}
+
+.route-discovery {
+  background: linear-gradient(18deg, rgba(255, 214, 140, 0.22), transparent 68%);
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+}
+
+.route-mastery {
+  left: 38%;
+  background: linear-gradient(-16deg, rgba(255, 214, 140, 0.2), transparent 68%);
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+}
+
+.temple.is-discovery .route-discovery,
+.temple.is-mastery .route-mastery {
+  opacity: 1;
+}
+
+.temple-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 42%, transparent 48%, rgba(6, 16, 28, 0.24) 100%);
+  pointer-events: none;
+}
+
+.temple-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 16, 28, 0.42);
+  animation: temple-wake 2.1s ease forwards;
+  pointer-events: none;
+}
+
+.temple-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255, 232, 196, 0.2), transparent);
+  pointer-events: none;
+}
+
+.chapter-temple .chapter-panel {
+  width: min(26.5rem, 100%);
+  max-width: 430px;
+  background:
+    linear-gradient(rgba(6, 16, 28, 0.84), rgba(6, 16, 28, 0.84)),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 236, 200, 0.03) 3px, rgba(255, 236, 200, 0.03) 4px);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  backdrop-filter: blur(12px);
+  color: #f4ead6;
+  animation: temple-panel 1.8s ease 0.35s both;
+}
+
+.chapter-temple .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-temple .chapter-story,
+.chapter-temple .chapter-sub,
+.chapter-temple .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-temple .path-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  margin: 0 0 0.85rem;
+}
+
+.chapter-temple .path-btn {
+  appearance: none;
+  min-height: 6.4rem;
+  padding: 0.7rem 0.55rem 0.75rem;
+  border-radius: 1.1rem;
+  display: grid;
+  place-items: center;
+  gap: 0.22rem;
+  background: rgba(6, 16, 28, 0.78);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f4ead6;
+  cursor: pointer;
+  text-align: center;
+}
+
+.chapter-temple .path-btn strong {
+  font-family: var(--display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.chapter-temple .path-btn span {
+  font-size: 0.68rem;
+  opacity: 0.82;
+}
+
+.chapter-temple .path-btn:hover,
+.chapter-temple .path-btn:focus-visible {
+  box-shadow: 0 0 16px rgba(232, 165, 75, 0.4);
+}
+
+.chapter-temple .path-btn.is-on {
+  background: rgba(201, 168, 76, 0.3);
+  color: #fff6d8;
+  box-shadow: 0 0 18px rgba(232, 165, 75, 0.45);
+}
+
+.chapter-temple .path-btn.is-pulse:not(.is-on) {
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
+.chapter-temple .path-status {
+  margin: 0 0 0.85rem;
+  padding: 0.55rem 0.65rem;
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.chapter-temple .path-status p {
+  margin: 0.15rem 0 0;
+}
+
+.chapter-temple .chapter-actions .cta-primary {
+  background: rgba(6, 16, 28, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-temple .chapter-complete {
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.chapter-temple.is-leaving .chapter-panel {
+  animation: temple-panel-out 0.55s ease forwards;
+}
+
+.chapter-temple.is-leaving .temple-camera {
+  animation: temple-pull 0.7s ease forwards;
+}
+
+.chapter-temple.is-leaving .temple-exit-mist {
+  animation: temple-exit-mist 0.7s ease forwards;
+}
+
+.chapter-temple.is-still .temple-camera,
+.chapter-temple.is-still .temple-sun,
+.chapter-temple.is-still .temple-ray,
+.chapter-temple.is-still .temple-cloud,
+.chapter-temple.is-still .temple-shimmer,
+.chapter-temple.is-still .temple-fall,
+.chapter-temple.is-still .temple-mist,
+.chapter-temple.is-still .temple-banner,
+.chapter-temple.is-still .temple-frond,
+.chapter-temple.is-still .temple-npc,
+.chapter-temple.is-still .temple-bird,
+.chapter-temple.is-still .compass-spark,
+.chapter-temple.is-still .compass-ring,
+.chapter-temple.is-still .temple-dim,
+.chapter-temple.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-temple.is-still .temple-camera { transform: none; }
+.chapter-temple.is-still .temple-dim { opacity: 0; }
+.chapter-temple.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-temple.is-still .temple-shimmer,
+.chapter-temple.is-still .temple-fall { opacity: 0.08; }
+.chapter-temple.is-still .temple-npc,
+.chapter-temple.is-still .temple-bird { display: none; }
+
+@keyframes temple-push {
+  from { transform: scale(1.015) translateY(0); }
+  to { transform: scale(1.04) translateY(-4px); }
+}
+
+@keyframes temple-wake { to { opacity: 0; } }
+
+@keyframes temple-sun {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.96; }
+}
+
+@keyframes temple-ray {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.28; }
+}
+
+@keyframes temple-cloud {
+  from { transform: translateX(0); }
+  to { transform: translateX(6%); }
+}
+
+@keyframes temple-shimmer {
+  0% { background-position: 0% 50%; opacity: 0.07; }
+  50% { background-position: 100% 50%; opacity: 0.13; }
+  100% { background-position: 0% 50%; opacity: 0.07; }
+}
+
+@keyframes temple-fall {
+  from { background-position: 0 0; }
+  to { background-position: 0 28px; }
+}
+
+@keyframes temple-mist {
+  0%, 100% { transform: translateY(0); opacity: 0.28; }
+  50% { transform: translateY(-6px); opacity: 0.45; }
+}
+
+@keyframes temple-banner {
+  0%, 100% { transform: rotate(-1deg) skewX(-1deg); }
+  50% { transform: rotate(1.6deg) skewX(1deg); }
+}
+
+@keyframes temple-frond {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1.2deg); }
+}
+
+@keyframes temple-stair {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 0.32; }
+  80% { opacity: 0.22; }
+  100% { opacity: 0; transform: translate(0.6vw, -8vh); }
+}
+
+@keyframes temple-terrace {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 0.28; }
+  80% { opacity: 0.2; }
+  100% { opacity: 0; transform: translateX(5vw); }
+}
+
+@keyframes temple-bird {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateX(56vw); }
+}
+
+@keyframes temple-ring {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes temple-spark {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes temple-artifact {
+  0% { opacity: 0.4; transform: scale(0.96); }
+  40% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes temple-panel {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes temple-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes temple-pull {
+  to { transform: scale(1.01) translateY(0); }
+}
+
+@keyframes temple-exit-mist {
+  to { opacity: 1; transform: translateX(8%); }
+}
+
+@media (max-width: 900px) {
+  .temple-plate { object-position: 50% 42%; }
+  .temple-compass { bottom: 8%; width: min(26vw, 10rem); height: min(26vw, 10rem); }
+}
+
+@media (max-width: 640px) {
+  .temple-plate { object-position: 52% 38%; }
+  .chapter-temple {
+    padding: 0.7rem 0.7rem 0.75rem;
+    align-items: end;
+  }
+  .chapter-temple .chapter-panel {
+    width: 100%;
+    max-width: none;
+    max-height: min(52dvh, 30rem);
+  }
+  .chapter-temple .path-row {
+    grid-template-columns: 1fr;
+  }
+  .chapter-temple .path-btn {
+    min-height: 4.6rem;
+    grid-auto-flow: column;
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    text-align: left;
+    padding: 0.65rem 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .temple-camera,
+  .temple-sun,
+  .temple-ray,
+  .temple-cloud,
+  .temple-shimmer,
+  .temple-fall,
+  .temple-mist,
+  .temple-banner,
+  .temple-frond,
+  .temple-npc,
+  .temple-bird,
+  .compass-spark,
+  .compass-ring,
+  .temple-dim,
+  .chapter-temple .chapter-panel {
+    animation: none !important;
+  }
+  .temple-camera { transform: none; }
+  .temple-dim { opacity: 0; }
+  .temple-npc,
+  .temple-bird { display: none; }
+}

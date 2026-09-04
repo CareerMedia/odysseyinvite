@@ -7,6 +7,7 @@ export const achievements: Achievement[] = [
   { id: 'poseidon-trident', title: "Poseidon's Trident", subtitle: 'The sea-god left a mark on the chart.', xp: 100, hidden: true },
   { id: 'lost-treasure', title: 'Lost Treasure', subtitle: 'A chest that should not have been on the map.', xp: 100, hidden: true },
   { id: 'forbidden-island', title: 'You Have Way Too Much Time On Your Hands.', subtitle: 'Uncharted land, discovered anyway.', xp: 1000, hidden: true },
+  { id: 'curious-olive', title: 'A Curious Olive', subtitle: 'You found the one that stared back.', xp: 15, hidden: true },
 ]
 
 export const EASTER_EGG_IDS = ['kraken-encounter', 'wish-star', 'ancient-artifact', 'poseidon-trident', 'lost-treasure'] as const
