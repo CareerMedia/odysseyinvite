@@ -271,6 +271,15 @@ export const assetManifest: AssetRecord[] = [
     purpose: 'full-screen cinematic oracle-chamber background',
   },
   {
+    name: 'Safe Harbor I Illustration',
+    sourceName: 'Original chapter plate for Career Center Odyssey',
+    sourceURL: '',
+    localPath: 'src/assets/environments/safe-harbor-1/safe-harbor-1.jpg',
+    license: 'All rights reserved — project original',
+    scene: 'Safe Harbor',
+    purpose: 'full-screen cinematic sunset-harbor background',
+  },
+  {
     name: 'Safe Harbor II Illustration',
     sourceName: 'Original chapter plate for Career Center Odyssey',
     sourceURL: '',

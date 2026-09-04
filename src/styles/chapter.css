@@ -348,7 +348,22 @@
   animation: none;
 }
 
-.chapter:not(.is-leaving):not(.is-finale) .chapter-panel {
+/* Chrome cannot composite a blended element, so a single mix-blend-mode layer
+   forces it to re-rasterize the whole .chapter-world - background plate included,
+   mid Ken Burns scale - on every animation frame. Safari's compositor absorbs
+   that; Chrome visibly stutters. The plate scenes only use blending for warm and
+   cyan light overlays, which read almost identically under normal blending. The
+   procedural texture layers (plate-less scenes only) genuinely need theirs. */
+.chapter-world *:not(.chapter-tex-land):not(.chapter-tex-arch):not(.chapter-tex-grain):not(.chapter-glow) {
+  mix-blend-mode: normal !important;
+}
+
+/* Every per-chapter stylesheet sets backdrop-filter: blur(12px) on its panel.
+   The plate behind it runs a slow scale animation for ~18s, so Chrome re-blurs
+   the panel backdrop on every one of those frames, which is the panel "spazzing".
+   Kill it unconditionally, including during enter/leave. */
+.chapter .chapter-panel,
+.chapter-panel {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }

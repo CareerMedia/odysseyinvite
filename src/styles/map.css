@@ -20,12 +20,14 @@
 
 .map-world.is-dragging { cursor: grabbing; }
 
+/* No will-change here. The camera is ~3600x2200; a permanent compositing hint
+   makes Chrome hold a texture that large (and larger once zoomed), which leads
+   to tile eviction and the flicker that Safari never showed. */
 .map-camera {
   position: absolute;
   top: 0;
   left: 0;
   transform-origin: 0 0;
-  will-change: transform;
 }
 
 .map-ocean,
@@ -58,11 +60,12 @@
     radial-gradient(circle at 93% 22%, rgba(232, 196, 110, 0.1), transparent 12%);
 }
 
+/* Oversized and translated instead of animating background-position, which would
+   repaint the full world every frame. */
 .map-ocean-shimmer {
-  background: linear-gradient(110deg, transparent 20%, rgba(255, 236, 190, 0.08) 48%, transparent 72%);
-  background-size: 220% 100%;
-  animation: map-shimmer 18s ease-in-out infinite;
-  mix-blend-mode: screen;
+  inset: 0 -30%;
+  background: linear-gradient(110deg, transparent 24%, rgba(255, 236, 190, 0.09) 48%, transparent 74%);
+  animation: map-shimmer 24s ease-in-out infinite;
 }
 
 .map-ocean-currents {
@@ -76,15 +79,13 @@
 }
 
 .map-ocean-glint {
-  background: linear-gradient(100deg, transparent 36%, rgba(255, 236, 200, 0.07) 50%, transparent 64%);
-  background-size: 160% 100%;
-  animation: map-glint 22s ease-in-out infinite;
-  mix-blend-mode: screen;
+  inset: 0 -25%;
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 236, 200, 0.08) 50%, transparent 62%);
+  animation: map-glint 30s ease-in-out infinite;
 }
 
 .map-ocean-paper {
-  opacity: 0.16;
-  mix-blend-mode: multiply;
+  opacity: 0.09;
   background-size: 640px 640px;
 }
 
@@ -169,15 +170,15 @@
   z-index: 1;
 }
 
+/* Soft edge comes from the gradient rather than filter: blur(), so the shadow
+   never needs its own filter pass while the camera moves. */
 .island-shadow {
   position: absolute;
-  left: 18%;
-  right: 18%;
-  bottom: 8%;
-  height: 22%;
-  border-radius: 50%;
-  background: rgba(6, 18, 24, 0.28);
-  filter: blur(8px);
+  left: 14%;
+  right: 14%;
+  bottom: 6%;
+  height: 26%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(6, 18, 24, 0.3) 0%, rgba(6, 18, 24, 0.18) 45%, transparent 72%);
 }
 
 .island-shallows {
@@ -258,7 +259,6 @@
   height: 2.35rem;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 196, 90, 0.42), transparent 72%);
-  mix-blend-mode: screen;
   pointer-events: none;
   z-index: 3;
   animation: readiness-beacon 6.5s ease-in-out infinite;
@@ -322,7 +322,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-  mix-blend-mode: screen;
 }
 
 .culture-fall {
@@ -415,7 +414,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-  mix-blend-mode: screen;
 }
 
 .harbor1-fall {
@@ -532,14 +530,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.temple-fall,
-.temple-mist,
-.temple-entrance,
-.temple-torch,
-.temple-dock {
-  mix-blend-mode: screen;
 }
 
 .temple-fall {
@@ -681,14 +671,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.deck-fall,
-.deck-glow,
-.deck-lantern,
-.deck-crane,
-.deck-ripple {
-  mix-blend-mode: screen;
 }
 
 .deck-fall {
@@ -848,14 +830,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.feast-fall,
-.feast-fire,
-.feast-lights,
-.feast-lantern,
-.feast-ripple {
-  mix-blend-mode: screen;
 }
 
 .feast-fall {
@@ -1027,14 +1001,6 @@
   z-index: 3;
 }
 
-.trials-fall,
-.trials-mist,
-.trials-peak,
-.trials-torch,
-.trials-ripple {
-  mix-blend-mode: screen;
-}
-
 .trials-fall {
   left: 54%;
   top: 30%;
@@ -1188,15 +1154,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.harbor2-fall,
-.harbor2-lantern,
-.harbor2-tower,
-.harbor2-fire,
-.harbor2-dock,
-.harbor2-anomaly {
-  mix-blend-mode: screen;
 }
 
 .harbor2-fall {
@@ -1363,15 +1320,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.oracle-orb,
-.oracle-beam,
-.oracle-ring,
-.oracle-fall,
-.oracle-ripple,
-.oracle-node {
-  mix-blend-mode: screen;
 }
 
 .oracle-orb {
@@ -1572,15 +1520,6 @@
   z-index: 3;
 }
 
-.opp-citadel,
-.opp-lighthouse,
-.opp-beam,
-.opp-scope,
-.opp-fall,
-.opp-ripple {
-  mix-blend-mode: screen;
-}
-
 .opp-citadel {
   left: 44%;
   top: 28%;
@@ -1772,13 +1711,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-}
-
-.ith-temple,
-.ith-fall,
-.ith-ripple,
-.ith-harbor {
-  mix-blend-mode: screen;
 }
 
 .ith-temple {
@@ -2069,14 +2001,18 @@
   z-index: 2;
 }
 
+/* 15 blurred SVG paths animating transform meant Chrome re-ran a filter pass over
+   a 3600x2200 SVG every frame. The banks are static now and the whole fog layer
+   drifts as one composited element instead. */
 .map-fog-shape {
-  fill: rgba(236, 232, 220, 0.2);
-  filter: blur(8px);
+  fill: rgba(236, 232, 220, 0.16);
+  filter: blur(7px);
 }
 
-.map-fog-shape.is-far { animation: fog-drift 52s linear infinite; }
-.map-fog-shape.is-near { animation: fog-drift 34s linear infinite reverse; }
+.map-fog-shape.is-near { fill: rgba(236, 232, 220, 0.2); }
 .map-fog-shape.is-parted { opacity: 0; transition: opacity 1.8s ease; }
+
+.map-fog-art { animation: fog-drift 60s ease-in-out infinite; }
 
 .map-ship-layer {
   position: absolute;
@@ -2086,9 +2022,10 @@
   z-index: 6;
 }
 
+/* The ship is re-positioned by GSAP every frame; a drop-shadow here forced a
+   filter pass over the full-world ship SVG on each tick. */
 .map-ship {
   overflow: visible;
-  filter: drop-shadow(0 3px 3px rgba(60, 40, 10, 0.35));
 }
 
 .map-ship-body {
@@ -2107,7 +2044,6 @@
 
 .map-route-live {
   transition: stroke-dashoffset 1.4s ease;
-  filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.35));
 }
 
 .map-route-live.is-final-leg {
@@ -2167,9 +2103,8 @@
 .kraken-arm { transform-origin: 80% 10%; }
 
 @keyframes map-shimmer {
-  0% { background-position: 0% 50%; opacity: 0.45; }
-  50% { background-position: 100% 50%; opacity: 0.8; }
-  100% { background-position: 0% 50%; opacity: 0.45; }
+  0%, 100% { transform: translate3d(-5%, 0, 0); opacity: 0.45; }
+  50% { transform: translate3d(5%, 0, 0); opacity: 0.8; }
 }
 
 @keyframes map-currents {
@@ -2183,14 +2118,13 @@
 }
 
 @keyframes map-glint {
-  0% { background-position: 10% 40%; opacity: 0.35; }
-  50% { background-position: 80% 50%; opacity: 0.7; }
-  100% { background-position: 10% 40%; opacity: 0.35; }
+  0%, 100% { transform: translate3d(4%, 0, 0); opacity: 0.35; }
+  50% { transform: translate3d(-4%, 0, 0); opacity: 0.7; }
 }
 
 @keyframes fog-drift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(18px, -8px, 0); }
+  0%, 100% { transform: translate3d(-14px, 6px, 0); }
+  50% { transform: translate3d(14px, -6px, 0); }
 }
 
 @keyframes ship-wake {

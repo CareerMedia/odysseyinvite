@@ -530,9 +530,8 @@
 }
 
 @keyframes ithaca-waves {
-  0% { background-position: 0% 50%; opacity: 0.08; }
-  50% { background-position: 100% 50%; opacity: 0.16; }
-  100% { background-position: 0% 50%; opacity: 0.08; }
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 0.16; }
 }
 
 @keyframes ithaca-wake-in {

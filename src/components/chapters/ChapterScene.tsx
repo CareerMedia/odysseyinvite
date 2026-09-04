@@ -14,6 +14,7 @@ import { HerosFeast } from './HerosFeast'
 import { QuartermastersDeck } from './QuartermastersDeck'
 import { TempleOfStrengths } from './TempleOfStrengths'
 import { TrialsOfTheCrew } from './TrialsOfTheCrew'
+import { SafeHarborI } from './SafeHarborI'
 import { SafeHarborII } from './SafeHarborII'
 import { OracleOfAI } from './OracleOfAI'
 import { SeaOfOpportunity } from './SeaOfOpportunity'
@@ -25,6 +26,7 @@ import '../../styles/temple.css'
 import '../../styles/deck.css'
 import '../../styles/feast.css'
 import '../../styles/trials.css'
+import '../../styles/harbor1.css'
 import '../../styles/harbor2.css'
 import '../../styles/oracle.css'
 import '../../styles/opportunity.css'
@@ -59,6 +61,7 @@ export function ChapterScene() {
   const isDeck = dest?.id === 'quartermaster'
   const isFeast = dest?.id === 'feast'
   const isTrials = dest?.id === 'trials'
+  const isHarbor1 = dest?.id === 'harbor-1'
   const isHarbor2 = dest?.id === 'harbor-2'
   const isOracle = dest?.id === 'oracle'
   const isOpportunity = dest?.id === 'opportunity'
@@ -66,7 +69,7 @@ export function ChapterScene() {
   const [signals, setSignals] = useState<string[]>([])
   const [harborPhase, setHarborPhase] = useState(0)
   const [finale, setFinale] = useState(false)
-  const usesPlate = isGathering || isReadiness || isCulture || isStrengths || isDeck || isFeast || isTrials || isHarbor2 || isOracle || isOpportunity || isIthaca
+  const usesPlate = isGathering || isReadiness || isCulture || isHarbor1 || isStrengths || isDeck || isFeast || isTrials || isHarbor2 || isOracle || isOpportunity || isIthaca
 
   useEffect(() => {
     setDone(Boolean(dest && progress.completedIds.includes(dest.id)))
@@ -179,6 +182,13 @@ export function ChapterScene() {
               sound.play('hover')
               unlockAchievement('curious-olive')
             }}
+          />
+        ) : isHarbor1 ? (
+          <SafeHarborI
+            reduced={reducedMotion}
+            hidden={pageHidden}
+            quality={quality}
+            leaving={leaving}
           />
         ) : isTrials ? (
           <TrialsOfTheCrew

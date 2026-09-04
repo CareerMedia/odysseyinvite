@@ -23,9 +23,8 @@
   left: 1.1rem;
   z-index: 31;
   padding: 0.55rem 0.75rem 0.6rem;
-  background: rgba(6, 15, 25, 0.78);
+  background: rgba(6, 15, 25, 0.92);
   border: 1px solid rgba(201, 168, 76, 0.28);
-  backdrop-filter: blur(12px);
 }
 
 .brand-sub {
@@ -65,10 +64,9 @@
   z-index: 33;
   width: min(20rem, calc(100vw - 2.4rem));
   padding: 0.85rem 0.95rem;
-  background: rgba(10, 22, 40, 0.72);
+  background: rgba(10, 22, 40, 0.93);
   border: 1px solid rgba(201, 168, 76, 0.35);
   color: var(--parchment);
-  backdrop-filter: blur(12px);
   pointer-events: auto;
 }
 
@@ -100,9 +98,8 @@
   display: grid;
   place-items: center;
   border: 1px solid rgba(80, 55, 20, 0.28);
-  background: rgba(232, 213, 176, 0.42);
+  background: rgba(232, 213, 176, 0.72);
   color: var(--ink);
-  backdrop-filter: blur(10px);
 }
 
 .icon-btn:hover,
@@ -149,9 +146,8 @@
   margin-top: 0.45rem;
   padding: 0.7rem 0.75rem;
   min-width: 10.5rem;
-  background: rgba(10, 22, 40, 0.72);
+  background: rgba(10, 22, 40, 0.94);
   border: 1px solid rgba(201, 168, 76, 0.28);
-  backdrop-filter: blur(12px);
   color: var(--parchment);
 }
 
@@ -177,9 +173,8 @@
   z-index: 30;
   min-width: min(92vw, 40rem);
   padding: 0.7rem 1.1rem 0.8rem;
-  background: rgba(16, 22, 28, 0.62);
+  background: rgba(16, 22, 28, 0.9);
   border: 1px solid rgba(201, 168, 76, 0.28);
-  backdrop-filter: blur(14px);
   text-align: center;
 }
 

@@ -16,6 +16,7 @@ import ithacaIsland from '../assets/map/islands/ithaca.webp'
 import gatheringPlate from '../assets/environments/gathering/gathering-harbor.jpg'
 import readinessPlate from '../assets/environments/readiness/isle-of-readiness.jpg'
 import culturePlate from '../assets/environments/culture/kingdom-of-culture.jpg'
+import harbor1Plate from '../assets/environments/safe-harbor-1/safe-harbor-1.jpg'
 import { textures } from '../assets/textures'
 import { destinations } from '../data/destinations'
 import { MAP_WORLD, MAP_ZOOM, ROUTE_T, voyageOverviewPoints } from '../data/mapWorld'
@@ -69,6 +70,7 @@ export function VoyageMap() {
   const mapShip = useRef<SVGGElement>(null)
   const pathRef = useRef<SVGPathElement>(null)
   const sailing = useRef(false)
+  const framedOnce = useRef(false)
   const [mapReady, setMapReady] = useState(false)
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([])
   const [pulseId, setPulseId] = useState<string | null>(null)
@@ -97,26 +99,37 @@ export function VoyageMap() {
 
   useLayoutEffect(() => {
     let cancelled = false
+    let frame = 0
+    let attempts = 0
     const place = () => {
       const path = pathRef.current
       const ship = mapShip.current
       const view = camera.viewportRef.current
       if (cancelled || !path || !ship || !view) return
-      if (path.getBBox().width < 1 || view.clientWidth < 8) {
-        requestAnimationFrame(place)
+      const measurable = path.getBBox().width >= 1 && view.clientWidth >= 8
+      // Chrome can report an unmeasurable path for a few frames after the map
+      // remounts coming back from a chapter. Retrying is fine, but it must never
+      // block the reveal: the map sits at opacity 0 until mapReady, so a retry
+      // loop that never resolves is a blank screen that only a reload clears.
+      if (!measurable && attempts < 90) {
+        attempts += 1
+        frame = requestAnimationFrame(place)
         return
       }
-      gsap.set(ship, {
-        motionPath: {
-          path,
-          align: path,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: current.routePosition,
-          end: current.routePosition,
-        },
-      })
-      if (!mapReady) {
+      if (measurable) {
+        gsap.set(ship, {
+          motionPath: {
+            path,
+            align: path,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: true,
+            start: current.routePosition,
+            end: current.routePosition,
+          },
+        })
+      }
+      if (!framedOnce.current) {
+        framedOnce.current = true
         if (progress.voyageComplete) camera.focusDestination('ithaca', 1.1, false)
         else camera.showOverview(voyageOverviewPoints(current.id, nextOpenId), false)
         camera.apply()
@@ -126,8 +139,9 @@ export function VoyageMap() {
     place()
     return () => {
       cancelled = true
+      cancelAnimationFrame(frame)
     }
-  }, [camera, current.id, current.routePosition, mapReady, nextOpenId, progress.voyageComplete])
+  }, [camera, current.id, current.routePosition, nextOpenId, progress.voyageComplete])
 
   useEffect(() => {
     if (!mapReady || progress.visitedIds.length > 0) return
@@ -135,7 +149,7 @@ export function VoyageMap() {
   }, [mapReady, progress.visitedIds.length, reducedMotion, sound])
 
   useEffect(() => {
-    ;[gatheringPlate, readinessPlate, culturePlate].forEach((src) => {
+    ;[gatheringPlate, readinessPlate, culturePlate, harbor1Plate].forEach((src) => {
       const image = new Image()
       image.src = src
     })

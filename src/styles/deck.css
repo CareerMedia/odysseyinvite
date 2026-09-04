@@ -404,9 +404,8 @@
 }
 
 @keyframes deck-shimmer {
-  0% { background-position: 0% 50%; opacity: 0.07; }
-  50% { background-position: 100% 50%; opacity: 0.13; }
-  100% { background-position: 0% 50%; opacity: 0.07; }
+  0%, 100% { opacity: 0.07; }
+  50% { opacity: 0.13; }
 }
 
 @keyframes deck-port {

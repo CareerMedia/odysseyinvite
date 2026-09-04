@@ -422,9 +422,8 @@
 }
 
 @keyframes harbor2-waves {
-  0% { background-position: 0% 50%; opacity: 0.1; }
-  50% { background-position: 100% 50%; opacity: 0.18; }
-  100% { background-position: 0% 50%; opacity: 0.1; }
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.18; }
 }
 
 @keyframes harbor2-foam {

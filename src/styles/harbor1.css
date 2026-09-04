@@ -1,0 +1,256 @@
+.chapter-cove {
+  align-items: end;
+  justify-items: start;
+  padding: 1.15rem 1.2rem 1.3rem;
+}
+
+.chapter-cove .chapter-world {
+  background: #1a0e12;
+}
+
+.harbor1-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.harbor1-camera {
+  position: absolute;
+  inset: -8%;
+  transform: scale(1.06);
+  transform-origin: 42% 46%;
+  animation: harbor1-push 16s ease-out forwards;
+  background: #2a1418;
+}
+
+.harbor1-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 38% 46%;
+  display: block;
+  background: #2a1418;
+}
+
+.harbor1-sun {
+  position: absolute;
+  left: 48%;
+  top: 36%;
+  width: 28vw;
+  height: 18vw;
+  max-width: 20rem;
+  max-height: 13rem;
+  transform: translate(calc(-50% + var(--gx, 0px)), calc(-50% + var(--gy, 0px)));
+  background: radial-gradient(ellipse, rgba(255, 186, 90, 0.22), transparent 70%);
+  animation: harbor1-sun 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor1-waves {
+  position: absolute;
+  left: 18%;
+  right: 10%;
+  top: 48%;
+  height: 32%;
+  background: linear-gradient(104deg, transparent 18%, rgba(255, 210, 140, 0.12) 48%, transparent 76%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  opacity: 0.14;
+  animation: harbor1-waves 11s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor1-lamp {
+  position: absolute;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 110, 0.4), transparent 70%);
+  pointer-events: none;
+}
+
+.harbor1-lamp.is-a { left: 18%; top: 28%; animation: harbor1-lamp 5.2s ease-in-out infinite; }
+.harbor1-lamp.is-b { left: 28%; top: 62%; width: 1.8rem; height: 1.8rem; animation: harbor1-lamp 6.1s ease-in-out infinite 0.4s; }
+.harbor1-lamp.is-c { left: 36%; bottom: 16%; animation: harbor1-lamp 7s ease-in-out infinite 0.8s; }
+.harbor1-lamp.is-d { left: 52%; top: 46%; width: 2rem; height: 2rem; animation: harbor1-lamp 5.6s ease-in-out infinite 0.2s; }
+
+.harbor1-fire {
+  position: absolute;
+  left: 48%;
+  top: 48%;
+  width: 4.2rem;
+  height: 3.2rem;
+  background: radial-gradient(ellipse, rgba(255, 150, 60, 0.28), transparent 70%);
+  animation: harbor1-fire 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.harbor1-bird {
+  position: absolute;
+  top: 18%;
+  left: 12%;
+  width: 7px;
+  height: 2px;
+  background: rgba(28, 18, 16, 0.32);
+  opacity: 0;
+  animation: harbor1-bird 42s linear 10s infinite;
+}
+
+.harbor1-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 46%, transparent 52%, rgba(18, 8, 12, 0.28) 100%);
+  transform: translate(var(--gx, 0px), var(--gy, 0px));
+  pointer-events: none;
+}
+
+.harbor1-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 8, 12, 0.32);
+  animation: harbor1-wake 1.6s ease forwards;
+  pointer-events: none;
+}
+
+.harbor1-exit-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255, 210, 160, 0.16), transparent);
+  pointer-events: none;
+}
+
+.chapter-cove .chapter-panel {
+  width: min(26.5rem, 100%);
+  max-width: 450px;
+  background: rgba(18, 8, 12, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.42);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 236, 200, 0.12);
+  color: #f4ead6;
+  animation: harbor1-panel 0.5s ease 0.12s both;
+}
+
+.chapter-cove .chapter-panel h2 { color: #f0d48a; }
+
+.chapter-cove .chapter-story,
+.chapter-cove .chapter-sub,
+.chapter-cove .chapter-guide-note {
+  color: rgba(244, 234, 214, 0.92);
+}
+
+.chapter-cove .chapter-actions .cta-primary {
+  background: rgba(18, 8, 12, 0.88);
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  color: #f0d48a;
+}
+
+.chapter-cove.is-leaving .chapter-panel {
+  animation: harbor1-panel-out 0.55s ease forwards;
+}
+
+.chapter-cove.is-leaving .harbor1-camera {
+  animation: harbor1-pull 0.7s ease forwards;
+}
+
+.chapter-cove.is-leaving .harbor1-exit-mist {
+  animation: harbor1-exit-mist 0.7s ease forwards;
+}
+
+.chapter-cove.is-still .harbor1-camera,
+.chapter-cove.is-still .harbor1-sun,
+.chapter-cove.is-still .harbor1-waves,
+.chapter-cove.is-still .harbor1-lamp,
+.chapter-cove.is-still .harbor1-fire,
+.chapter-cove.is-still .harbor1-bird,
+.chapter-cove.is-still .harbor1-dim,
+.chapter-cove.is-still .chapter-panel {
+  animation: none;
+}
+
+.chapter-cove.is-still .harbor1-camera { transform: none; }
+.chapter-cove.is-still .harbor1-dim { opacity: 0; }
+.chapter-cove.is-still .chapter-panel { opacity: 1; transform: none; }
+.chapter-cove.is-still .harbor1-waves { opacity: 0.08; }
+.chapter-cove.is-still .harbor1-bird { display: none; }
+
+@keyframes harbor1-push {
+  from { transform: scale(1.06); }
+  to { transform: scale(1.1); }
+}
+
+@keyframes harbor1-wake { to { opacity: 0; } }
+
+@keyframes harbor1-sun {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes harbor1-waves {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.18; }
+}
+
+@keyframes harbor1-lamp {
+  0%, 100% { opacity: 0.55; }
+  40% { opacity: 0.9; }
+  62% { opacity: 0.6; }
+}
+
+@keyframes harbor1-fire {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+@keyframes harbor1-bird {
+  0% { opacity: 0; transform: translateX(0); }
+  8% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateX(55vw); }
+}
+
+@keyframes harbor1-panel {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes harbor1-panel-out {
+  to { opacity: 0; transform: translateX(-16px); }
+}
+
+@keyframes harbor1-pull {
+  to { transform: scale(1.01) translateX(0); }
+}
+
+@keyframes harbor1-exit-mist {
+  to { opacity: 1; transform: translateX(8%); }
+}
+
+@media (max-width: 900px) {
+  .harbor1-plate { object-position: 42% 50%; }
+  .chapter-cove .chapter-panel { width: min(26rem, 100%); }
+}
+
+@media (max-width: 640px) {
+  .harbor1-plate { object-position: 46% 52%; }
+  .chapter-cove { padding: 0.8rem 0.75rem 0.9rem; }
+  .chapter-cove .chapter-panel {
+    width: 100%;
+    max-height: min(62dvh, 34rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .harbor1-camera,
+  .harbor1-sun,
+  .harbor1-waves,
+  .harbor1-lamp,
+  .harbor1-fire,
+  .harbor1-bird,
+  .harbor1-dim,
+  .chapter-cove .chapter-panel {
+    animation: none !important;
+  }
+  .harbor1-camera { transform: none; }
+  .harbor1-dim { opacity: 0; }
+}
